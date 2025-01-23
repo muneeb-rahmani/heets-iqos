@@ -1,8 +1,7 @@
 
-export function StarRating({ rating, reviews }) {
+export function StarRating({ rating, reviews, isCustomerReview = true }) {
     return (
       <div className="flex items-center gap-1">
-        <span className="text-sm">{rating}</span>
         <div className="flex">
           {[...Array(5)].map((_, i) => (
             <span
@@ -15,7 +14,10 @@ export function StarRating({ rating, reviews }) {
             </span>
           ))}
         </div>
-        <span className="text-sm text-gray-600">({reviews} Reviews)</span>
+        <span className="text-sm">{rating}</span>
+        {isCustomerReview && (
+          <span className="text-sm text-gray-600">({reviews} Customer reviews)</span>
+        )}
       </div>
     )
   }
