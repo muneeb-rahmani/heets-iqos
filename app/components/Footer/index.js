@@ -19,7 +19,7 @@ const usefulLinks = [
 export default function Footer() {
   return (
     <footer className="bg-black text-white">
-      <div className="container mx-auto px-4 pt-12">
+      <div className="container max-w-7xl mx-auto px-4 pt-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="space-y-4">
@@ -120,7 +120,7 @@ export default function Footer() {
 
       </div>
         {/* Disclaimer */}
-        <div className="mt-8 py-4 bg-red-900 -mx-4 px-4">
+        <div className="mt-8 py-4 bg-red-900 px-4">
           <p className="text-sm text-center">
             heetsiqosuae.ae has no affiliation with Philip Morris International (PMI). This is not official website of PMI and IQOS. You must be at least 18 years old to purchase products on Heets IQOS UAE
           </p>

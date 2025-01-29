@@ -6,8 +6,8 @@ import Image from 'next/image'
 const HeroSection = () => {
   
   return (
-    <div className="relative min-h-[600px] w-full bg-gradient-to-b from-cyan-300 to-white overflow-hidden">
-      <div className="container mx-auto px-4 py-16">
+    <div className="relative w-full bg-gradient-to-b from-cyan-300 to-white overflow-hidden">
+      <div className="container max-w-7xl mx-auto px-4 py-16">
         <div className="grid lg:grid-cols-2 gap-8 items-center">
           {/* Left Content */}
           <div className="space-y-6 text-center lg:text-left">

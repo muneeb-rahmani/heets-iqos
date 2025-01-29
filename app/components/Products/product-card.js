@@ -5,24 +5,27 @@ import Image from 'next/image.js';
 import { Minus, Plus,} from 'lucide-react';
 
 const ProductCard = ({
-  name,
-  currentPrice,
+  title,
+  price,
   originalPrice,
   rating,
   reviews,
   origin,
   details,
-  imageUrl,
+  image,
+  increaseQuantity,
+  decreaseQuantity,
+  quantity
 }) => {
-  const [quantity, setQuantity] = useState(1);
+  // const [quantity, setQuantity] = useState(1);
 
-  const decreaseQuantity = () => {
-    if (quantity > 1) setQuantity(quantity - 1);
-  };
+  // const decreaseQuantity = () => {
+  //   if (quantity > 1) setQuantity(quantity - 1);
+  // };
 
-  const increaseQuantity = () => {
-    setQuantity(quantity + 1);
-  };
+  // const increaseQuantity = () => {
+  //   setQuantity(quantity + 1);
+  // };
   
 
   return (
@@ -38,19 +41,20 @@ const ProductCard = ({
 
         {/* Product Image */}
         <div className="relative aspect-square mb-4">
-          <img
-            src={imageUrl || "/placeholder.svg"}
-            alt={name}
+          <Image
+            src={image || "/placeholder.svg"}
+            alt={title}
+            fill={true}
             className="w-full h-full object-contain"
           />
         </div>
 
         {/* Product Info */}
-        <h3 className="text-lg text-center font-semibold mb-2">{name}</h3>
+        <h3 className="text-lg text-center font-semibold mb-2">{title}</h3>
 
         {/* Price */}
         <div className="flex items-center justify-center gap-2 mb-2">
-          <span className="text-lg font-bold text-[#8b2c2a]">AED {currentPrice}</span>
+          <span className="text-lg font-bold text-[#8b2c2a]">AED {price}</span>
           <span className="text-sm text-primary font-semibold line-through">
             AED {originalPrice}
           </span>
