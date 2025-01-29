@@ -2,25 +2,31 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import { ChevronRight } from "lucide-react";
+import { useCart } from "@/app/context/cartProvider";
 
 const Navbar = () => {
   const [activeDropdown, setActiveDropdown] = useState(null);
+  const { setIsCartOpen } = useCart()
   const navItems = [
     { title: "Home", href: "/" },
-    { title: "Heets", href: "/heets",
-        children: [
-            { title: "IQOS ILUMA One", href: "/iqos-iluma-one" },
-            { title: "IQOS ILUMA Standard", href: "/iqos-iluma-standard" },
-            { title: "IQOS ILUMA PRIME", href: "/iqos-iluma-prime" },
-          ],
-     },
-    { title: "Heets Terea Sticks", href: "/heets-terea-sticks",
-        children: [
-            { title: "IQOS ILUMA One", href: "/iqos-iluma-one" },
-            { title: "IQOS ILUMA Standard", href: "/iqos-iluma-standard" },
-            { title: "IQOS ILUMA PRIME", href: "/iqos-iluma-prime" },
-          ],
-     },
+    {
+      title: "Heets",
+      href: "/heets",
+      children: [
+        { title: "IQOS ILUMA One", href: "/iqos-iluma-one" },
+        { title: "IQOS ILUMA Standard", href: "/iqos-iluma-standard" },
+        { title: "IQOS ILUMA PRIME", href: "/iqos-iluma-prime" },
+      ],
+    },
+    {
+      title: "Heets Terea Sticks",
+      href: "/heets-terea-sticks",
+      children: [
+        { title: "IQOS ILUMA One", href: "/iqos-iluma-one" },
+        { title: "IQOS ILUMA Standard", href: "/iqos-iluma-standard" },
+        { title: "IQOS ILUMA PRIME", href: "/iqos-iluma-prime" },
+      ],
+    },
     {
       title: "IQOS",
       href: "/iqos",
@@ -101,14 +107,13 @@ const Navbar = () => {
                 name="search"
                 className="w-full p-2"
               />
-              <button type="button" className="product_search_desktop">
+              <button type="button" className="product_search_desktop w-[30px]">
                 <span className="flex items-center">
                   <Image
                     src="https://heetsiqosuae.ae/assets/front/images/product_search_icon.webp"
                     alt="Cart"
-                    width={30}
-                    height={30}
-                    className="w-[30px] h-[30px]"
+                    width={20}
+                    height={20}
                   />
                 </span>
               </button>
@@ -117,14 +122,14 @@ const Navbar = () => {
           </div>
           <div className="flex justify-end items-center w-[16%]">
             <p>
-              <a
-                href="https://heetsiqosuae.ae/cart/"
+              <button
+                onClick={() => setIsCartOpen(true)}
                 className="bg-black inline-block py-2 px-5 text-white font-semibold rounded-lg transition duration-300 hover:bg-black hover:text-white"
               >
                 <i className="fas fa-shopping-cart"></i>{" "}
                 <span id="cart_item">0</span> Items,{" "}
                 <span id="subtotal">0</span> AED
-              </a>
+              </button>
             </p>
           </div>
           <div className="hidden mobile_menu_wrap">
@@ -154,7 +159,7 @@ const Navbar = () => {
                   alt="Menu Open"
                   height={30}
                   width={30}
-                  className="w-[30px] h-[30px]"
+                  className="w-[20px] h-[20px]"
                 />
               </span>
               <span className="close_menu">
@@ -300,7 +305,7 @@ const Navbar = () => {
                   className="flex items-center px-4 py-4 transition-colors"
                 >
                   {item.title}
-                <span className="ml-2">→</span>
+                  <span className="ml-2">→</span>
                 </a>
                 {item.children && activeDropdown === item.title && (
                   <div className="absolute left-0 top-full z-50 min-w-[200px] bg-white text-black shadow-lg">
