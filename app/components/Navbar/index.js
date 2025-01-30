@@ -3,6 +3,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { ChevronRight } from "lucide-react";
 import { useCart } from "@/app/context/cartProvider";
+import Link from "next/link";
 
 const Navbar = () => {
   const [activeDropdown, setActiveDropdown] = useState(null);
@@ -81,7 +82,7 @@ const Navbar = () => {
       <div className="px-5 snipcss-aFEnc">
         <div className="flex flex-wrap py-1 justify-between items-center">
           <div className="flex items-center w-1/4">
-            <a
+            <Link
               href="https://heetsiqosuae.ae/"
               className="logo_img"
               aria-label="Heets IQOS UAE logo"
@@ -93,7 +94,7 @@ const Navbar = () => {
                 width={250}
                 className="w-[250px] h-[62px]"
               />
-            </a>
+            </Link>
           </div>
           <div className="relative w-[36%] mx-auto">
             <form
@@ -133,7 +134,7 @@ const Navbar = () => {
             </p>
           </div>
           <div className="hidden mobile_menu_wrap">
-            <a
+            <Link
               href="https://heetsiqosuae.ae/cart/"
               className="cart_icon_top text-xl text-[#8b2c2a]"
               aria-label="cart page button"
@@ -151,8 +152,8 @@ const Navbar = () => {
               >
                 0
               </span>
-            </a>
-            <a href="javascript:;" aria-label="category menu icon">
+            </Link>
+            <Link href="javascript:;" aria-label="category menu icon">
               <span className="burger">
                 <Image
                   src="https://heetsiqosuae.ae/assets/front/images/menu-open-icon.webp"
@@ -171,9 +172,9 @@ const Navbar = () => {
                   className="w-[30px] h-[30px]"
                 />
               </span>
-            </a>
+            </Link>
             <div className="absolute w-full bg-white top-[75px] z-[99] shadow-lg p-4 mob_menu mob_menu_new_style">
-              <a className="review-link" href="#">
+              <Link className="review-link" href="#">
                 <div className="flex items-center mb-4">
                   <div className="w-[40px] h-[40px]">
                     <Image
@@ -195,24 +196,24 @@ const Navbar = () => {
                     </p>
                   </div>
                 </div>
-              </a>
+              </Link>
               <ul className="list-none p-2">
                 <li>
-                  <a
+                  <Link
                     href="https://heetsiqosuae.ae/"
                     className="text-[#8b2c2a] font-semibold text-lg"
                   >
                     Home
-                  </a>
+                  </Link>
                 </li>
                 <li>
                   <div className="flex justify-between items-center py-2">
-                    <a
+                    <Link
                       href="https://heetsiqosuae.ae/heets/"
                       className="drop-menu text-[#8b2c2a] font-semibold text-lg"
                     >
                       Heets
-                    </a>
+                    </Link>
                     <span className="drop-img">
                       <Image
                         src="https://heetsiqosuae.ae/assets/front/images/plus.webp"
@@ -226,60 +227,60 @@ const Navbar = () => {
                   <div className="submenu_wrap mob-sub-menu bg-[#f1f1f1] shadow-lg">
                     <ul className="py-2 pl-5">
                       <li>
-                        <a
+                        <Link
                           href="https://heetsiqosuae.ae/heets/classic-kazakhstan/"
                           className="mob-arrow"
                         >
                           → Heets Classic
-                        </a>
+                        </Link>
                       </li>
                       <li>
-                        <a
+                        <Link
                           href="https://heetsiqosuae.ae/heets/parliament/"
                           className="mob-arrow"
                         >
                           → Heets Parliament
-                        </a>
+                        </Link>
                       </li>
                       <li>
-                        <a
+                        <Link
                           href="https://heetsiqosuae.ae/heets/pearl/"
                           className="mob-arrow"
                         >
                           → Heets Pearl
-                        </a>
+                        </Link>
                       </li>
                       <li>
-                        <a
+                        <Link
                           href="https://heetsiqosuae.ae/heets/heets-bundles/"
                           className="mob-arrow"
                         >
                           → Heets Bundle offer
-                        </a>
+                        </Link>
                       </li>
                       <li>
-                        <a
+                        <Link
                           href="https://heetsiqosuae.ae/heets/fiit/"
                           className="mob-arrow"
                         >
                           → Heets Fiit
-                        </a>
+                        </Link>
                       </li>
                       <li>
-                        <a
+                        <Link
                           href="https://heetsiqosuae.ae/heets/dimensions/"
                           className="mob-arrow"
                         >
                           → Heets Dimension
-                        </a>
+                        </Link>
                       </li>
                       <li>
-                        <a
+                        <Link
                           href="https://heetsiqosuae.ae/heets/creations/"
                           className="mob-arrow"
                         >
                           → Heets Creation
-                        </a>
+                        </Link>
                       </li>
                     </ul>
                   </div>
@@ -300,25 +301,25 @@ const Navbar = () => {
                 onMouseEnter={() => setActiveDropdown(item.title)}
                 onMouseLeave={() => setActiveDropdown(null)}
               >
-                <a
+                <Link
                   href={item.href}
                   className="flex items-center px-4 py-4 transition-colors"
                 >
                   {item.title}
                   <span className="ml-2">→</span>
-                </a>
+                </Link>
                 {item.children && activeDropdown === item.title && (
                   <div className="absolute left-0 top-full z-50 min-w-[200px] bg-white text-black shadow-lg">
                     <div className="flex">
                       <div className="flex-1">
                         {item.children.map((child) => (
-                          <a
+                          <Link
                             key={child.title}
                             href={child.href}
                             className="block px-4 py-2 hover:bg-gray-100"
                           >
                             {child.title}
-                          </a>
+                          </Link>
                         ))}
                       </div>
                     </div>

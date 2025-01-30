@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import Image from "next/image"
+import Link from "next/link"
 
 export default function CheckoutForm() {
   const [formData, setFormData] = useState({
@@ -112,9 +113,9 @@ export default function CheckoutForm() {
               <Checkbox id="terms" />
               <Label htmlFor="terms" className="text-sm">
                 I have read and agreed to the{" "}
-                <a href="#" className="text-[#8B1F18]">
+                <Link href="#" className="text-[#8B1F18]">
                   delivery information
-                </a>
+                </Link>
               </Label>
             </div>
 
