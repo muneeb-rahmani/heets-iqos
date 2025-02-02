@@ -4,10 +4,14 @@ import React, { useState } from "react";
 import { ChevronRight } from "lucide-react";
 import { useCart } from "@/app/context/cartProvider";
 import Link from "next/link";
+import CartModal from "../Modal";
 
 const Navbar = () => {
   const [activeDropdown, setActiveDropdown] = useState(null);
-  const { setIsCartOpen } = useCart()
+
+  const {isCartOpen, setIsCartOpen } = useCart();
+
+
   const navItems = [
     { title: "Home", href: "/" },
     {
@@ -83,12 +87,12 @@ const Navbar = () => {
         <div className="flex flex-wrap py-1 justify-between items-center">
           <div className="flex items-center w-1/4">
             <Link
-              href="https://heetsiqosuae.ae/"
+              href="https://121org.shop/"
               className="logo_img"
               aria-label="Heets IQOS UAE logo"
             >
               <Image
-                src="https://heetsiqosuae.ae/assets/front/images/heets-iqos-uae-logo.png"
+                src="/imgs/heets-iqos-uae-logo.png"
                 alt="Heets IQOS UAE logo"
                 height={62}
                 width={250}
@@ -111,7 +115,7 @@ const Navbar = () => {
               <button type="button" className="product_search_desktop w-[30px]">
                 <span className="flex items-center">
                   <Image
-                    src="https://heetsiqosuae.ae/assets/front/images/product_search_icon.webp"
+                    src="https://121org.shop/assets/front/images/product_search_icon.webp"
                     alt="Cart"
                     width={20}
                     height={20}
@@ -135,12 +139,12 @@ const Navbar = () => {
           </div>
           <div className="hidden mobile_menu_wrap">
             <Link
-              href="https://heetsiqosuae.ae/cart/"
+              href="https://121org.shop/cart/"
               className="cart_icon_top text-xl text-[#8b2c2a]"
               aria-label="cart page button"
             >
               <Image
-                src="https://heetsiqosuae.ae/assets/front/images/mobile_cart_icon.png"
+                src="https://121org.shop/assets/front/images/mobile_cart_icon.png"
                 alt="Cart"
                 width={30}
                 height={30}
@@ -156,7 +160,7 @@ const Navbar = () => {
             <Link href="javascript:;" aria-label="category menu icon">
               <span className="burger">
                 <Image
-                  src="https://heetsiqosuae.ae/assets/front/images/menu-open-icon.webp"
+                  src="https://121org.shop/assets/front/images/menu-open-icon.webp"
                   alt="Menu Open"
                   height={30}
                   width={30}
@@ -165,7 +169,7 @@ const Navbar = () => {
               </span>
               <span className="close_menu">
                 <Image
-                  src="https://heetsiqosuae.ae/assets/front/images/menu-close-icon.webp"
+                  src="https://121org.shop/assets/front/images/menu-close-icon.webp"
                   alt="Menu Close"
                   height={30}
                   width={30}
@@ -178,7 +182,7 @@ const Navbar = () => {
                 <div className="flex items-center mb-4">
                   <div className="w-[40px] h-[40px]">
                     <Image
-                      src="https://heetsiqosuae.ae/assets/front/images/google-customer-reviews.png"
+                      src="https://121org.shop/assets/front/images/google-customer-reviews.png"
                       alt="Google Customer Reviews"
                       width={40}
                       height={40}
@@ -200,7 +204,7 @@ const Navbar = () => {
               <ul className="list-none p-2">
                 <li>
                   <Link
-                    href="https://heetsiqosuae.ae/"
+                    href="https://121org.shop/"
                     className="text-[#8b2c2a] font-semibold text-lg"
                   >
                     Home
@@ -209,14 +213,14 @@ const Navbar = () => {
                 <li>
                   <div className="flex justify-between items-center py-2">
                     <Link
-                      href="https://heetsiqosuae.ae/heets/"
+                      href="https://121org.shop/heets/"
                       className="drop-menu text-[#8b2c2a] font-semibold text-lg"
                     >
                       Heets
                     </Link>
                     <span className="drop-img">
                       <Image
-                        src="https://heetsiqosuae.ae/assets/front/images/plus.webp"
+                        src="https://121org.shop/assets/front/images/plus.webp"
                         alt="menu plus"
                         width={30}
                         height={30}
@@ -228,7 +232,7 @@ const Navbar = () => {
                     <ul className="py-2 pl-5">
                       <li>
                         <Link
-                          href="https://heetsiqosuae.ae/heets/classic-kazakhstan/"
+                          href="https://121org.shop/heets/classic-kazakhstan/"
                           className="mob-arrow"
                         >
                           → Heets Classic
@@ -236,7 +240,7 @@ const Navbar = () => {
                       </li>
                       <li>
                         <Link
-                          href="https://heetsiqosuae.ae/heets/parliament/"
+                          href="https://121org.shop/heets/parliament/"
                           className="mob-arrow"
                         >
                           → Heets Parliament
@@ -244,7 +248,7 @@ const Navbar = () => {
                       </li>
                       <li>
                         <Link
-                          href="https://heetsiqosuae.ae/heets/pearl/"
+                          href="https://121org.shop/heets/pearl/"
                           className="mob-arrow"
                         >
                           → Heets Pearl
@@ -252,7 +256,7 @@ const Navbar = () => {
                       </li>
                       <li>
                         <Link
-                          href="https://heetsiqosuae.ae/heets/heets-bundles/"
+                          href="https://121org.shop/heets/heets-bundles/"
                           className="mob-arrow"
                         >
                           → Heets Bundle offer
@@ -260,7 +264,7 @@ const Navbar = () => {
                       </li>
                       <li>
                         <Link
-                          href="https://heetsiqosuae.ae/heets/fiit/"
+                          href="https://121org.shop/heets/fiit/"
                           className="mob-arrow"
                         >
                           → Heets Fiit
@@ -268,7 +272,7 @@ const Navbar = () => {
                       </li>
                       <li>
                         <Link
-                          href="https://heetsiqosuae.ae/heets/dimensions/"
+                          href="https://121org.shop/heets/dimensions/"
                           className="mob-arrow"
                         >
                           → Heets Dimension
@@ -276,7 +280,7 @@ const Navbar = () => {
                       </li>
                       <li>
                         <Link
-                          href="https://heetsiqosuae.ae/heets/creations/"
+                          href="https://121org.shop/heets/creations/"
                           className="mob-arrow"
                         >
                           → Heets Creation

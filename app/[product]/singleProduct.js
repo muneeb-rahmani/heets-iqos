@@ -7,6 +7,8 @@ import { ChevronRight, Minus, Plus } from "lucide-react";
 import { StarRating } from "../components/Products/star-rating";
 import { Button } from "@/components/ui/button";
 import ProductCard from "../components/Products/product-card";
+import { useRouter } from "next/navigation";
+import { ratingCalc } from "../utils/common";
 
 const breadcrumbItems = [
   { label: "Home", href: "/" },
@@ -94,12 +96,68 @@ const products = [
   },
 ];
 
-const Page = () => {
+const SingleProduct = ({ serverData, reviews, relatedProducts }) => {
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState("description");
-
+  const [selectedImage, setSelectedImage] = useState(0);
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);
+  };
+  //   console.log(serverData, 'check serverData')
+
+  const router = useRouter();
+
+  const updateQuantity = (id, change) => {
+    setQuantity((prev) => ({
+      ...prev,
+      [id]: Math.max((prev[id] || 1) + change, 1),
+    }));
+  };
+
+  const addToCart = (id, name, price, image) => {
+    const cartObj = {
+      id,
+      quantity: quantity[id] || 1,
+      name,
+      price,
+      image,
+    };
+
+    const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
+    const itemIndex = existingCart.findIndex((item) => item.id === id);
+
+    if (itemIndex !== -1) {
+      existingCart[itemIndex].quantity += cartObj.quantity;
+    } else {
+      existingCart.push(cartObj);
+    }
+
+    localStorage.setItem("cart", JSON.stringify(existingCart));
+    setIsCartModalOpen(true);
+    setQuantity(1);
+  };
+  const reviewsRating = ratingCalc(reviews);
+
+  const handleBuyNow = (id, name, price, image) => {
+    const cartObj = {
+      id,
+      quantity: quantity[id] || 1,
+      name,
+      price,
+      image,
+    };
+
+    const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
+    const itemIndex = existingCart.findIndex((item) => item.id === id);
+
+    if (itemIndex !== -1) {
+      existingCart[itemIndex].quantity += cartObj.quantity;
+    } else {
+      existingCart.push(cartObj);
+    }
+
+    localStorage.setItem("cart", JSON.stringify(existingCart));
+    router.push("/checkout");
   };
 
   return (
@@ -109,16 +167,53 @@ const Page = () => {
 
         <div className="grid md:grid-cols-2 gap-8 p-4">
           {/* Left Column - Image Gallery */}
-          <ImageGallery images={productImages} />
+          <div className="flex gap-4">
+            {/* Thumbnails */}
+            <div className="flex flex-col gap-2">
+              {serverData?.images.map((image, index) => (
+                <button
+                  key={index}
+                  onClick={() => setSelectedImage(index)}
+                  className={`border-2 p-1 rounded-lg w-20 h-20 ${
+                    selectedImage === index
+                      ? "border-red-800"
+                      : "border-gray-200"
+                  }`}
+                >
+                  <Image
+                    src={image.src || "/placeholder.svg"}
+                    alt={`Product thumbnail ${index + 1}`}
+                    width={80}
+                    height={80}
+                    className="w-full h-full object-contain"
+                  />
+                </button>
+              ))}
+            </div>
+
+            {/* Main Image */}
+            <div className="flex-1 p-4">
+              <div className="relative aspect-square rounded-lg shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
+                <Image
+                  src={
+                    serverData?.images[selectedImage].src || "/placeholder.svg"
+                  }
+                  alt="Product main image"
+                  fill
+                  className="object-contain"
+                />
+              </div>
+            </div>
+          </div>
 
           {/* Right Column - Product Details */}
           <div className="space-y-6">
             <h1 className="text-2xl font-bold">
-              IQOS Heets Amber Label Selection
+              {serverData?.name}
             </h1>
 
             <div className="space-y-2">
-              <StarRating rating={4.1} reviews={21} />
+              <StarRating rating={serverData?.average_rating || 0} reviews={serverData?.rating_count || 0} />
               <div className="flex items-center gap-2 border-2 p-2 rounded-md text-sm">
                 <Image
                   src="/imgs/good-choice-products.webp"
@@ -139,14 +234,18 @@ const Page = () => {
 
             <div className="space-y-2">
               <div className="flex items-center gap-4">
-                <span className="text-sm">SKU: IQOSHEETS400234</span>
+                {serverData?.sku && (
+                    <span className="text-sm">SKU: {serverData?.sku}</span>
+                )}
                 <span className="text-sm">VENDOR: Heets IQOS UAE</span>
-                <span className="text-sm">AVAILABILITY: In Stock</span>
+                <span className="text-sm">AVAILABILITY: {serverData?.stock_status == "instock" ? "In Stock" : "Out of stock"}</span>
               </div>
 
               <div className="flex items-baseline gap-2">
-                <span className="text-3xl font-bold text-red-800">AED 89</span>
-                <span className="text-lg  line-through">AED 120</span>
+                <span className="text-3xl font-bold text-red-800">AED {serverData?.price}</span>
+                {serverData?.regular_price && (
+                    <span className="text-lg  line-through">AED {serverData?.regular_price}</span>
+                )}
               </div>
             </div>
 
@@ -168,22 +267,16 @@ const Page = () => {
                 </p>
               </li>
 
-              <li className="ml-5">
-                <div className="flex gap-2">
-                  <span className="font-medium">Aroma:</span>
-                  <StarRating rating={4} isCustomerReview={false} size="sm" />
-                </div>
+              {serverData?.attributes.map((attr)=> (
+                 <li className="ml-5">
+                 <div className="flex gap-2">
+                   <span className="font-medium">{attr.name}</span>
+                   <span className="font-medium">{attr.options[0]}</span>
+                   {/* <StarRating rating={4} isCustomerReview={false} size="sm" /> */}
+                 </div>
+                 </li>
+              ))}
 
-                <div className="flex gap-2">
-                  <span className="font-medium">Body:</span>
-                  <StarRating rating={4} isCustomerReview={false} size="sm" />
-                </div>
-
-                <div className="flex gap-2">
-                  <span className="font-medium">Intensity:</span>
-                  <StarRating rating={3} isCustomerReview={false} size="sm" />
-                </div>
-              </li>
               <li className="ml-5">
                 <p className="text-primary">
                   <strong>Compatible With: </strong>
@@ -213,7 +306,7 @@ const Page = () => {
                 </button>
               </div>
               <button className="flex-1 bg-[#8b2c2a] rounded-lg text-white py-2 hover:bg-red-900 transition-colors">
-                Add to Cart
+                {serverData?.stock_status === "instock" ? "Add to Cart" : "Out of Stock"}
               </button>
             </div>
 
@@ -317,149 +410,8 @@ const Page = () => {
             {activeTab === "description" && (
               <div className=" text-gray-900 p-4 md:p-8">
                 <div className="mx-auto">
-                  {/* Header Section */}
-                  <p className="text-lg md:text-xl mb-6">
-                    Experience the rich and smooth{" "}
-                    <span className="font-semibold">flavor</span> of{" "}
-                    <span className="font-bold">Heets Amber Label</span>,
-                    specially designed for{" "}
-                    <span className="text-red-600">IQOS devices</span>.
-                    Available now in <span className="font-bold">Dubai</span>,{" "}
-                    <span className="font-bold">Heets Amber Label</span> offers
-                    a premium <span className="font-semibold">tobacco</span>{" "}
-                    experience that is{" "}
-                    <span className="font-semibold">perfect</span> for those who
-                    appreciate quality and sophistication.
-                  </p>
-
-                  {/* Key Features Section */}
-                  <section className="mb-8">
-                    <h2 className="text-2xl md:text-3xl font-bold mb-4">
-                      Key Features:
-                    </h2>
-                    <ul className="space-y-4">
-                      <li>
-                        <span className="font-bold">
-                          Flavor Profile: Heets Amber Label
-                        </span>{" "}
-                        provides a well-balanced, smooth, and rich tobacco
-                        flavor with subtle nutty undertones, making it an
-                        excellent choice for those who enjoy a full-bodied
-                        taste.
-                      </li>
-                      <li>
-                        <span className="font-bold">Nicotine Level:</span> Each{" "}
-                        <span className="font-bold">Heets Amber stick</span>{" "}
-                        contains a controlled amount of nicotine, ensuring a
-                        satisfying experience without the harshness of
-                        traditional cigarettes.
-                      </li>
-                      <li>
-                        <span className="font-bold">
-                          Compatibility: Heets Amber Label
-                        </span>{" "}
-                        is compatible with all IQOS devices, including the
-                        latest models such as{" "}
-                        <span className="font-bold">
-                          IQOS 3 DUO Device, IQOS lil Device
-                        </span>{" "}
-                        and{" "}
-                        <span className="font-bold">IQOS Originals Device</span>
-                        .
-                      </li>
-                    </ul>
-                  </section>
-
-                  {/* Available Options Section */}
-                  <section className="mb-8">
-                    <h2 className="text-2xl md:text-3xl font-bold mb-4">
-                      Available Options:
-                    </h2>
-                    <ul className="space-y-4">
-                      <li>
-                        <span className="font-bold">
-                          Heets Amber Selection:
-                        </span>{" "}
-                        For those who seek a varied experience,{" "}
-                        <span className="font-bold">Heets Amber Selection</span>{" "}
-                        offers a range of flavor intensities within the Amber
-                        category.
-                      </li>
-                      <li>
-                        <span className="font-bold">Heets Premium Line:</span>{" "}
-                        Explore the premium line of Heets, which includes Amber
-                        alongside other luxurious flavors.
-                      </li>
-                    </ul>
-                  </section>
-
-                  {/* Usage Instructions Section */}
-                  <section className="mb-8">
-                    <h2 className="text-2xl md:text-3xl font-bold mb-4">
-                      Usage Instructions:
-                    </h2>
-                    <ol className="list-decimal list-inside space-y-2">
-                      <li>
-                        Insert a{" "}
-                        <span className="font-bold">Heets Amber stick</span>{" "}
-                        into your <span className="font-bold">IQOS device</span>
-                        .
-                      </li>
-                      <li>
-                        Wait for the <span className="font-bold">device</span>{" "}
-                        to heat the{" "}
-                        <span className="font-bold">tobacco stick</span>.
-                      </li>
-                      <li>
-                        Enjoy the rich and smooth{" "}
-                        <span className="font-bold">flavor</span> of{" "}
-                        <span className="font-bold">Heets Amber</span> with each
-                        puff.
-                      </li>
-                    </ol>
-                  </section>
-
-                  {/* Where to Buy Section */}
-                  <section className="mb-8">
-                    <h2 className="text-2xl md:text-3xl font-bold mb-4">
-                      Where to Buy Heets in Dubai, UAE
-                    </h2>
-                    <p className="mb-4">
-                      <span className="font-bold">Heets Amber Label</span> is
-                      available for purchase in various locations across{" "}
-                      <span className="font-bold">Dubai</span> and the{" "}
-                      <span className="font-bold">UAE</span>, including{" "}
-                      <span className="font-bold">
-                        Abu Dhabi, Sharjah, Fujairah, Ajman, Ras Al-Khaimah
-                      </span>
-                      , and <span className="font-bold">Umm Al-Quwain</span>.
-                      You can also{" "}
-                      <span className="font-bold">buy Heets Amber</span> online
-                      from our <span className="font-bold">store</span> with
-                      convenient delivery options.
-                    </p>
-                  </section>
-
-                  {/* Delivery Section */}
-                  <section>
-                    <h2 className="text-2xl md:text-3xl font-bold mb-4">
-                      Heets Amber Delivery UAE:
-                    </h2>
-                    <ul className="space-y-4">
-                      <li>
-                        <span className="font-bold">Delivery Time:</span> We
-                        offer fast and reliable delivery services across Dubai
-                        and the UAE. Expect your order to arrive within{" "}
-                        <span className="font-bold">1-2 hours</span>.
-                      </li>
-                      <li>
-                        <span className="font-bold">Payment Methods:</span> We
-                        accept various payment methods, including credit/debit
-                        cards, PayPal, and cash on{" "}
-                        <span className="font-bold">delivery</span> (COD).
-                      </li>
-                    </ul>
-                  </section>
+                <p dangerouslySetInnerHTML={{ __html: serverData?.description }}></p>
+                  {/* {serverData?.description} */}
                 </div>
               </div>
             )}
@@ -737,12 +689,31 @@ const Page = () => {
       <section className="py-12 bg-[#f1f1f1]">
         <div className="px-4 max-w-7xl mx-auto">
           <h2 className="text-2xl font-bold text-center mb-8">
-            Heets Classic Kazakhstan Sticks
+            {serverData?.categories[0]?.name} 
             <div className="w-20 h-1 bg-red-800 mx-auto mt-2" />
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {products.map((product) => (
-              <ProductCard key={product.name} {...product} />
+            {relatedProducts.map((product) => (
+             <ProductCard
+                key={product.id}
+                title={product.name}
+                image={product.images[0]?.src || ""}
+                productUrl={product.slug}
+                price={product.price}
+                id={product.id}
+                quantity={quantity[product.id] || 1}
+                reviewCount={product.rating_count}
+                onAddCart={() =>
+                addToCart(
+                    product.id,
+                    product.name,
+                    product.price,
+                    product.images[0]?.src
+                )
+                }
+                incrementQuantity={() => updateQuantity(product.id, 1)}
+                decrementQuantity={() => updateQuantity(product.id, -1)}
+            />
             ))}
           </div>
         </div>
@@ -751,7 +722,7 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default SingleProduct;
 
 export function Breadcrumb({ items }) {
   return (
@@ -773,46 +744,46 @@ export function Breadcrumb({ items }) {
   );
 }
 
-export function ImageGallery({ images }) {
-  const [selectedImage, setSelectedImage] = useState(0);
+// export function ImageGallery({ images }) {
+//   const [selectedImage, setSelectedImage] = useState(0);
 
-  return (
-    <div className="flex gap-4">
-      {/* Thumbnails */}
-      <div className="flex flex-col gap-2">
-        {images.map((image, index) => (
-          <button
-            key={index}
-            onClick={() => setSelectedImage(index)}
-            className={`border-2 p-1 rounded-lg w-20 h-20 ${
-              selectedImage === index ? "border-red-800" : "border-gray-200"
-            }`}
-          >
-            <Image
-              src={image || "/placeholder.svg"}
-              alt={`Product thumbnail ${index + 1}`}
-              width={80}
-              height={80}
-              className="w-full h-full object-contain"
-            />
-          </button>
-        ))}
-      </div>
+//   return (
+//     <div className="flex gap-4">
+//       {/* Thumbnails */}
+//       <div className="flex flex-col gap-2">
+//         {images.map((image, index) => (
+//           <button
+//             key={index}
+//             onClick={() => setSelectedImage(index)}
+//             className={`border-2 p-1 rounded-lg w-20 h-20 ${
+//               selectedImage === index ? "border-red-800" : "border-gray-200"
+//             }`}
+//           >
+//             <Image
+//               src={image.src || "/placeholder.svg"}
+//               alt={`Product thumbnail ${index + 1}`}
+//               width={80}
+//               height={80}
+//               className="w-full h-full object-contain"
+//             />
+//           </button>
+//         ))}
+//       </div>
 
-      {/* Main Image */}
-      <div className="flex-1 p-4">
-        <div className="relative aspect-square rounded-lg shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
-          <Image
-            src={images[selectedImage] || "/placeholder.svg"}
-            alt="Product main image"
-            fill
-            className="object-contain"
-          />
-        </div>
-      </div>
-    </div>
-  );
-}
+//       {/* Main Image */}
+//       <div className="flex-1 p-4">
+//         <div className="relative aspect-square rounded-lg shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
+//           <Image
+//             src={images[selectedImage].src || "/placeholder.svg"}
+//             alt="Product main image"
+//             fill
+//             className="object-contain"
+//           />
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
 
 // export function QuantitySelector({
 //   quantity,

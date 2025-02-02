@@ -2,9 +2,10 @@
 import React, { useState } from "react";
 import HeroSection from "../components/Header";
 import ProductCard from "../components/Products/product-card";
+import { useCart } from "../context/cartProvider";
 
 const HomePage = ({ productData }) => {
-  console.log(productData, "check product data");
+  const { setIsCartOpen } = useCart();
   const [quantity, setQuantity] = useState({});
   const updateQuantity = (id, change) => {
     setQuantity((prev) => ({
@@ -14,6 +15,7 @@ const HomePage = ({ productData }) => {
   };
 
   const addToCart = (id, name, price, image) => {
+    console.log("Add to Cart clicked");
     const cartObj = {
       id,
       quantity: quantity[id] || 1,
@@ -32,7 +34,8 @@ const HomePage = ({ productData }) => {
     }
 
     localStorage.setItem("cart", JSON.stringify(existingCart));
-    setIsCartModalOpen(true);
+    // setIsCartModalOpen(true);
+    setIsCartOpen(true)
     setQuantity(1);
   };
 
