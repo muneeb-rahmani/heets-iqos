@@ -1,22 +1,43 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Dialog, DialogContent } from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
-import { X } from "lucide-react"
-import Image from "next/image"
-import { useCart } from "@/app/context/cartProvider"
+import { useState, useEffect } from "react";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { X } from "lucide-react";
+import Image from "next/image";
+import { useCart } from "@/app/context/cartProvider";
 
-export default function CartModal({ isModalOpen, setIsModalOpen }) {
-  const { isCartOpen, setIsCartOpen } = useCart()
+export default function CartModal() {
+  const { isCartOpen, setIsCartOpen } = useCart();
+  const [cartItems, setCartItems] = useState([]);
+  let localCart = [];
+  const removeItem = (id) => {
+    let cartData = localStorage.getItem("cart");
+    // console.log(cartData, 'cartData')
+    localCart = JSON.parse(cartData);
+
+    localCart = localCart.filter((item) => item.id !== id);
+    setCartItems(localCart);
+    localStorage.setItem("cart", JSON.stringify(localCart));
+  };
+
+  const subtotal = cartItems?.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
+  const itemCount = cartItems?.reduce((sum, item) => sum + item.quantity, 0);
+
+  useEffect(() => {
+    if (isCartOpen) {
+      let cartData = localStorage.getItem("cart");
+      // console.log(cartData, 'cartData')
+      localCart = JSON.parse(cartData);
+      setCartItems(localCart);
+    }
+  }, [isCartOpen]);
 
   return (
     <div className="p-4">
-      {/* Trigger Button */}
-      {/* <Button onClick={() => setIsOpen(true)} className="bg-[#8B1F18] text-white hover:bg-[#8B1F18]/90">
-        Open Cart Modal
-      </Button> */}
-
       {/* Modal */}
       <Dialog open={isCartOpen} onOpenChange={setIsCartOpen}>
         <DialogContent className="sm:max-w-[65vw] p-0 border-none">
@@ -33,41 +54,30 @@ export default function CartModal({ isModalOpen, setIsModalOpen }) {
             {/* Cart Items */}
             <div className="space-y-4 p-0">
               {/* TEREA Regular */}
-              <div className="flex items-center gap-4 p-4 border-b border-gray-200">
+              {cartItems?.map((item, index)=> (
+              <div key={index} className="flex items-center gap-4 p-4 border-b border-gray-200">
                 <Image
-                  src="/imgs/circle-card.jpg"
-                  alt="TEREA Regular"
+                  src={item?.image}
+                  alt={item?.name}
                   width={60}
                   height={60}
                   className="object-contain"
                 />
                 <div className="flex-1">
-                  <h3 className="font-medium">TEREA Regular</h3>
-                  <p className="text-sm text-gray-600 font-semibold bg-[#f1f1f1] px-2 py-1 rounded-sm max-w-fit">1 Qty x 249 AED = 249 AED</p>
+                  <h3 className="font-medium">{item?.name}</h3>
+                  <p className="text-sm text-gray-600 font-semibold bg-[#f1f1f1] px-2 py-1 rounded-sm max-w-fit">
+                    {item?.quantity} Qty x {item?.price} AED = {item?.price * item?.quantity} AED
+                  </p>
                 </div>
               </div>
-
-              {/* IQOS Heets Silver */}
-              <div className="flex items-center gap-4 p-4 pt-0 border-b border-gray-200">
-                <div className="w-[60px] h-[60px] bg-gray-100 rounded flex items-center justify-center">
-                  <Image
-                    src="/imgs/circle-card.jpg"
-                    alt="IQOS Heets Silver"
-                    width={60}
-                    height={60}
-                    className="object-contain"
-                  />
-                </div>
-                <div className="flex-1">
-                  <h3 className="font-medium">IQOS Heets Silver Label Selection</h3>
-                  <p className="text-sm text-gray-600 font-semibold bg-[#f1f1f1] px-2 py-1 rounded-sm max-w-fit">3 Qty x 89 AED = 267 AED</p>
-                </div>
-              </div>
+              ))}
 
               {/* Subtotal */}
               <div className="mt-6 bg-[#8B1F18] text-white p-4  flex justify-between items-center">
                 <span className="font-medium">Subtotal</span>
-                <span className="font-medium">AED 516</span>
+                <span className="font-medium">
+                  AED ${subtotal.toLocaleString()}
+                </span>
               </div>
 
               {/* Buttons */}
@@ -78,7 +88,9 @@ export default function CartModal({ isModalOpen, setIsModalOpen }) {
                 <Button className="bg-[#8B1F18] max-w-fit text-white hover:bg-[#8B1F18]/90">
                   Continue Shopping
                 </Button>
-                <Button className="bg-[#8B1F18] max-w-fit text-white hover:bg-[#8B1F18]/90">Checkout</Button>
+                <Button className="bg-[#8B1F18] max-w-fit text-white hover:bg-[#8B1F18]/90">
+                  Checkout
+                </Button>
               </div>
 
               {/* Delivery Message */}
@@ -90,6 +102,5 @@ export default function CartModal({ isModalOpen, setIsModalOpen }) {
         </DialogContent>
       </Dialog>
     </div>
-  )
+  );
 }
-
