@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import Image from "next/image";
 import { useCart } from "@/app/context/cartProvider";
+import Link from "next/link";
+import { DialogTitle } from "@radix-ui/react-dialog";
 
 export default function CartModal() {
   const { isCartOpen, setIsCartOpen } = useCart();
@@ -36,10 +38,15 @@ export default function CartModal() {
     }
   }, [isCartOpen]);
 
+  function closeModal(params){
+    setIsCartOpen(false);
+  }
+
   return (
     <div className="p-4">
       {/* Modal */}
       <Dialog open={isCartOpen} onOpenChange={setIsCartOpen}>
+        <DialogTitle className="sr-only">Cart</DialogTitle>
         <DialogContent className="sm:max-w-[65vw] p-0 border-none">
           <div className="relative w-full max-h-[90vh] bg-white rounded-lg">
             {/* Close Button */}
@@ -82,15 +89,19 @@ export default function CartModal() {
 
               {/* Buttons */}
               <div className="flex justify-between items-center px-4 gap-2 mt-4">
-                <Button className="bg-[#8B1F18] max-w-fit text-white hover:bg-[#8B1F18]/90">
-                  View Cart
-                </Button>
-                <Button className="bg-[#8B1F18] max-w-fit text-white hover:bg-[#8B1F18]/90">
+                <Link href="/view-cart" onClick={closeModal}>
+                  <Button className="bg-[#8B1F18] max-w-fit text-white hover:bg-[#8B1F18]/90">
+                    View Cart
+                  </Button>
+                </Link>
+                <Button onClick={closeModal} className="bg-[#8B1F18] max-w-fit text-white hover:bg-[#8B1F18]/90">
                   Continue Shopping
                 </Button>
-                <Button className="bg-[#8B1F18] max-w-fit text-white hover:bg-[#8B1F18]/90">
-                  Checkout
-                </Button>
+                <Link href="/checkout" onClick={closeModal}>
+                  <Button className="bg-[#8B1F18] max-w-fit text-white hover:bg-[#8B1F18]/90">
+                    Checkout
+                  </Button>
+                </Link>
               </div>
 
               {/* Delivery Message */}
