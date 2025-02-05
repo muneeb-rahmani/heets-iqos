@@ -49,38 +49,7 @@ const reviews = [
   },
 ];
 
-const products = [
-  {
-    name: "Heets Amber Selection",
-    currentPrice: 89,
-    originalPrice: 120,
-    rating: 4.1,
-    reviews: 21,
-    origin: "Kazakhstan",
-    details: "200 Sticks | Woody Nutty",
-    imageUrl: "/imgs/heets-amber-selection-sticks-for-iqos-device.webp",
-  },
-  {
-    name: "Heets Silver Selection",
-    currentPrice: 89,
-    originalPrice: 120,
-    rating: 4.2,
-    reviews: 15,
-    origin: "Kazakhstan",
-    details: "200 Sticks | Light Breeze",
-    imageUrl: "/imgs/heets-amber-selection-sticks-for-iqos-device.webp",
-  },
-  {
-    name: "Heets Turquoise Selection",
-    currentPrice: 89,
-    originalPrice: 120,
-    rating: 4,
-    reviews: 21,
-    origin: "Kazakhstan",
-    details: "200 Sticks | Mint Menthol",
-    imageUrl: "/imgs/heets-amber-selection-sticks-for-iqos-device.webp",
-  },
-];
+
 
 const SingleProduct = ({ serverData, reviews, relatedProducts }) => {
   const [quantity, setQuantity] = useState(1);
@@ -375,11 +344,11 @@ const SingleProduct = ({ serverData, reviews, relatedProducts }) => {
               <div className="space-y-8">
                 <div className="flex items-center justify-between">
                   <h2 className="text-2xl font-bold">
-                    Heets Amber Selection Review (21 Reviews)
+                  {serverData?.name} {" "} {`(${reviews.length} Reviews)`}
                   </h2>
-                  <Button className="bg-red-700 hover:bg-red-800 text-white px-6">
+                  {/* <Button className="bg-red-700 hover:bg-red-800 text-white px-6">
                     Add a review
-                  </Button>
+                  </Button> */}
                 </div>
 
                 {/* Reviews List */}
@@ -389,19 +358,19 @@ const SingleProduct = ({ serverData, reviews, relatedProducts }) => {
                       key={review.id}
                       className="flex gap-4 items-start bg-[#efefef] p-6 rounded-lg"
                     >
-                      <div className="w-12 h-12 rounded-full bg-white text-red-700 flex items-center justify-center text-xl font-semibold">
-                        {review.initial}
+                      <div className="w-12 h-12 rounded-full bg-red-700 text-white flex items-center justify-center text-xl font-semibold">
+                        {review.reviewer.substring(0,1)}
                       </div>
                       <div className="flex-1">
                         <div className="flex items-center justify-between relative">
                           <h3 className="font-semibold text-lg">
-                            {review.name}
+                            {review.reviewer}
                           </h3>
                           <span className="text-xs text-white absolute top-[-23px] px-2 py-1 bg-black rounded-b-lg right-3">
-                            {review.date}
+                            {review.date_created}
                           </span>
                         </div>
-                        <p className="mt-2 text-gray-600">{review.comment}</p>
+                        <p className="mt-2 text-gray-600" dangerouslySetInnerHTML={{ __html: review?.review }}></p>
                       </div>
                     </div>
                   ))}
