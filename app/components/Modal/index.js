@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import Image from "next/image";
@@ -38,7 +38,7 @@ export default function CartModal() {
     }
   }, [isCartOpen]);
 
-  function closeModal(params){
+  function closeModal(params) {
     setIsCartOpen(false);
   }
 
@@ -47,8 +47,8 @@ export default function CartModal() {
       {/* Modal */}
       <Dialog open={isCartOpen} onOpenChange={setIsCartOpen}>
         <DialogTitle className="sr-only">Cart</DialogTitle>
-        <DialogContent className="sm:max-w-[65vw] p-0 border-none">
-          <div className="relative w-full max-h-[90vh] bg-white rounded-lg">
+        <DialogContent className="sm:max-w-[65vw] max-h-[90vh] p-0 border-none">
+          <div className="relative w-full bg-white rounded-lg">
             {/* Close Button */}
             <button
               onClick={() => setIsOpen(false)}
@@ -59,57 +59,61 @@ export default function CartModal() {
             </button>
 
             {/* Cart Items */}
-            <div className="space-y-4 p-0">
+            <div className="space-y-4 max-h-[60vh] overflow-y-auto overflow-x-hidden p-0">
               {/* TEREA Regular */}
-              {cartItems?.map((item, index)=> (
-              <div key={index} className="flex items-center gap-4 p-4 border-b border-gray-200">
-                <Image
-                  src={item?.image}
-                  alt={item?.name}
-                  width={60}
-                  height={60}
-                  className="object-contain"
-                />
-                <div className="flex-1">
-                  <h3 className="font-medium">{item?.name}</h3>
-                  <p className="text-sm text-gray-600 font-semibold bg-[#f1f1f1] px-2 py-1 rounded-sm max-w-fit">
-                    {item?.quantity} Qty x {item?.price} AED = {item?.price * item?.quantity} AED
-                  </p>
+              {cartItems?.map((item, index) => (
+                <div key={index} className="flex items-center gap-4 p-4 border-b border-gray-200">
+                  <Image
+                    src={item?.image}
+                    alt={item?.name}
+                    width={60}
+                    height={60}
+                    className="object-contain"
+                  />
+                  <div className="flex-1">
+                    <h3 className="font-medium">{item?.name}</h3>
+                    <p className="text-sm text-gray-600 font-semibold bg-[#f1f1f1] px-2 py-1 rounded-sm max-w-fit">
+                      {item?.quantity} Qty x {item?.price} AED = {item?.price * item?.quantity} AED
+                    </p>
+                  </div>
                 </div>
-              </div>
               ))}
 
-              {/* Subtotal */}
-              <div className="mt-6 bg-[#8B1F18] text-white p-4  flex justify-between items-center">
-                <span className="font-medium">Subtotal</span>
-                <span className="font-medium">
-                  AED ${subtotal.toLocaleString()}
-                </span>
-              </div>
-
-              {/* Buttons */}
-              <div className="flex justify-between items-center px-4 gap-2 mt-4">
-                <Link href="/view-cart" onClick={closeModal}>
-                  <Button className="bg-[#8B1F18] max-w-fit text-white hover:bg-[#8B1F18]/90">
-                    View Cart
-                  </Button>
-                </Link>
-                <Button onClick={closeModal} className="bg-[#8B1F18] max-w-fit text-white hover:bg-[#8B1F18]/90">
-                  Continue Shopping
-                </Button>
-                <Link href="/checkout" onClick={closeModal}>
-                  <Button className="bg-[#8B1F18] max-w-fit text-white hover:bg-[#8B1F18]/90">
-                    Checkout
-                  </Button>
-                </Link>
-              </div>
-
-              {/* Delivery Message */}
-              <p className="text-center text-sm font-semibold text-gray-600 pb-4">
-                Same Day Delivery In UAE | Free Delivery On Orders 201 AED
-              </p>
             </div>
           </div>
+        <DialogFooter>
+          <div className='flex w-full flex-col'>
+            {/* Subtotal */}
+            <div className="mt-6 bg-[#8B1F18] text-white p-4  flex justify-between items-center">
+              <span className="font-medium">Subtotal</span>
+              <span className="font-medium">
+                AED ${subtotal.toLocaleString()}
+              </span>
+            </div>
+
+            {/* Buttons */}
+            <div className="flex justify-between items-center px-4 gap-2 mt-4">
+              <Link href="/view-cart" onClick={closeModal}>
+                <Button className="bg-[#8B1F18] max-w-fit text-white hover:bg-[#8B1F18]/90">
+                  View Cart
+                </Button>
+              </Link>
+              <Button onClick={closeModal} className="bg-[#8B1F18] max-w-fit text-white hover:bg-[#8B1F18]/90">
+                Continue Shopping
+              </Button>
+              <Link href="/checkout" onClick={closeModal}>
+                <Button className="bg-[#8B1F18] max-w-fit text-white hover:bg-[#8B1F18]/90">
+                  Checkout
+                </Button>
+              </Link>
+            </div>
+
+            {/* Delivery Message */}
+            <p className="text-center text-sm font-semibold text-gray-600 pb-4">
+              Same Day Delivery In UAE | Free Delivery On Orders 201 AED
+            </p>
+          </div>
+        </DialogFooter>
         </DialogContent>
       </Dialog>
     </div>
