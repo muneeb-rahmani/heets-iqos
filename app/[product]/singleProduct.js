@@ -23,21 +23,7 @@ const productImages = [
   "/imgs/heets-amber-selection-sticks-for-iqos-device.webp",
 ];
 
-const tabs = [
-  {
-    id: "description",
-    label: "Description",
-    content: "Description content goes here...",
-  },
-  {
-    id: "specification",
-    label: "Specification",
-    content: "Specification details...",
-  },
-  { id: "howToUse", label: "How To Use", content: "Usage instructions..." },
-  { id: "faq", label: "Faq", content: "Frequently asked questions..." },
-  { id: "reviews", label: "Reviews (21)", content: null },
-];
+
 
 const reviews = [
   {
@@ -103,7 +89,7 @@ const SingleProduct = ({ serverData, reviews, relatedProducts }) => {
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);
   };
-  //   console.log(serverData, 'check serverData')
+    console.log(reviews, 'check serverData')
 
   const router = useRouter();
 
@@ -160,6 +146,21 @@ const SingleProduct = ({ serverData, reviews, relatedProducts }) => {
     router.push("/checkout");
   };
 
+  const tabs = [
+    {
+      id: "description",
+      label: "Description",
+      content: "Description content goes here...",
+    },
+    {
+      id: "specification",
+      label: "Specification",
+      content: "Specification details...",
+    },
+    { id: "howToUse", label: "How To Use", content: "Usage instructions..." },
+    { id: "faq", label: "Faq", content: "Frequently asked questions..." },
+    { id: "reviews", label:`Reviews (${reviews.length})`, content: null },
+  ];
   return (
     <>
       <div className="max-w-7xl mx-auto">
