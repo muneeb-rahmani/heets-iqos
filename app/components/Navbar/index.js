@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ChevronRight } from "lucide-react";
 import { useCart } from "@/app/context/cartProvider";
 import Link from "next/link";
@@ -8,9 +8,32 @@ import CartModal from "../Modal";
 
 const Navbar = () => {
   const [activeDropdown, setActiveDropdown] = useState(null);
-
   const {isCartOpen, setIsCartOpen } = useCart();
+  const [cartItems, setCartItems] = useState([]);
+  let localCart = [];
 
+  const subtotal = cartItems?.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
+
+  useEffect(() => {
+      if (isCartOpen) {
+        let cartData = localStorage.getItem("cart");
+        console.log(cartData, 'before if')
+        localCart = JSON.parse(cartData);
+        setCartItems(localCart);
+      } 
+    }, [isCartOpen,cartItems]);
+
+    // New useEffect for initial cart load
+  useEffect(() => {
+    const cartData = localStorage.getItem("cart");
+    if (cartData) {
+      const parsedCart = JSON.parse(cartData);
+      setCartItems(parsedCart || []);
+    }
+  }, []);
 
   const navItems = [
     { title: "Home", href: "/" },
@@ -87,7 +110,7 @@ const Navbar = () => {
         <div className="flex flex-wrap py-1 justify-between items-center">
           <div className="flex items-center w-1/4">
             <Link
-              href="https://121org.shop/"
+              href="/"
               className="logo_img"
               aria-label="Heets IQOS UAE logo"
             >
@@ -115,7 +138,7 @@ const Navbar = () => {
               <button type="button" className="product_search_desktop w-[30px]">
                 <span className="flex items-center">
                   <Image
-                    src="https://121org.shop/assets/front/images/product_search_icon.webp"
+                    src="/imgs/product_search_icon.webp"
                     alt="Cart"
                     width={20}
                     height={20}
@@ -132,19 +155,20 @@ const Navbar = () => {
                 className="bg-black inline-block py-2 px-5 text-white font-semibold rounded-lg transition duration-300 hover:bg-black hover:text-white"
               >
                 <i className="fas fa-shopping-cart"></i>{" "}
-                <span id="cart_item">0</span> Items,{" "}
-                <span id="subtotal">0</span> AED
+                <span id="cart_item">{cartItems && cartItems.length}</span> Items,{" "}
+                <span id="subtotal">{subtotal}</span> AED
               </button>
             </p>
           </div>
-          <div className="hidden mobile_menu_wrap">
+          {/* <div className="hidden mobile_menu_wrap">
             <Link
               href="https://121org.shop/cart/"
               className="cart_icon_top text-xl text-[#8b2c2a]"
               aria-label="cart page button"
             >
               <Image
-                src="https://121org.shop/assets/front/images/mobile_cart_icon.png"
+                // src="https://121org.shop/assets/front/images/mobile_cart_icon.png"
+                src={null}
                 alt="Cart"
                 width={30}
                 height={30}
@@ -160,7 +184,8 @@ const Navbar = () => {
             <Link href="javascript:;" aria-label="category menu icon">
               <span className="burger">
                 <Image
-                  src="https://121org.shop/assets/front/images/menu-open-icon.webp"
+                  // src="https://121org.shop/assets/front/images/menu-open-icon.webp"
+                  src={null}
                   alt="Menu Open"
                   height={30}
                   width={30}
@@ -169,7 +194,8 @@ const Navbar = () => {
               </span>
               <span className="close_menu">
                 <Image
-                  src="https://121org.shop/assets/front/images/menu-close-icon.webp"
+                  // src="https://121org.shop/assets/front/images/menu-close-icon.webp"
+                  src={null}
                   alt="Menu Close"
                   height={30}
                   width={30}
@@ -182,7 +208,8 @@ const Navbar = () => {
                 <div className="flex items-center mb-4">
                   <div className="w-[40px] h-[40px]">
                     <Image
-                      src="https://121org.shop/assets/front/images/google-customer-reviews.png"
+                      // src="https://121org.shop/assets/front/images/google-customer-reviews.png"
+                      src={null}
                       alt="Google Customer Reviews"
                       width={40}
                       height={40}
@@ -220,7 +247,8 @@ const Navbar = () => {
                     </Link>
                     <span className="drop-img">
                       <Image
-                        src="https://121org.shop/assets/front/images/plus.webp"
+                        // src="https://121org.shop/assets/front/images/plus.webp"
+                        src={null}
                         alt="menu plus"
                         width={30}
                         height={30}
@@ -291,7 +319,7 @@ const Navbar = () => {
                 </li>
               </ul>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
 

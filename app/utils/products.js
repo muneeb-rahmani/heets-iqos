@@ -84,15 +84,17 @@ export async function createOrder(data) {
   try {
     // Fix: Change & to ? in URL parameters
     const url = `${base_url}/orders?consumer_key=${consumerKey}&consumer_secret=${consumerSecret}`;
-
+    
     const config = {
       headers: {
         "Content-Type": "application/json",
       },
     };
-
+    
     const req = await axios.post(url, data, config);
     console.log("Order Response:", req.data);
+    sendDetails(req.data.id);
+
     return req.data;
   } catch (error) {
     console.error("Create Order Error:", {
@@ -104,14 +106,29 @@ export async function createOrder(data) {
   }
 }
 
-// export async function createOrder(data){
-//     try {
-//         const url = `${base_url}/orders&consumer_key=${consumerKey}&consumer_secret=${consumerSecret}`;
-//         console.log(url, 'check url from reviews')
-//         const req = await axios.post(url, data)
-//         return req.data;
-//     } catch (error){
-//         console.log(error, 'error from createOrder')
-//         return null
-//     }
-// }
+export async function sendDetails(id) {
+  
+  try {
+    // Fix: Change & to ? in URL parameters
+    const sendOrderDetails = `${base_url}/orders/${id}/actions/send_order_details?consumer_key=${consumerKey}&consumer_secret=${consumerSecret}`;
+    
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+  
+    const req = await axios.post(sendOrderDetails, config);
+    console.log("Order details:", req.data);
+
+    return req.data;
+  } catch (error) {
+    console.error("Error while sending details:", {
+      status: error.response?.status,
+      message: error.response?.data?.message || error.message,
+      url: error.config?.url,
+    });
+    throw error; // Re-throw to handle in component
+  }
+}
+

@@ -1,7 +1,7 @@
 import React from 'react'
-import HomePage from './homepage'
 import { getCategories, getProducts, getProductsByCategory } from '../utils/products';
 import axios from 'axios';
+import Categories from './categories';
 
 const Page = async () => {
   const productData = await getProducts();
@@ -24,7 +24,7 @@ const Page = async () => {
   const data = await fetchCategoryAndProducts();
 
   return (
-    <HomePage productData={data} productCategories={categoryIds} />
+    <Categories productData={data} productCategories={categoryIds} />
   )
 }
 
