@@ -23,6 +23,8 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <meta name="robots" content="noindex,nofollow" />
+      <meta name="googlebot" content="noindex,nofollow" />
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

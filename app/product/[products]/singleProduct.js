@@ -4,11 +4,12 @@ import Link from "next/link";
 import { useState } from "react";
 import Image from "next/image";
 import { ChevronRight, Minus, Plus } from "lucide-react";
-import { StarRating } from "../components/Products/star-rating";
+import { StarRating } from "../../components/Products/star-rating";
 import { Button } from "@/components/ui/button";
-import ProductCard from "../components/Products/product-card";
+import ProductCard from "../../components/Products/product-card";
 import { useRouter } from "next/navigation";
-import { ratingCalc } from "../utils/common";
+import { ratingCalc } from "../../utils/common";
+import { useCart } from "../../context/cartProvider";
 
 const breadcrumbItems = [
   { label: "Home", href: "/" },
@@ -55,10 +56,11 @@ const SingleProduct = ({ serverData, reviews, relatedProducts }) => {
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState("description");
   const [selectedImage, setSelectedImage] = useState(0);
+    const { isCartOpen, setIsCartOpen } = useCart();
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);
   };
-    console.log(reviews, 'check serverData')
+    // console.log(reviews, 'check serverData')
 
   const router = useRouter();
 
@@ -88,7 +90,7 @@ const SingleProduct = ({ serverData, reviews, relatedProducts }) => {
     }
 
     localStorage.setItem("cart", JSON.stringify(existingCart));
-    setIsCartModalOpen(true);
+    setIsCartOpen(true);
     setQuantity(1);
   };
   const reviewsRating = ratingCalc(reviews);
@@ -262,20 +264,20 @@ const SingleProduct = ({ serverData, reviews, relatedProducts }) => {
             <div className="flex items-center gap-4">
               <div className="flex items-center  rounded">
                 <button
-                  // onClick={onDecrease}
-                  className="px-3 h-10 w-10 py-1 rounded-lg border-r bg-[#8b2c2a] hover:bg-gray-100"
+                 onClick={() => updateQuantity(serverData.id, -1)}
+                  className="px-3 h-10 w-10 py-1 rounded-lg border-r bg-[#8b2c2a] hover:bg-[#712322]"
                 >
-                  <Minus className="h-3 w-3 text-white" />
+                  <Minus  className="h-3 w-3 text-white" />
                 </button>
-                <span className="px-4 py-1">1</span>
+                <span className="px-4 py-1">{quantity[serverData.id] || 1}</span>
                 <button
-                  // onClick={onIncrease}
-                  className="px-3 h-10 w-10 rounded-lg py-1 border-l bg-[#8b2c2a] hover:bg-gray-100"
+                  onClick={() => updateQuantity(serverData.id, 1)}
+                  className="px-3 h-10 w-10 rounded-lg py-1 border-l bg-[#8b2c2a] hover:bg-[#712322]"
                 >
-                  <Plus className="h-3 w-3 text-white" />
+                  <Plus  className="h-3 w-3 text-white" />
                 </button>
               </div>
-              <button className="flex-1 bg-[#8b2c2a] rounded-lg text-white py-2 hover:bg-red-900 transition-colors">
+              <button onClick={() => addToCart(serverData.id, serverData.name, serverData.price, serverData.images[0]?.src)} className="flex-1 bg-[#8b2c2a] rounded-lg text-white py-2 hover:bg-red-900 transition-colors">
                 {serverData?.stock_status === "instock" ? "Add to Cart" : "Out of Stock"}
               </button>
             </div>
