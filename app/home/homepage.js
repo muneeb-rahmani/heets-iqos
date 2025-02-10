@@ -13,7 +13,7 @@ const HomePage = ({ productData }) => {
       [id]: Math.max((prev[id] || 1) + change, 1),
     }));
   };
-
+  // console.log(productData, "productData from homepage");
   const addToCart = (id, name, price, image) => {
     console.log("Add to Cart clicked");
     const cartObj = {

@@ -90,7 +90,9 @@ const ProductCard = ({
           <p>
             <span className="font-bold text-[15px]">Origin:</span><br/> {origin}
           </p>
-          <p className='text-[15px]'>{details}</p>
+          <p>
+            <span className="font-bold text-[15px]">Availability:</span> {details}
+          </p>
         </div>
       </div>
     </>
