@@ -5,10 +5,13 @@ import { ChevronRight } from "lucide-react";
 import { useCart } from "@/app/context/cartProvider";
 import Link from "next/link";
 import CartModal from "../Modal";
+import { fetchCategories, getCategories } from "@/app/utils/products";
+import axios from "axios";
 
 const Navbar = () => {
   const [activeDropdown, setActiveDropdown] = useState(null);
-  const {isCartOpen, setIsCartOpen } = useCart();
+  const [categories, setCategories] = useState([]);
+  const { isCartOpen, setIsCartOpen } = useCart();
   const [cartItems, setCartItems] = useState([]);
   let localCart = [];
 
@@ -18,21 +21,31 @@ const Navbar = () => {
   );
 
   useEffect(() => {
-      if (isCartOpen) {
-        let cartData = localStorage.getItem("cart");
-        console.log(cartData, 'before if')
-        localCart = JSON.parse(cartData);
-        setCartItems(localCart);
-      } 
-    }, [isCartOpen,cartItems]);
+    if (isCartOpen) {
+      let cartData = localStorage.getItem("cart");
+      console.log(cartData, "before if");
+      localCart = JSON.parse(cartData);
+      setCartItems(localCart);
+    }
+  }, [isCartOpen, cartItems]);
 
-    // New useEffect for initial cart load
+  // New useEffect for initial cart load
   useEffect(() => {
     const cartData = localStorage.getItem("cart");
     if (cartData) {
       const parsedCart = JSON.parse(cartData);
       setCartItems(parsedCart || []);
     }
+  }, []);
+
+
+
+  useEffect(() => {
+    async function loadCategories() {
+      const data = await fetchCategories();
+      setCategories(data);
+    }
+    loadCategories();
   }, []);
 
   const navItems = [
@@ -155,8 +168,8 @@ const Navbar = () => {
                 className="bg-black inline-block py-2 px-5 text-white font-semibold rounded-lg transition duration-300 hover:bg-black hover:text-white"
               >
                 <i className="fas fa-shopping-cart"></i>{" "}
-                <span id="cart_item">{cartItems && cartItems.length}</span> Items,{" "}
-                <span id="subtotal">{subtotal}</span> AED
+                <span id="cart_item">{cartItems && cartItems.length}</span>{" "}
+                Items, <span id="subtotal">{subtotal}</span> AED
               </button>
             </p>
           </div>
@@ -326,31 +339,42 @@ const Navbar = () => {
       <nav className="bg-black text-white">
         <div className="relative flex items-center justify-center">
           <ul className="flex items-center space-x-1">
-            {navItems.map((item) => (
+            <li
+              className="relative hover:ease-in-out duration-300 "
+            >
+              <Link
+                href="/"
+                className="flex items-center px-4 py-4 transition-colors"
+              >
+                Home
+                <span className="ml-2">→</span>
+              </Link>
+            </li>
+            {categories.map((item) => (
               <li
-                key={item.title}
+                key={item.id}
                 className="relative hover:ease-in-out duration-300 "
-                onMouseEnter={() => setActiveDropdown(item.title)}
+                onMouseEnter={() => setActiveDropdown(item.name)}
                 onMouseLeave={() => setActiveDropdown(null)}
               >
                 <Link
-                  href={item.href}
+                  href={item.slug}
                   className="flex items-center px-4 py-4 transition-colors"
                 >
-                  {item.title}
+                  {item.name}
                   <span className="ml-2">→</span>
                 </Link>
-                {item.children && activeDropdown === item.title && (
+                {item.children && activeDropdown === item.name && (
                   <div className="absolute left-0 top-full z-50 min-w-[200px] bg-white text-black shadow-lg">
                     <div className="flex">
                       <div className="flex-1">
                         {item.children.map((child) => (
                           <Link
-                            key={child.title}
-                            href={child.href}
+                            key={child.name}
+                            href={`${child.slug}?id=${child.id}`}
                             className="block px-4 py-2 hover:bg-gray-100"
                           >
-                            {child.title}
+                            {child.name}
                           </Link>
                         ))}
                       </div>
@@ -359,6 +383,28 @@ const Navbar = () => {
                 )}
               </li>
             ))}
+            <li
+              className="relative hover:ease-in-out duration-300 "
+            >
+              <Link
+                href="/"
+                className="flex items-center px-4 py-4 transition-colors"
+              >
+                Blogs
+                <span className="ml-2">→</span>
+              </Link>
+            </li>
+            <li
+              className="relative hover:ease-in-out duration-300 "
+            >
+              <Link
+                href="/"
+                className="flex items-center px-4 py-4 transition-colors"
+              >
+                FAQ
+                <span className="ml-2">→</span>
+              </Link>
+            </li>
           </ul>
         </div>
       </nav>

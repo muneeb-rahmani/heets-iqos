@@ -3,28 +3,14 @@ import { getCategories, getProducts, getProductsByCategory } from '../utils/prod
 import axios from 'axios';
 import Categories from './categories';
 
-const Page = async () => {
-  const productData = await getProducts();
-  // if(data)console.log(data, 'check product data')
-  const categoryIds = await getCategories();
+const Page = async ({searchParams}) => {
+  const id = await searchParams; 
+  const categoryId = await id?.id; 
 
-  const fetchCategoryAndProducts = async () => {
-    const categoryId = categoryIds?.map(({id:itemId,name: itemName}) => ({id: itemId, name: itemName}));
-    // console.log(categoryId, "check categoryId data");
-    const data = await axios?.all(
-    categoryId?.map(async (item) => {
-      // console.log(item.id, "check id from categoryId map");
-      const products = await getProductsByCategory(item.id);
-      return {products, category: item.name};
-    }))
-
-    return data;
-  }
-
-  const data = await fetchCategoryAndProducts();
+  const data = await getProductsByCategory(categoryId);
 
   return (
-    <Categories productData={data} productCategories={categoryIds} />
+    <Categories productData={data} />
   )
 }
 

@@ -13,7 +13,7 @@ const Categories = ({ productData }) => {
       [id]: Math.max((prev[id] || 1) + change, 1),
     }));
   };
-
+  console.log(productData, "productData");
   const addToCart = (id, name, price, image) => {
     console.log("Add to Cart clicked");
     const cartObj = {
@@ -35,63 +35,37 @@ const Categories = ({ productData }) => {
 
     localStorage.setItem("cart", JSON.stringify(existingCart));
     // setIsCartModalOpen(true);
-    setIsCartOpen(true)
+    setIsCartOpen(true);
     setQuantity(1);
   };
 
-
-
   return (
     <div>
-      <HeroSection />
-      {productData.map((item, index) => (
-        item.products.length > 0 && (
-        <section className=" odd:bg-white py-4 even:bg-[#f1f1f1]">
-          <div className="container mx-auto px-4">
-            <div key={index} className="">
-              {item.products.length > 0 && (
-                <>
-                  <div className="flex flex-col items-center justify-center mb-6">
-                    <h2
-                      className={`text-3xl font-bold text-center ${
-                        index !== 0 ? "mt-10" : ""
-                      }`}
-                    >
-                      {item.category}
-                    </h2>
-                    <span className="w-[100px] border-b-red-800 h-2 border-b-4 "></span>
-                  </div>
-                </>
-              )}
-              <div className="grid grid-cols-2 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                {item.products.map((product) => (
-                  <ProductCard
-                    key={product.id}
-                    title={product.name}
-                    image={product.images[0]?.src || ""}
-                    productUrl={product.slug}
-                    price={product.price}
-                    id={product.id}
-                    quantity={quantity[product.id] || 1}
-                    reviewCount={product.rating_count}
-                    onAddCart={() =>
-                      addToCart(
-                        product.id,
-                        product.name,
-                        product.price,
-                        product.images[0]?.src
-                      )
-                    }
-                    incrementQuantity={() => updateQuantity(product.id, 1)}
-                    decrementQuantity={() => updateQuantity(product.id, -1)}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-        )
-      ))}
+      <HeroSection header={productData[0]?.categories[0]?.name} />
+      <section className="container mx-auto px-4">
+        <div className="grid grid-cols-2 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {productData.map((item, index) => (
+            <ProductCard
+              key={index}
+              title={item.name}
+              image={item.images[0]?.src || ""}
+              productUrl={item.slug}
+              rating={item.average_rating}
+              reviews={item.rating_count}
+              price={item.price}
+              id={item.id}
+              details={item.stock_status === "instock" ? "In Stock" : false}
+              quantity={quantity[item.id] || 1}
+              reviewCount={item.rating_count}
+              onAddCart={() =>
+                addToCart(item.id, item.name, item.price, item.images[0]?.src)
+              }
+              incrementQuantity={() => updateQuantity(item.id, 1)}
+              decrementQuantity={() => updateQuantity(item.id, -1)}
+            />
+          ))}
+        </div>
+      </section>
     </div>
   );
 };

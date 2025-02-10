@@ -35,12 +35,12 @@ export async function getProducts() {
 
 export async function getCategories() {
   try {
-    const url = `${base_url}/products/categories?consumer_key=${consumerKey}&consumer_secret=${consumerSecret}`;
+    const url = `${base_url}/products/categories?consumer_key=${consumerKey}&consumer_secret=${consumerSecret}&per_page=100`;
     const req = await axios.get(url);
     // console.log(req,'check req')
     return req.data;
   } catch (error) {
-    console.log(error, "error from getCategories");
+    console.log(error, "error from getCategories from utils");
     return null;
   }
 }
@@ -132,3 +132,44 @@ export async function sendDetails(id) {
   }
 }
 
+
+export async function fetchCategories() {
+  try {
+    const response = await fetch("http://localhost:3000/api/proxy");
+    const categories = await response.json();
+
+    if (!categories || categories.length === 0) {
+      console.warn("⚠️ No categories found.");
+      return [];
+    }
+
+    // Step 1: Create a lookup object for categories
+    const categoryMap = {};
+
+    categories.forEach((category) => {
+      categoryMap[category.id] = { ...category, children: [] };
+    });
+
+    // Step 2: Arrange categories into parent-child hierarchy
+    const structuredCategories = [];
+
+    categories.forEach((category) => {
+      if (category.parent === 0) {
+        // Top-level category
+        structuredCategories.push(categoryMap[category.id]);
+      } else {
+        // Child category - Add to its parent's children array
+        if (categoryMap[category.parent]) {
+          categoryMap[category.parent].children.push(categoryMap[category.id]);
+        }
+      }
+    });
+
+    // console.log("✅ Structured Categories:", structuredCategories);
+    return structuredCategories;
+
+  } catch (error) {
+    console.error("❌ Error fetching categories:", error);
+    return [];
+  }
+}
