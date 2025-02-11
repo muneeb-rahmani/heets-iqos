@@ -673,6 +673,9 @@ const SingleProduct = ({ serverData, reviews, relatedProducts }) => {
                 productUrl={product.slug}
                 price={product.price}
                 id={product.id}
+                rating={product.average_rating}
+                reviews={product.rating_count}
+                details={product.stock_status === "instock" ? "In Stock" : false}
                 quantity={quantity[product.id] || 1}
                 reviewCount={product.rating_count}
                 onAddCart={() =>

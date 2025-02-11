@@ -135,7 +135,7 @@ export async function sendDetails(id) {
 
 export async function fetchCategories() {
   try {
-    const response = await fetch("http://localhost:3000/api/proxy");
+    const response = await fetch("/api/proxy");
     const categories = await response.json();
 
     if (!categories || categories.length === 0) {
