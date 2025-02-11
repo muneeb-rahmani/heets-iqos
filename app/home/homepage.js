@@ -102,6 +102,9 @@ const HomePage = ({ productData }) => {
                     image={product.images[0]?.src || ""}
                     productUrl={product.slug}
                     price={product.price}
+                    rating={product.average_rating}
+                    reviews={product.rating_count}
+                    details={product.stock_status === "instock" ? "In Stock" : false}
                     id={product.id}
                     quantity={quantity[product.id] || 1}
                     reviewCount={product.rating_count}
