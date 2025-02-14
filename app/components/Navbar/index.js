@@ -43,7 +43,9 @@ const Navbar = () => {
   useEffect(() => {
     async function loadCategories() {
       const data = await fetchCategories();
+      console.log(data, 'check kar categorry')
       setCategories(data);
+
     }
     loadCategories();
   }, []);
@@ -357,13 +359,15 @@ const Navbar = () => {
                 onMouseEnter={() => setActiveDropdown(item.name)}
                 onMouseLeave={() => setActiveDropdown(null)}
               >
+                {item.slug != 'shop' &&
                 <Link
                   href={item.slug}
-                  className="flex items-center px-4 py-4 transition-colors"
+                  className="flex items-center px-2 py-4 transition-colors"
                 >
-                  {item.name}
+                  {item?.slug?.split('-').join(' ').toUpperCase()}
                   <span className="ml-2">→</span>
                 </Link>
+                }
                 {item.children && activeDropdown === item.name && (
                   <div className="absolute left-0 top-full z-50 min-w-[200px] bg-white text-black shadow-lg">
                     <div className="flex">
@@ -371,7 +375,7 @@ const Navbar = () => {
                         {item.children.map((child) => (
                           <Link
                             key={child.name}
-                            href={`${child.slug}?id=${child.id}`}
+                            href={`${item.slug}/${child.slug}?id=${child.id}`}
                             className="block px-4 py-2 hover:bg-gray-100"
                           >
                             {child.name}
@@ -388,10 +392,9 @@ const Navbar = () => {
             >
               <Link
                 href="/"
-                className="flex items-center px-4 py-4 transition-colors"
+                className="flex items-center px-2 py-4 transition-colors"
               >
                 Blogs
-                <span className="ml-2">→</span>
               </Link>
             </li>
             <li
@@ -399,10 +402,9 @@ const Navbar = () => {
             >
               <Link
                 href="/"
-                className="flex items-center px-4 py-4 transition-colors"
+                className="flex items-center px-2 py-4 transition-colors"
               >
                 FAQ
-                <span className="ml-2">→</span>
               </Link>
             </li>
           </ul>

@@ -13,3 +13,11 @@ body {
   }
 }
 
+.shortDesc .proUL {
+  list-style-type: circle;
+  padding-left: 1rem;
+}
+
+.shortDesc .proUL li:nth-child(7) p a {
+  color:#991b1b;
+}

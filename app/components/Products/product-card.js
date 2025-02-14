@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import { StarRating } from './star-rating.js'
 import Image from 'next/image.js';
-import { Minus, Plus,} from 'lucide-react';
+import { Minus, Plus, } from 'lucide-react';
 import Link from 'next/link.js';
 
 
@@ -26,7 +26,7 @@ const ProductCard = ({
 
   return (
     <>
-      <div className="bg-white rounded-lg shadow-md p-4 flex flex-col">
+      <div className="bg-white rounded-lg shadow-md p-4 flex justify-between flex-col">
         {/* Delivery Badge */}
         <div className="mb-2 w-fit bg-[#e2e4e8] px-2 py-1 rounded flex gap-2 items-center">
           <Image src="/imgs/free-delivery-logo.webp" alt="Home" width={16} height={16} />
@@ -36,15 +36,15 @@ const ProductCard = ({
         </div>
 
         {/* Product Image */}
-        <Link href={{ pathname: `/product/${productUrl}`, query: id ? {product: id} : undefined}}  onClick={onNavigate}>
-        <div className="relative aspect-square mb-4">
-          <Image
-            src={image || "/placeholder.svg"}
-            alt={title}
-            fill={true}
-            className="w-full h-full object-contain"
+        <Link href={{ pathname: `/product/${productUrl}`, query: id ? { product: id } : undefined }} onClick={onNavigate}>
+          <div className="relative aspect-square mb-4">
+            <Image
+              src={image || "/placeholder.svg"}
+              alt={title}
+              fill={true}
+              className="w-full h-full object-contain"
             />
-        </div>
+          </div>
         </Link>
 
         {/* Product Info */}
@@ -87,12 +87,15 @@ const ProductCard = ({
 
         {/* Product Details */}
         <div className="mt-4 text-sm flex justify-between text-gray-600">
-          <p>
-            <span className="font-bold text-[15px]">Origin:</span><br/> {origin}
-          </p>
-          <p>
-            <span className="font-bold text-[15px]">Availability:</span> {details}
-          </p>
+          {origin &&
+            <p dangerouslySetInnerHTML={{__html: origin}} />
+          }
+          {details &&
+            // <p>
+            //   <span className="font-bold text-[15px]">Availability:</span> {details}
+            // </p>
+            <p className="proOriginCard"><strong>Availability :</strong> {details}</p>
+          }
         </div>
       </div>
     </>

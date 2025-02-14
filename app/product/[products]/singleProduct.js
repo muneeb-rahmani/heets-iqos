@@ -17,38 +17,6 @@ const breadcrumbItems = [
   { label: "IQOS Heets Amber Label Selection", href: "#" },
 ];
 
-const productImages = [
-  "/imgs/heets-amber-selection-sticks-for-iqos-device.webp",
-  "/imgs/heets-amber-selection-sticks-for-iqos-device.webp",
-  "/imgs/heets-amber-selection-sticks-for-iqos-device.webp",
-  "/imgs/heets-amber-selection-sticks-for-iqos-device.webp",
-];
-
-
-
-const reviews = [
-  {
-    id: 1,
-    name: "Bikey Barnwa",
-    comment: "great",
-    date: "09.10.2024",
-    initial: "B",
-  },
-  {
-    id: 2,
-    name: "Bikey Barnwal",
-    comment: "Amazing product",
-    date: "09.10.2024",
-    initial: "B",
-  },
-  {
-    id: 3,
-    name: "Rahul",
-    comment: "Good product",
-    date: "09.10.2024",
-    initial: "R",
-  },
-];
 
 
 
@@ -60,7 +28,7 @@ const SingleProduct = ({ serverData, reviews, relatedProducts }) => {
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);
   };
-    // console.log(reviews, 'check serverData')
+    console.log(serverData, 'check serverData')
 
   const router = useRouter();
 
@@ -196,7 +164,7 @@ const SingleProduct = ({ serverData, reviews, relatedProducts }) => {
                 />
                 <p className="">
                   Good purchase!
-                  <span className="text-primary text-md font-bold"> 921+ </span>
+                  <span className="text-primary text-md font-bold"> {serverData?.total_sales}+ </span>
                   sold in past month
                   <br />
                   Genuine, Factory-Sealed, and Unopened
@@ -220,8 +188,9 @@ const SingleProduct = ({ serverData, reviews, relatedProducts }) => {
                 )}
               </div>
             </div>
-
-            <ul className="list-disc pl-5 space-y-2">
+            
+            <div dangerouslySetInnerHTML={{ __html: serverData?.short_description }} />
+            {/* <ul className="list-disc pl-5 space-y-2">
               <li>
                 <p className="">
                   <strong>What's in Box: Carton: </strong>1 Carton / 200 Sticks
@@ -244,7 +213,6 @@ const SingleProduct = ({ serverData, reviews, relatedProducts }) => {
                  <div className="flex gap-2">
                    <span className="font-medium">{attr.name}</span>
                    <span className="font-medium">{attr.options[0]}</span>
-                   {/* <StarRating rating={4} isCustomerReview={false} size="sm" /> */}
                  </div>
                  </li>
               ))}
@@ -259,7 +227,7 @@ const SingleProduct = ({ serverData, reviews, relatedProducts }) => {
                   </Link>
                 </p>
               </li>
-            </ul>
+            </ul> */}
 
             <div className="flex items-center gap-4">
               <div className="flex items-center  rounded">
@@ -282,9 +250,9 @@ const SingleProduct = ({ serverData, reviews, relatedProducts }) => {
               </button>
             </div>
 
-            <button className="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-900 transition-colors">
+            {/* <button className="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-900 transition-colors">
               Read Review
-            </button>
+            </button> */}
 
             <div className="flex items-center gap-2 border-2 p-2 rounded-md text-sm">
               <Image
