@@ -65,6 +65,9 @@ const Categories = ({ productData }) => {
             />
           ))}
         </div>
+        <div className="mt-8">
+          <p dangerouslySetInnerHTML={{ __html: productData[0]?.description }}></p>
+        </div>
       </section>
     </div>
   );

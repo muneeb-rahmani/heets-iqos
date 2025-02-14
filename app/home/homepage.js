@@ -5,6 +5,7 @@ import ProductCard from "../components/Products/product-card";
 import { useCart } from "../context/cartProvider";
 
 const HomePage = ({ productData }) => {
+  console.log(productData, 'check product data')
   const { setIsCartOpen } = useCart();
   const [quantity, setQuantity] = useState({});
   const updateQuantity = (id, change) => {
@@ -39,38 +40,7 @@ const HomePage = ({ productData }) => {
     setQuantity(1);
   };
 
-  const products = [
-    {
-      name: "Heets Amber Selection",
-      currentPrice: 89,
-      originalPrice: 120,
-      rating: 4.1,
-      reviews: 21,
-      origin: "Kazakhstan",
-      details: "200 Sticks | Woody Nutty",
-      imageUrl: "/imgs/heets-amber-selection-sticks-for-iqos-device.webp",
-    },
-    {
-      name: "Heets Silver Selection",
-      currentPrice: 89,
-      originalPrice: 120,
-      rating: 4.2,
-      reviews: 15,
-      origin: "Kazakhstan",
-      details: "200 Sticks | Light Breeze",
-      imageUrl: "/imgs/heets-amber-selection-sticks-for-iqos-device.webp",
-    },
-    {
-      name: "Heets Turquoise Selection",
-      currentPrice: 89,
-      originalPrice: 120,
-      rating: 4,
-      reviews: 21,
-      origin: "Kazakhstan",
-      details: "200 Sticks | Mint Menthol",
-      imageUrl: "/imgs/heets-amber-selection-sticks-for-iqos-device.webp",
-    },
-  ];
+
 
   return (
     <div>
@@ -105,6 +75,7 @@ const HomePage = ({ productData }) => {
                     rating={product.average_rating}
                     reviews={product.rating_count}
                     details={product.stock_status === "instock" ? "In Stock" : false}
+                    origin={product?.meta_data?.find(item => item.key === "proorigincard")?.value}
                     id={product.id}
                     quantity={quantity[product.id] || 1}
                     reviewCount={product.rating_count}

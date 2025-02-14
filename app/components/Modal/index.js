@@ -87,7 +87,7 @@ export default function CartModal() {
             <div className="mt-6 bg-[#8B1F18] text-white p-4  flex justify-between items-center">
               <span className="font-medium">Subtotal</span>
               <span className="font-medium">
-                AED ${subtotal.toLocaleString()}
+                AED {subtotal.toLocaleString()}
               </span>
             </div>
 
