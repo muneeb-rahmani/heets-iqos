@@ -64,7 +64,7 @@ const ProductCard = ({
         </div>
 
         {/* Quantity Selector and Add to Cart */}
-        <div className="flex items-center gap-4 mt-4">
+        <div className="flex items-center gap-4 mt-4 flex-wrap">
           <div className="flex items-center border rounded">
             <button
               onClick={decrementQuantity}
@@ -86,7 +86,7 @@ const ProductCard = ({
         </div>
 
         {/* Product Details */}
-        <div className="mt-4 text-sm flex justify-between text-gray-600">
+        <div className="mt-4 text-sm flex flex-col lg:flex-row lg:justify-between flex-wrap text-gray-600">
           {origin &&
             <p dangerouslySetInnerHTML={{__html: origin}} />
           }
