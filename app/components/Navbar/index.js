@@ -5,6 +5,7 @@ import { useCart } from "@/app/context/cartProvider";
 import Link from "next/link";
 import { fetchCategories, getCategories } from "@/app/utils/products";
 import { Home, ShoppingCart, Phone, Search, Menu  } from "lucide-react"
+import InfiniteSlider from "../TopSlider";
 
 const Navbar = () => {
   const [activeDropdown, setActiveDropdown] = useState(null);
@@ -46,77 +47,11 @@ const Navbar = () => {
     loadCategories();
   }, []);
 
-  const navItems = [
-    { title: "Home", href: "/" },
-    {
-      title: "Heets",
-      href: "/heets",
-      children: [
-        { title: "IQOS ILUMA One", href: "/iqos-iluma-one" },
-        { title: "IQOS ILUMA Standard", href: "/iqos-iluma-standard" },
-        { title: "IQOS ILUMA PRIME", href: "/iqos-iluma-prime" },
-      ],
-    },
-    {
-      title: "Heets Terea Sticks",
-      href: "/heets-terea-sticks",
-      children: [
-        { title: "IQOS ILUMA One", href: "/iqos-iluma-one" },
-        { title: "IQOS ILUMA Standard", href: "/iqos-iluma-standard" },
-        { title: "IQOS ILUMA PRIME", href: "/iqos-iluma-prime" },
-      ],
-    },
-    {
-      title: "IQOS",
-      href: "/iqos",
-      children: [
-        { title: "IQOS ILUMA One", href: "/iqos-iluma-one" },
-        { title: "IQOS ILUMA Standard", href: "/iqos-iluma-standard" },
-        { title: "IQOS ILUMA PRIME", href: "/iqos-iluma-prime" },
-      ],
-    },
-    {
-      title: "IQOS ILUMA i",
-      href: "/iqos-iluma-i",
-      children: [
-        { title: "IQOS ILUMA One", href: "/iqos-iluma-one" },
-        { title: "IQOS ILUMA Standard", href: "/iqos-iluma-standard" },
-        { title: "IQOS ILUMA PRIME", href: "/iqos-iluma-prime" },
-      ],
-    },
-    {
-      title: "IQOS ILUMA",
-      href: "/iqos-iluma",
-      children: [
-        { title: "IQOS ILUMA One", href: "/iqos-iluma-one" },
-        { title: "IQOS ILUMA Standard", href: "/iqos-iluma-standard" },
-        { title: "IQOS ILUMA PRIME", href: "/iqos-iluma-prime" },
-      ],
-    },
-    {
-      title: "IQOS Originals",
-      href: "/iqos-originals",
-      children: [
-        { title: "IQOS ILUMA One", href: "/iqos-iluma-one" },
-        { title: "IQOS ILUMA Standard", href: "/iqos-iluma-standard" },
-        { title: "IQOS ILUMA PRIME", href: "/iqos-iluma-prime" },
-      ],
-    },
-    {
-      title: "LAMBDA Device",
-      href: "/lambda-device",
-      children: [
-        { title: "IQOS ILUMA One", href: "/iqos-iluma-one" },
-        { title: "IQOS ILUMA Standard", href: "/iqos-iluma-standard" },
-        { title: "IQOS ILUMA PRIME", href: "/iqos-iluma-prime" },
-      ],
-    },
-    { title: "Blogs", href: "/blogs" },
-    { title: "FAQ", href: "/faq" },
-  ];
+
 
   return (
     <>
+    <InfiniteSlider/>
       <div className="px-5 py-5 md:px-5 md:py-0">
         {/* Desktop view start */}
         <div className="hidden md:flex flex-wrap sm:hidden py-1 justify-between items-center">

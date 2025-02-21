@@ -49,7 +49,7 @@ const CategoryProducts = ({ productData }) => {
               key={index}
               title={item.name}
               image={item?.images?.src || ""}
-              productUrl={item.slug}
+              productUrl={`products/${item.slug}`}
               rating={item.average_rating}
               reviews={item.rating_count}
               price={item.price}
