@@ -1,10 +1,10 @@
 "use client";
 import React, { useState } from "react";
-import HeroSection from "../components/Header";
-import ProductCard from "../components/Products/product-card";
-import { useCart } from "../context/cartProvider";
+import HeroSection from "@/app/components/Header";
+import ProductCard from "@/app/components/Products/product-card";
+import { useCart } from "@/app/context/cartProvider";
 
-const Categories = ({ productData }) => {
+const CategoryProducts = ({ productData }) => {
   const { setIsCartOpen } = useCart();
   const [quantity, setQuantity] = useState({});
   const updateQuantity = (id, change) => {
@@ -13,9 +13,9 @@ const Categories = ({ productData }) => {
       [id]: Math.max((prev[id] || 1) + change, 1),
     }));
   };
-  console.log(productData, "productData");
+  // console.log(productData, "productData");
   const addToCart = (id, name, price, image) => {
-    console.log("Add to Cart clicked");
+    // console.log("Add to Cart clicked");
     const cartObj = {
       id,
       quantity: quantity[id] || 1,
@@ -48,7 +48,7 @@ const Categories = ({ productData }) => {
             <ProductCard
               key={index}
               title={item.name}
-              image={item.images[0]?.src || ""}
+              image={item?.images?.src || ""}
               productUrl={item.slug}
               rating={item.average_rating}
               reviews={item.rating_count}
@@ -73,4 +73,4 @@ const Categories = ({ productData }) => {
   );
 };
 
-export default Categories;
+export default CategoryProducts;

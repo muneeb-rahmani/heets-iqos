@@ -13,7 +13,7 @@ const consumerSecret = isServer()
 
 
 export async function GET() {
-    const url = `${base_url}/products/categories?consumer_key=${consumerKey}&consumer_secret=${consumerSecret}&per_page=100`;
+    const url = `${base_url}/wp-json/wc/v3/products/categories?consumer_key=${consumerKey}&consumer_secret=${consumerSecret}&per_page=100`;
     
     try {
       const response = await fetch(url);

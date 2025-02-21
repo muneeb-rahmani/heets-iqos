@@ -88,7 +88,7 @@ export default function CheckoutForm() {
 
   const radioHandleChange = (val) => {
     setDeliveryOption(val);
-    console.log("Selected delivery option:", val);
+    // console.log("Selected delivery option:", val);
   };
 
   async function handleForm(e) {
@@ -98,7 +98,7 @@ export default function CheckoutForm() {
       const form = new FormData(e.target);
       const formatted = Object.fromEntries(form);
       // const total = total();
-      console.log(formatted, 'check formatted');
+      // console.log(formatted, 'check formatted');
 
       const localCart = JSON.parse(localStorage.getItem("cart"));
       const lineItems = localCart.map((item) => ({

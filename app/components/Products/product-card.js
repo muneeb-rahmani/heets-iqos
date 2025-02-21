@@ -36,7 +36,7 @@ const ProductCard = ({
         </div>
 
         {/* Product Image */}
-        <Link href={{ pathname: `/product/${productUrl}`, query: id ? { product: id } : undefined }} onClick={onNavigate}>
+        <Link href={productUrl} onClick={onNavigate}>
           <div className="relative aspect-square mb-4">
             <Image
               src={image || "/placeholder.svg"}

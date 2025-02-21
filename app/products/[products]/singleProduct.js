@@ -638,7 +638,7 @@ const SingleProduct = ({ serverData, reviews, relatedProducts }) => {
                 key={product.id}
                 title={product.name}
                 image={product.images[0]?.src || ""}
-                productUrl={product.slug}
+                productUrl={`${product.slug}`}
                 price={product.price}
                 id={product.id}
                 rating={product.average_rating}
