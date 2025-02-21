@@ -21,7 +21,6 @@ const Navbar = () => {
   useEffect(() => {
     if (isCartOpen) {
       let cartData = localStorage.getItem("cart");
-      console.log(cartData, "before if");
       localCart = JSON.parse(cartData);
       setCartItems(localCart || []);
     }
@@ -41,7 +40,6 @@ const Navbar = () => {
   useEffect(() => {
     async function loadCategories() {
       const data = await fetchCategories();
-      console.log(data, 'check kar categorry')
       setCategories(data);
 
     }
@@ -282,7 +280,7 @@ const Navbar = () => {
                         {item.children.map((child) => (
                           <Link
                             key={child.name}
-                            href={`${item.slug}/${child.slug}?id=${child.id}`}
+                            href={`${item.slug}/${child.slug}`}
                             className="block px-4 py-2 hover:bg-gray-100"
                           >
                             {child.name}

@@ -22,7 +22,7 @@ const logRequestOrigin = (functionName) => {
 
 export async function getProducts() {
   try {
-    const url = `${base_url}/products?consumer_key=${consumerKey}&consumer_secret=${consumerSecret}`;
+    const url = `${base_url}/wp-json/wc/v3/products?consumer_key=${consumerKey}&consumer_secret=${consumerSecret}`;
     // console.log(url, 'check url from getproducts')
     const req = await axios.get(url);
     // console.log(req, "req from getProducts");
@@ -33,9 +33,35 @@ export async function getProducts() {
   }
 }
 
+export async function getProductBySlug(slug) {
+  try {
+    const url = `${base_url}/wp-json/custom-api/v1/product-details/${slug}`;
+    // console.log(url, 'check url from getproducts')
+    const req = await axios.get(url);
+    // console.log(req, "req from getProducts");
+    return req.data;
+  } catch (error) {
+    console.log(error, "error from getProductBySlug");
+    return null;
+  }
+}
+
+export async function getCategoryBySlug(slug) {
+  try {
+    const url = `${base_url}/wp-json/custom-api/v1/products-by-category/${slug}`;
+    // console.log(url, 'check url from getproducts')
+    const req = await axios.get(url);
+    // console.log(req, "req from getProducts");
+    return req.data;
+  } catch (error) {
+    console.log(error, "error from getCategoryBySlug");
+    return null;
+  }
+}
+
 export async function getCategories() {
   try {
-    const url = `${base_url}/products/categories?consumer_key=${consumerKey}&consumer_secret=${consumerSecret}&per_page=100`;
+    const url = `${base_url}/wp-json/wc/v3/products/categories?consumer_key=${consumerKey}&consumer_secret=${consumerSecret}&per_page=100`;
     const req = await axios.get(url);
     // console.log(req,'check req')
     return req.data;
@@ -46,7 +72,7 @@ export async function getCategories() {
 }
 export async function getProductsByCategory(id) {
   try {
-    const url = `${base_url}/products?category=${id}&consumer_key=${consumerKey}&consumer_secret=${consumerSecret}`;
+    const url = `${base_url}/wp-json/wc/v3/products?category=${id}&consumer_key=${consumerKey}&consumer_secret=${consumerSecret}`;
     const req = await axios.get(url);
     return req.data;
   } catch (error) {
@@ -57,7 +83,7 @@ export async function getProductsByCategory(id) {
 
 export async function getSingleProduct(id) {
   try {
-    const url = `${base_url}/products/${id}?consumer_key=${consumerKey}&consumer_secret=${consumerSecret}`;
+    const url = `${base_url}/wp-json/wc/v3/products/${id}?consumer_key=${consumerKey}&consumer_secret=${consumerSecret}`;
     // console.log(url, 'check url from getSingleProduct')
     const req = await axios.get(url);
     return req.data;
@@ -69,7 +95,7 @@ export async function getSingleProduct(id) {
 
 export async function getReviewByProduct(id) {
   try {
-    const url = `${base_url}/products/reviews?product=${id}&consumer_key=${consumerKey}&consumer_secret=${consumerSecret}`;
+    const url = `${base_url}/wp-json/wc/v3/products/reviews?product=${id}&consumer_key=${consumerKey}&consumer_secret=${consumerSecret}`;
     // console.log(url, 'check url from reviews')
     const req = await axios.get(url);
     return req.data;
@@ -83,7 +109,7 @@ export async function createOrder(data) {
   logRequestOrigin("createOrder");
   try {
     // Fix: Change & to ? in URL parameters
-    const url = `${base_url}/orders?consumer_key=${consumerKey}&consumer_secret=${consumerSecret}`;
+    const url = `${base_url}/wp-json/wc/v3/orders?consumer_key=${consumerKey}&consumer_secret=${consumerSecret}`;
     
     const config = {
       headers: {
@@ -110,7 +136,7 @@ export async function sendDetails(id) {
   
   try {
     // Fix: Change & to ? in URL parameters
-    const sendOrderDetails = `${base_url}/orders/${id}/actions/send_order_details?consumer_key=${consumerKey}&consumer_secret=${consumerSecret}`;
+    const sendOrderDetails = `${base_url}/wp-json/wc/v3/orders/${id}/actions/send_order_details?consumer_key=${consumerKey}&consumer_secret=${consumerSecret}`;
     
     const config = {
       headers: {
