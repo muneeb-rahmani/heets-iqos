@@ -21,18 +21,30 @@ const ProductCard = ({
   onAddCart,
   onNavigate,
   productUrl,
-  id
+  id,
+  soldItems
 }) => {
 
   return (
     <>
       <div className="bg-white rounded-lg shadow-md p-4 flex justify-between flex-col">
-        {/* Delivery Badge */}
-        <div className="mb-2 w-fit bg-[#e2e4e8] px-2 py-1 rounded flex gap-2 items-center">
-          <Image src="/imgs/free-delivery-logo.webp" alt="Home" width={16} height={16} />
-          <span className="text-gray-600 text-xs ">
-            Delivery 2hrs
-          </span>
+        <div className='flex justify-between items-center w-full mb-2'>
+          {/* Delivery Badge */}
+          <div className="w-fit bg-[#e2e4e8] px-2 py-1 rounded flex gap-2 items-center">
+            <Image src="/imgs/free-delivery-logo.webp" alt="Home" width={16} height={16} />
+            <span className="text-gray-600 text-xs ">
+              Delivery 2hrs
+            </span>
+          </div>
+
+          {/* sold items Badge */}
+          <div className="w-fit bg-[#e2e4e8] px-2 py-1 rounded flex gap-2 items-center">
+            <Image src="/imgs/free-delivery-logo.webp" alt="Home" width={16} height={16} />
+            <span className="text-gray-600 font-bold text-xs ">
+              {soldItems}+ sold
+            </span>
+          </div>
+
         </div>
 
         {/* Product Image */}
@@ -48,7 +60,9 @@ const ProductCard = ({
         </Link>
 
         {/* Product Info */}
-        <h3 className="text-lg text-center font-semibold mb-2">{title}</h3>
+        <Link href={productUrl} onClick={onNavigate}>
+          <h3 className="text-lg text-center font-semibold mb-2">{title}</h3>
+        </Link>
 
         {/* Price */}
         <div className="flex items-center justify-center gap-2 mb-2">

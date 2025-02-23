@@ -22,13 +22,39 @@ const logRequestOrigin = (functionName) => {
 
 export async function getProducts() {
   try {
-    const url = `${base_url}/wp-json/wc/v3/products?consumer_key=${consumerKey}&consumer_secret=${consumerSecret}`;
+    const url = `${base_url}/wp-json/wc/v3/products?consumer_key=${consumerKey}&consumer_secret=${consumerSecret}&per_page=100`;
     // console.log(url, 'check url from getproducts')
     const req = await axios.get(url);
-    // console.log(req, "req from getProducts");
+    console.log(req.data, "req from getProducts");
     return req.data;
   } catch (error) {
     console.log(error, "error from getProducts");
+    return null;
+  }
+}
+
+export async function getTotalSales() {
+  try {
+    const data = await getProducts()
+    const totalSales = data
+                        ?.filter(product => product.total_sales !== undefined) // Filter out products without total_sales
+                        .reduce((acc, product) => acc + (product.total_sales || 0), 0);
+    console.log(totalSales, 'check url from getTotalSales')
+    return totalSales;
+  } catch (error) {
+    console.log(error, "error from getTotalSales");
+    return null;
+  }
+}
+
+export async function getReviews() {
+  try {
+    const url = `${base_url}/wp-json/wc/v3/orders?consumer_key=${consumerKey}&consumer_secret=${consumerSecret}&per_page=100`;
+    // console.log(url, 'check url from getReviews')
+    const req = await axios.get(url);
+    return req.data.length;
+  } catch (error) {
+    console.log(error, "error from getReviews");
     return null;
   }
 }
@@ -95,7 +121,7 @@ export async function getSingleProduct(id) {
 
 export async function getReviewByProduct(id) {
   try {
-    const url = `${base_url}/wp-json/wc/v3/products/reviews?product=${id}&consumer_key=${consumerKey}&consumer_secret=${consumerSecret}`;
+    const url = `${base_url}/wp-json/wc/v3/products/reviews?product=${id}&consumer_key=${consumerKey}&consumer_secret=${consumerSecret}&per_page=100`;
     // console.log(url, 'check url from reviews')
     const req = await axios.get(url);
     return req.data;

@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import HeroSection from "../components/Header";
 import ProductCard from "../components/Products/product-card";
 import { useCart } from "../context/cartProvider";
+import { unserialize } from "php-serialize";
 
 const Categories = ({ productData }) => {
   console.log(productData, "productData");
@@ -45,12 +46,18 @@ const Categories = ({ productData }) => {
       <HeroSection header={productData[0]?.categories[0]?.name} />
       <section className="container mx-auto px-4">
         <div className="grid grid-cols-2 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {productData.map((item, index) => (
+          {productData.map((item, index) => {
+            const {_harikrutfiwu_url} = item?.meta_data || {};
+            const image = Array.isArray(_harikrutfiwu_url) && _harikrutfiwu_url.length > 0 
+                            ? unserialize(_harikrutfiwu_url[0]) 
+                            : null;
+            // console.log(image, 'check image')
+            return (
             <ProductCard
               key={index}
               title={item.name}
-              image={item?.images?.src || ""}
-              productUrl={`products/${item.slug}`}
+              image={image?.img_url || ""}
+              productUrl={`/products/${item.slug}`}
               rating={item.average_rating}
               reviews={item.rating_count}
               price={item.price}
@@ -58,13 +65,15 @@ const Categories = ({ productData }) => {
               details={item.stock_status === "instock" ? "In Stock" : false}
               quantity={quantity[item.id] || 1}
               reviewCount={item.rating_count}
+              origin={item?.meta_data?.proorigincard[0]}
+              soldItems={item?.total_sales}
               onAddCart={() =>
-                addToCart(item.id, item.name, item.price, item.images[0]?.src)
+                addToCart(item.id, item.name, item.price, image?.img_url)
               }
               incrementQuantity={() => updateQuantity(item.id, 1)}
               decrementQuantity={() => updateQuantity(item.id, -1)}
             />
-          ))}
+          )})}
         </div>
         <div className="mt-8">
           <p dangerouslySetInnerHTML={{ __html: productData[0]?.description }}></p>
