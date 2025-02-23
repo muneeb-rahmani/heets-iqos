@@ -20,7 +20,7 @@ const breadcrumbItems = [
 
 
 
-const SingleProduct = ({ serverData, reviews, relatedProducts }) => {
+const SingleProduct = ({ serverData, reviews, relatedProducts, imagesData }) => {
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState("description");
   const [selectedImage, setSelectedImage] = useState(0);
@@ -28,7 +28,7 @@ const SingleProduct = ({ serverData, reviews, relatedProducts }) => {
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);
   };
-    console.log(serverData, 'check serverData')
+    // console.log(imagesData, 'check imagesData')
 
   const router = useRouter();
 
@@ -110,7 +110,7 @@ const SingleProduct = ({ serverData, reviews, relatedProducts }) => {
           <div className="flex gap-4">
             {/* Thumbnails */}
             <div className="flex flex-col gap-2">
-              {serverData?.images.map((image, index) => (
+              {imagesData?.map((image, index) => (
                 <button
                   key={index}
                   onClick={() => setSelectedImage(index)}
@@ -121,7 +121,7 @@ const SingleProduct = ({ serverData, reviews, relatedProducts }) => {
                   }`}
                 >
                   <Image
-                    src={image.src || "/placeholder.svg"}
+                    src={image.url || "/placeholder.svg"}
                     alt={`Product thumbnail ${index + 1}`}
                     width={80}
                     height={80}
@@ -136,7 +136,7 @@ const SingleProduct = ({ serverData, reviews, relatedProducts }) => {
               <div className="relative aspect-square rounded-lg shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
                 <Image
                   src={
-                    serverData?.images[selectedImage].src || "/placeholder.svg"
+                    imagesData[selectedImage].url || "/placeholder.svg"
                   }
                   alt="Product main image"
                   fill
@@ -638,7 +638,7 @@ const SingleProduct = ({ serverData, reviews, relatedProducts }) => {
                 key={product.id}
                 title={product.name}
                 image={product.images[0]?.src || ""}
-                productUrl={`${product.slug}`}
+                productUrl={`/${product.slug}`}
                 price={product.price}
                 id={product.id}
                 rating={product.average_rating}

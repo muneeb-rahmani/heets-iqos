@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 
-export default function InfiniteSlider() {
+export default function InfiniteSlider({ reviewLength, totalSales }) {
   const announcements = [
     {
       icon: '/imgs/one_hour_instant_delivery_brand.webp',
@@ -17,12 +17,12 @@ export default function InfiniteSlider() {
     {
       icon: '/imgs/user_experience_brand.webp',
       text: "96% Positive experience",
-      highlight: "from over 2116 reviews",
+      highlight: `from over ${reviewLength} reviews`,
     },
     {
       icon: '/imgs/shipped_orders_brand.webp',
       text: "Celebrating 8 years",
-      highlight: "466",
+      highlight: `${totalSales} Orders Shipped`,
     },
   ]
 

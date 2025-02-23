@@ -3,13 +3,15 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { useCart } from "@/app/context/cartProvider";
 import Link from "next/link";
-import { fetchCategories, getCategories } from "@/app/utils/products";
+import { fetchCategories, getCategories, getReviews, getTotalSales } from "@/app/utils/products";
 import { Home, ShoppingCart, Phone, Search, Menu  } from "lucide-react"
 import InfiniteSlider from "../TopSlider";
 
 const Navbar = () => {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [categories, setCategories] = useState([]);
+  const [reviewLength, setReviewLength] = useState("");
+  const [totalSales, setTotalSales] = useState("");
   const { isCartOpen, setIsCartOpen } = useCart();
   const [cartItems, setCartItems] = useState([]);
   let localCart = [];
@@ -41,8 +43,12 @@ const Navbar = () => {
   useEffect(() => {
     async function loadCategories() {
       const data = await fetchCategories();
-      setCategories(data);
+      const reviewLength = await getReviews()
+      const totalSale = await getTotalSales()
 
+      setCategories(data);
+      setReviewLength(reviewLength)
+      setTotalSales(totalSale)
     }
     loadCategories();
   }, []);
@@ -51,7 +57,7 @@ const Navbar = () => {
 
   return (
     <>
-    <InfiniteSlider/>
+    <InfiniteSlider reviewLength={reviewLength} totalSales={totalSales}/>
       <div className="px-5 py-5 md:px-5 md:py-0">
         {/* Desktop view start */}
         <div className="hidden md:flex flex-wrap sm:hidden py-1 justify-between items-center">
@@ -201,7 +207,7 @@ const Navbar = () => {
               >
                 {item.slug != 'shop' &&
                   <Link
-                    href={item.slug}
+                    href={`/${item.slug}`}
                     className="flex items-center px-2 py-4 transition-colors"
                   >
                     {item?.slug?.split('-').join(' ').toUpperCase()}
@@ -215,7 +221,7 @@ const Navbar = () => {
                         {item.children.map((child) => (
                           <Link
                             key={child.name}
-                            href={`${item.slug}/${child.slug}`}
+                            href={`/${item.slug}/${child.slug}`}
                             className="block px-4 py-2 hover:bg-gray-100"
                           >
                             {child.name}

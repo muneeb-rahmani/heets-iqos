@@ -4,8 +4,7 @@ import Categories from '../categories';
 
 const Page = async ({searchParams, params}) => {
   const id = await searchParams; 
-  const categoryId = await params.categoryProduct; 
-console.log(params, 'check categoryId')
+  const categoryId = await params?.categoryProduct; 
   // const data = await getProductsByCategory(categoryId);
   const data = await getCategoryBySlug(categoryId);
 

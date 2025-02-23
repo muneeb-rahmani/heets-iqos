@@ -70,7 +70,7 @@ const HomePage = ({ productData }) => {
                     key={product.id}
                     title={product.name}
                     image={product.images[0]?.src || ""}
-                    productUrl={`products/${product.slug}`}
+                    productUrl={`/products/${product.slug}`}
                     price={product.price}
                     rating={product.average_rating}
                     reviews={product.rating_count}
@@ -79,6 +79,7 @@ const HomePage = ({ productData }) => {
                     id={product.id}
                     quantity={quantity[product.id] || 1}
                     reviewCount={product.rating_count}
+                    soldItems={product?.total_sales}
                     onAddCart={() =>
                       addToCart(
                         product.id,
