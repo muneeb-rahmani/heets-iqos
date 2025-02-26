@@ -5,8 +5,8 @@ import axios from 'axios';
 
 
 const Page = async () => {
-  const productData = await getProducts();
-  // if(data)console.log(data, 'check product data')
+  // const productData = await getProducts();
+  // console.log(productData, 'check muneeb')
   const categoryIds = await getCategories();
   
   const fetchCategoryAndProducts = async () => {

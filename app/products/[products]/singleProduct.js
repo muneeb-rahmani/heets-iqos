@@ -153,7 +153,9 @@ const SingleProduct = ({ serverData, reviews, relatedProducts, imagesData }) => 
             </h1>
 
             <div className="space-y-2">
-              <StarRating rating={serverData?.average_rating || 0} reviews={serverData?.rating_count || 0} />
+              <div className="flex items-start">
+                <StarRating rating={serverData?.meta_data?._wc_average_rating[0] || 0} reviews={serverData?.meta_data?._wc_review_count[0] || 0} />
+              </div>
               <div className="flex items-center gap-2 border-2 p-2 rounded-md text-sm">
                 <Image
                   src="/imgs/good-choice-products.webp"
@@ -646,6 +648,7 @@ const SingleProduct = ({ serverData, reviews, relatedProducts, imagesData }) => 
                 details={product.stock_status === "instock" ? "In Stock" : false}
                 quantity={quantity[product.id] || 1}
                 reviewCount={product.rating_count}
+                soldItems={product?.total_sales}
                 onAddCart={() =>
                 addToCart(
                     product.id,

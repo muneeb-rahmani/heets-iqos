@@ -20,32 +20,32 @@ const logRequestOrigin = (functionName) => {
   );
 };
 
-export async function getProducts() {
-  try {
-    const url = `${base_url}/wp-json/wc/v3/products?consumer_key=${consumerKey}&consumer_secret=${consumerSecret}&per_page=100`;
-    // console.log(url, 'check url from getproducts')
-    const req = await axios.get(url);
-    console.log(req.data, "req from getProducts");
-    return req.data;
-  } catch (error) {
-    console.log(error, "error from getProducts");
-    return null;
-  }
-}
+// export async function getProducts() {
+//   try {
+//     const url = `${base_url}/wp-json/wc/v3/products?consumer_key=${consumerKey}&consumer_secret=${consumerSecret}&per_page=100`;
+//     // console.log(url, 'check url from getproducts')
+//     const req = await axios.get(url);
+//     console.log(req.data, "req from getProducts");
+//     return req.data;
+//   } catch (error) {
+//     console.log(error, "error from getProducts");
+//     return null;
+//   }
+// }
 
-export async function getTotalSales() {
-  try {
-    const data = await getProducts()
-    const totalSales = data
-                        ?.filter(product => product.total_sales !== undefined) // Filter out products without total_sales
-                        .reduce((acc, product) => acc + (product.total_sales || 0), 0);
-    console.log(totalSales, 'check url from getTotalSales')
-    return totalSales;
-  } catch (error) {
-    console.log(error, "error from getTotalSales");
-    return null;
-  }
-}
+// export async function getTotalSales() {
+//   try {
+//     const data = await getProducts()
+//     const totalSales = data
+//                         ?.filter(product => product.total_sales !== undefined) // Filter out products without total_sales
+//                         .reduce((acc, product) => acc + (product.total_sales || 0), 0);
+//     // console.log(totalSales, 'check url from getTotalSales')
+//     return totalSales;
+//   } catch (error) {
+//     console.log(error, "error from getTotalSales");
+//     return null;
+//   }
+// }
 
 export async function getReviews() {
   try {
@@ -81,6 +81,19 @@ export async function getCategoryBySlug(slug) {
     return req.data;
   } catch (error) {
     console.log(error, "error from getCategoryBySlug");
+    return null;
+  }
+}
+
+export async function getCategoryMetadata(slug) {
+  try {
+    const url = `${base_url}/wp-json/custom-api/v1/category-all-details/${slug}`;
+    // console.log(url, 'check url from getproducts')
+    const req = await axios.get(url);
+    // console.log(req, "req from getProducts");
+    return [req.data];
+  } catch (error) {
+    console.log(error, "error from getCategoryMetadata");
     return null;
   }
 }

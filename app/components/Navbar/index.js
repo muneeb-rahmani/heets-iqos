@@ -1,9 +1,9 @@
 "use client";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useCart } from "@/app/context/cartProvider";
 import Link from "next/link";
-import { fetchCategories, getCategories, getReviews, getTotalSales } from "@/app/utils/products";
+import { fetchCategories, getCategories, getProducts, getReviews, getTotalSales } from "@/app/utils/products";
 import { Home, ShoppingCart, Phone, Search, Menu  } from "lucide-react"
 import InfiniteSlider from "../TopSlider";
 
@@ -14,6 +14,12 @@ const Navbar = () => {
   const [totalSales, setTotalSales] = useState("");
   const { isCartOpen, setIsCartOpen } = useCart();
   const [cartItems, setCartItems] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [products, setProducts] = useState([]);
+  const dropdownRef = useRef(null);
+
   let localCart = [];
 
   const subtotal = cartItems?.reduce(
@@ -36,7 +42,49 @@ const Navbar = () => {
       const parsedCart = JSON.parse(cartData);
       setCartItems(parsedCart || []);
     }
+
+   
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowDropdown(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+
+    
   }, []);
+
+  useEffect(() => {
+    async function fetchProducts() {
+      try {
+        const response = await fetch('/api/products'); // Replace with your API endpoint
+        const data = await response.json();
+        // console.log(data, "data from api request");
+        setProducts(data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    }
+
+    fetchProducts();
+  }, []);
+
+  useEffect(() => {
+    if (searchTerm.length > 0) {
+      const results = products.filter((product) =>
+        product.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setFilteredProducts(results);
+      setShowDropdown(true);
+    } else {
+      setFilteredProducts([]);
+      setShowDropdown(false);
+    }
+
+  }, [searchTerm, products]);
 
 
 
@@ -44,11 +92,11 @@ const Navbar = () => {
     async function loadCategories() {
       const data = await fetchCategories();
       const reviewLength = await getReviews()
-      const totalSale = await getTotalSales()
+      // const totalSale = await getTotalSales()
 
       setCategories(data);
       setReviewLength(reviewLength)
-      setTotalSales(totalSale)
+      // setTotalSales(totalSale)
     }
     loadCategories();
   }, []);
@@ -57,7 +105,7 @@ const Navbar = () => {
 
   return (
     <>
-    <InfiniteSlider reviewLength={reviewLength} totalSales={totalSales}/>
+    <InfiniteSlider reviewLength={reviewLength}/>
       <div className="px-5 py-5 md:px-5 md:py-0">
         {/* Desktop view start */}
         <div className="hidden md:flex flex-wrap sm:hidden py-1 justify-between items-center">
@@ -76,7 +124,7 @@ const Navbar = () => {
               />
             </Link>
           </div>
-          <div className="relative w-[36%] mx-auto">
+          <div className="relative w-[36%] mx-auto" ref={dropdownRef}>
             <form
               className="flex justify-between w-full border-2 border-black rounded-md overflow-hidden items-center"
               autoComplete="off"
@@ -87,19 +135,39 @@ const Navbar = () => {
                 autoComplete="off"
                 name="search"
                 className="w-full p-2"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
               />
               <button type="button" className="product_search_desktop w-[30px]">
                 <span className="flex items-center">
                   <Image
                     src="/imgs/product_search_icon.webp"
-                    alt="Cart"
+                    alt="Search"
                     width={20}
                     height={20}
                   />
                 </span>
               </button>
             </form>
-            <div className="absolute w-full bg-white z-10 rounded-b-[6px] desktop-product-searched"></div>
+
+            {/* Search Results Dropdown */}
+            {showDropdown && (
+              <div className="searchBar absolute w-full bg-white z-10 rounded-b-[6px] shadow-lg border mt-1 max-h-[250px] overflow-y-auto">
+                {filteredProducts.length > 0 ? (
+                  filteredProducts.map((product) => (
+                    <Link
+                      key={product.id}
+                      href={`/products/${product.slug}`}
+                      className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                    >
+                      {product.name}
+                    </Link>
+                  ))
+                ) : (
+                  <p className="px-4 py-2 text-gray-500">No products found</p>
+                )}
+              </div>
+            )}
           </div>
           <div className="flex justify-end items-center w-[16%]">
             <p>
@@ -273,7 +341,7 @@ const Navbar = () => {
             <span className="text-xs mt-1 text-primary">Call</span>
           </Link>
           <Link href="https://wa.me/1234567890" className="flex flex-col items-center">
-            <Image src='/imgs/whatsapp-icon.svg' width={3} height={3} className="h-6 w-6 text-primary" />
+            <Image src='/imgs/whatsapp-icon.svg' alt="whatsapp icon" width={3} height={3} className="h-6 w-6 text-primary" />
             <span className="text-xs mt-1 text-primary">Whatsapp</span>
           </Link>
         </div>
