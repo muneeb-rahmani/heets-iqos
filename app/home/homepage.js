@@ -5,7 +5,7 @@ import ProductCard from "../components/Products/product-card";
 import { useCart } from "../context/cartProvider";
 
 const HomePage = ({ productData }) => {
-  console.log(productData, 'check product data')
+  // console.log(productData, 'check product data')
   const { setIsCartOpen } = useCart();
   const [quantity, setQuantity] = useState({});
   const updateQuantity = (id, change) => {

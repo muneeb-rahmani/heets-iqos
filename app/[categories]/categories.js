@@ -5,8 +5,8 @@ import ProductCard from "../components/Products/product-card";
 import { useCart } from "../context/cartProvider";
 import { unserialize } from "php-serialize";
 
-const Categories = ({ productData }) => {
-  console.log(productData, "productData");
+const Categories = ({ productData, categoryData }) => {
+  // console.log(productData, "productData");
   const { setIsCartOpen } = useCart();
   const [quantity, setQuantity] = useState({});
   const updateQuantity = (id, change) => {
@@ -15,6 +15,7 @@ const Categories = ({ productData }) => {
       [id]: Math.max((prev[id] || 1) + change, 1),
     }));
   };
+  console.log(categoryData, "categoryData");
   // console.log(productData, "productData");
   const addToCart = (id, name, price, image) => {
     // console.log("Add to Cart clicked");
@@ -43,10 +44,13 @@ const Categories = ({ productData }) => {
 
   return (
     <div>
-      <HeroSection header={productData[0]?.categories[0]?.name} />
+       {/* <div dangerouslySetInnerHTML={{ __html: productData[0]?.description }} /> */}
+      {/* <HeroSection 
+        header={productData[0]?.meta_data?.rank_math_title[0].replace('%term%',productData[0].name)} 
+        featureImg={productData[0]?.meta_data?.Cat_Hero_Section_PNG[0]} /> */}
       <section className="container mx-auto px-4">
         <div className="grid grid-cols-2 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {productData.map((item, index) => {
+          {productData[0]?.children.map((item, index) => {
             const {_harikrutfiwu_url} = item?.meta_data || {};
             const image = Array.isArray(_harikrutfiwu_url) && _harikrutfiwu_url.length > 0 
                             ? unserialize(_harikrutfiwu_url[0]) 

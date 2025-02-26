@@ -3,7 +3,7 @@ import React from 'react'
 import { Button } from "@/components/ui/button"
 import Image from 'next/image'
 
-const HeroSection = ({header, isHome}) => {
+const HeroSection = ({header, isHome,featureImg}) => {
   
   return (
     <div className="relative w-full bg-gradient-to-b from-cyan-300 to-white overflow-hidden">
@@ -12,7 +12,7 @@ const HeroSection = ({header, isHome}) => {
           {/* Left Content */}
           <div className="space-y-6 text-center lg:text-left">
             <h1 className="text-2xl md:text-4xl lg:text-4xl font-bold leading-tight text-gray-900 max-w-xl">
-              {header ? `Buy ${header} in Dubai, UAE` : "IQOS Heets Dubai | #1 Trusted Heets IQOS UAE Online Store"}
+              {header ? header : "IQOS Heets Dubai | #1 Trusted Heets IQOS UAE Online Store"}
             </h1>
             {isHome && (
               <Button 
@@ -26,7 +26,7 @@ const HeroSection = ({header, isHome}) => {
           {/* Right Content */}
           <div className="relative flex justify-center lg:justify-end">
             <Image
-              src="/imgs/trusted-IQOS-Heets-Online-Seller-in-Dubai-UAE.webp"
+              src={featureImg || "/imgs/trusted-IQOS-Heets-Online-Seller-in-Dubai-UAE.webp"}
               alt="IQOS Heets Products"
               // fill={true}
               width={500}

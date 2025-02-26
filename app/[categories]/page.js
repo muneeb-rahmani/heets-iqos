@@ -1,16 +1,17 @@
 import React from 'react'
-import { getCategories, getCategoryBySlug, getProducts, getProductsByCategory } from '../utils/products';
+import { getCategories, getCategoryBySlug, getCategoryMetadata, getProducts, getProductsByCategory } from '../utils/products';
 import axios from 'axios';
 import Categories from './categories';
 
-const Page = async ({searchParams, params}) => {
-  const id = await searchParams; 
-  const categoryId = await params?.categories; 
+const Page = async ({params}) => {
+  const paramsUrl = await params; 
+  const categoryId = await paramsUrl?.categories; 
   // const data = await getProductsByCategory(categoryId);
   const data = await getCategoryBySlug(categoryId);
+  const categoryData = await getCategoryMetadata(categoryId);
 
   return (
-    <Categories productData={data ?? []} />
+    <Categories productData={categoryData} categoryData={categoryData} />
   )
 }
 
