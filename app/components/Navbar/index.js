@@ -3,7 +3,7 @@ import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import { useCart } from "@/app/context/cartProvider";
 import Link from "next/link";
-import { fetchCategories, getCategories, getProducts, getReviews, getTotalSales } from "@/app/utils/products";
+import { fetchCategories, getCategories, getProducts, getReviews, getSliderData, getTotalSales } from "@/app/utils/products";
 import { Home, ShoppingCart, Phone, Search, Menu  } from "lucide-react"
 import InfiniteSlider from "../TopSlider";
 
@@ -91,12 +91,11 @@ const Navbar = () => {
   useEffect(() => {
     async function loadCategories() {
       const data = await fetchCategories();
-      const reviewLength = await getReviews()
-      // const totalSale = await getTotalSales()
-
+      const sliderData = await getSliderData()
+      
       setCategories(data);
-      setReviewLength(reviewLength)
-      // setTotalSales(totalSale)
+      setReviewLength(sliderData[0]?.total_reviews)
+      setTotalSales(sliderData[0]?.total_orders)
     }
     loadCategories();
   }, []);
@@ -105,7 +104,7 @@ const Navbar = () => {
 
   return (
     <>
-    <InfiniteSlider reviewLength={reviewLength}/>
+    <InfiniteSlider reviewLength={reviewLength} totalSales={totalSales}/>
       <div className="px-5 py-5 md:px-5 md:py-0">
         {/* Desktop view start */}
         <div className="hidden md:flex flex-wrap sm:hidden py-1 justify-between items-center">

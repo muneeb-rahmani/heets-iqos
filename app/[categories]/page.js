@@ -11,7 +11,7 @@ const Page = async ({params}) => {
   const categoryData = await getCategoryMetadata(categoryId);
 
   return (
-    <Categories productData={categoryData} categoryData={categoryData} />
+    <Categories productData={data} categoryData={categoryData} />
   )
 }
 
