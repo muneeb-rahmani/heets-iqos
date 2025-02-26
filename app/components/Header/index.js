@@ -3,7 +3,7 @@ import React from 'react'
 import { Button } from "@/components/ui/button"
 import Image from 'next/image'
 
-const HeroSection = ({header, isHome,featureImg}) => {
+const HeroSection = ({header, isHome,featureImg,shortDesc}) => {
   
   return (
     <div className="relative w-full bg-gradient-to-b from-cyan-300 to-white overflow-hidden">
@@ -14,6 +14,7 @@ const HeroSection = ({header, isHome,featureImg}) => {
             <h1 className="text-2xl md:text-4xl lg:text-4xl font-bold leading-tight text-gray-900 max-w-xl">
               {header ? header : "IQOS Heets Dubai | #1 Trusted Heets IQOS UAE Online Store"}
             </h1>
+            {shortDesc && <p className="text-lg text-gray-700 max-w-lg mx-auto lg:mx-0">{shortDesc}</p>}
             {isHome && (
               <Button 
               className="bg-black text-white hover:bg-gray-800 rounded-full px-8 py-6 text-lg font-medium"

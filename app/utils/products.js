@@ -72,6 +72,17 @@ export async function getProductBySlug(slug) {
   }
 }
 
+export async function getSliderData() {
+  try {
+    const response = await fetch("/api/slider");
+    const categories = await response.json();
+    return [categories];
+  } catch (error) {
+    console.log(error, "error from getSliderData");
+    return null;
+  }
+}
+
 export async function getCategoryBySlug(slug) {
   try {
     const url = `${base_url}/wp-json/custom-api/v1/products-by-category/${slug}`;
