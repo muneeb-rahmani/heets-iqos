@@ -48,17 +48,17 @@ const CategoryProduct = ({ productData, categoryData }) => {
       {/* <HeroSection 
         header={productData[0]?.meta_data?.rank_math_title[0].replace('%term%',productData[0].name)} 
         featureImg={productData[0]?.meta_data?.Cat_Hero_Section_PNG[0]} /> */}
-        <HeroSection 
-          header={categoryData[0]?.meta_data?.cat_h1_tag[0]} 
-          featureImg={categoryData[0]?.meta_data?.Cat_Hero_Section_PNG[0]}
-          shortDesc={categoryData[0]?.meta_data?.cat_short_discription[0]}
+        <HeroSection
+          header={categoryData?.[0]?.meta_data?.cat_h1_tag?.[0] || ""}
+          featureImg={categoryData?.[0]?.meta_data?.Cat_Hero_Section_PNG?.[0] || ""}
+          shortDesc={categoryData?.[0]?.meta_data?.cat_short_discription?.[0] || ""}
         />
         <section className="container mx-auto px-4">
         <div className="grid grid-cols-2 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {productData.map((item, index) => {
             const {_harikrutfiwu_url} = item?.meta_data || {};
             const image = Array.isArray(_harikrutfiwu_url) && _harikrutfiwu_url.length > 0 
-                            ? unserialize(_harikrutfiwu_url[0]) 
+                            ? unserialize(_harikrutfiwu_url?.[0]) 
                             : null;
             // console.log(image, 'check image')
             return (
@@ -74,7 +74,7 @@ const CategoryProduct = ({ productData, categoryData }) => {
               details={item.stock_status === "instock" ? "In Stock" : false}
               quantity={quantity[item.id] || 1}
               reviewCount={item.rating_count}
-              origin={item?.meta_data?.proorigincard[0]}
+              origin={item?.meta_data?.proorigincard?.[0]}
               soldItems={item?.total_sales}
               onAddCart={() =>
                 addToCart(item.id, item.name, item.price, image?.img_url)
