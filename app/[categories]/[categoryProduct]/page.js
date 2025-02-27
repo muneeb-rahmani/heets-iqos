@@ -1,15 +1,17 @@
 import React from 'react'
-import { getCategoryBySlug } from '@/app/utils/products';
-import Categories from '../categories';
+import { getCategoryBySlug, getCategoryMetadata } from '@/app/utils/products';
+import CategoryProduct from './categoryProduct';
 
-const Page = async ({searchParams, params}) => {
-  const id = await searchParams; 
-  const categoryId = await params?.categoryProduct; 
+
+const Page = async ({params}) => {
+  const paramsUrl = await params; 
+  const categoryId = await paramsUrl?.categories; 
   // const data = await getProductsByCategory(categoryId);
   const data = await getCategoryBySlug(categoryId);
+  const categoryData = await getCategoryMetadata(categoryId);
 
   return (
-    <Categories productData={data ?? []} />
+    <CategoryProduct productData={data} categoryData={categoryData} />
   )
 }
 

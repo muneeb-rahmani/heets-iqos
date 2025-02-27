@@ -29,6 +29,7 @@ export default function CheckoutForm() {
   const [orderId, setOrderId] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [deliveryOption, setDeliveryOption] = useState("standard");
+  const [paymentMode, setPaymentMode] = useState("cod");
   useEffect(() => {
     const fetchLocalData = () => {
       try {
@@ -111,7 +112,7 @@ export default function CheckoutForm() {
       const data = {
         payment_method:
           formatted.paymentMode == "cod"
-            ? "Cash on Delivery"
+            ? "Cash on Delivery" : formatted.paymentMode == "bank" ? "bank trasnfer"
             : "Online Payment",
         payment_method_title: "",
         set_paid: true,
@@ -187,7 +188,7 @@ export default function CheckoutForm() {
           <div className="space-y-6">
             <form onSubmit={handleForm}>
               {/* Customer Information */}
-              <Card className="p-6">
+              <Card className="mb-4 p-6">
                 <h2 className="text-[#8B1F18] font-medium mb-4 text-center rounded-md border-l-4 border-red-800 bg-gray-100 p-2">
                   CUSTOMER INFORMATION
                 </h2>
@@ -199,6 +200,7 @@ export default function CheckoutForm() {
                       name="fullName"
                       placeholder="Eg. John Kai"
                       className="mt-1"
+                      required
                     />
                   </div>
                   <div>
@@ -208,6 +210,7 @@ export default function CheckoutForm() {
                       name="phone"
                       placeholder="Eg. +971 565656545"
                       className="mt-1"
+                      required
                     />
                   </div>
                   <div>
@@ -218,13 +221,14 @@ export default function CheckoutForm() {
                       name="email"
                       placeholder="Eg. john.kai@gmail.com"
                       className="mt-1"
+                      required
                     />
                   </div>
                 </div>
               </Card>
 
               {/* Ship To */}
-              <Card className="p-6">
+              <Card className="mb-4 p-6">
                 <h2 className="text-[#8B1F18] font-medium mb-4 bg-gray-100 p-2 text-center rounded-md border-l-4 border-red-800">
                   SHIP TO
                 </h2>
@@ -239,7 +243,7 @@ export default function CheckoutForm() {
                   </div>
                   <div>
                     <Label htmlFor="emirate">Emirate</Label>
-                    <Select name="country">
+                    <Select name="country" required>
                       <SelectTrigger className="mt-1">
                         <SelectValue placeholder="Select an Option" />
                       </SelectTrigger>
@@ -263,6 +267,7 @@ export default function CheckoutForm() {
                     <textarea
                       id="address"
                       name="address"
+                      required
                       placeholder="Please enter full address"
                       className="w-full mt-1 p-2 border rounded-md min-h-[100px]"
                     />
@@ -280,28 +285,42 @@ export default function CheckoutForm() {
               </Card>
 
               {/* Shipping Method */}
-              <Card className="p-6">
+              <Card className="mb-4 p-6">
                 <h2 className="text-[#8B1F18] font-medium mb-4 bg-gray-100 p-2 text-center rounded-md border-l-4 border-red-800">
                   SHIPPING METHOD
                 </h2>
-                <RadioGroup
-                  value={deliveryOption}
-                  onValueChange={radioHandleChange}
-                  className="space-y-2"
-                >
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="standard" id="standard" />
-                    <Label htmlFor="standard">
-                      {subTotalValue >= 200 ? "Free Delivery" : "Standard Delivery"}
-                    </Label>
-                    <span className="ml-auto">AED {subTotalValue >= 200 ? 0 : 49}</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="express" id="express" />
-                    <Label htmlFor="express">Express Delivery</Label>
-                    <span className="ml-auto">AED 49</span>
-                  </div>
-                </RadioGroup>
+                <RadioGroup value={deliveryOption} onValueChange={radioHandleChange} className="space-y-2">
+                {/* Standard Delivery */}
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="radio"
+                    value="standard"
+                    id="standard"
+                    checked={deliveryOption === "standard"}
+                    onChange={(e) => radioHandleChange(e.target.value)}
+                    className="w-4 h-4 border-gray-400 focus:ring-red-600 text-red-600"
+                  />
+                  <Label htmlFor="standard">
+                    {subTotalValue >= 200 ? "Free Delivery" : "Standard Delivery"}
+                  </Label>
+                  <span className="ml-auto">AED {subTotalValue >= 200 ? 0 : 49}</span>
+                </div>
+
+                {/* Express Delivery */}
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="radio"
+                    value="express"
+                    id="express"
+                    checked={deliveryOption === "express"}
+                    onChange={(e) => radioHandleChange(e.target.value)}
+                    className="w-4 h-4 border-gray-400 focus:ring-red-600 text-red-600"
+                  />
+                  <Label htmlFor="express">Express Delivery</Label>
+                  <span className="ml-auto">AED 49</span>
+                </div>
+              </RadioGroup>
+
               </Card>
 
               {/* Payment Options */}
@@ -309,25 +328,50 @@ export default function CheckoutForm() {
                 <h2 className="text-[#8B1F18] font-medium mb-4 bg-gray-100 p-2 text-center rounded-md border-l-4 border-red-800">
                   PAYMENT OPTIONS:
                 </h2>
-                <RadioGroup
-                  defaultValue="cod"
-                  required
-                  name="paymentMode"
-                  className="space-y-2"
-                >
+                <RadioGroup value={paymentMode} onValueChange={setPaymentMode} className="space-y-2">
+                  {/* Cash On Delivery */}
                   <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="cod" id="cod" />
+                    <input
+                      type="radio"
+                      id="cod"
+                      name="paymentMode"
+                      value="cod"
+                      checked={paymentMode === "cod"}
+                      onChange={(e) => setPaymentMode(e.target.value)}
+                      className="w-4 h-4 border-gray-400 focus:ring-red-600 text-red-600"
+                    />
                     <Label htmlFor="cod">Cash On Delivery (COD)</Label>
                   </div>
+
+                  {/* Credit Card On Delivery */}
                   <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="card" id="card" />
+                    <input
+                      type="radio"
+                      id="card"
+                      name="paymentMode"
+                      value="card"
+                      checked={paymentMode === "card"}
+                      onChange={(e) => setPaymentMode(e.target.value)}
+                      className="w-4 h-4 border-gray-400 focus:ring-red-600 text-red-600"
+                    />
                     <Label htmlFor="card">Credit Card Machine On Delivery</Label>
                   </div>
+
+                  {/* Bank Transfer */}
                   <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="bank" id="bank" />
+                    <input
+                      type="radio"
+                      id="bank"
+                      name="paymentMode"
+                      value="bank"
+                      checked={paymentMode === "bank"}
+                      onChange={(e) => setPaymentMode(e.target.value)}
+                      className="w-4 h-4 border-gray-400 focus:ring-red-600 text-red-600"
+                    />
                     <Label htmlFor="bank">Bank Transfer</Label>
                   </div>
                 </RadioGroup>
+
 
                 <div className="mt-4 flex items-start space-x-2">
                   <Checkbox

@@ -1,11 +1,12 @@
 "use client";
 import React, { useState } from "react";
-import HeroSection from "../components/Header";
-import ProductCard from "../components/Products/product-card";
-import { useCart } from "../context/cartProvider";
-import { unserialize } from "php-serialize";
 
-const Categories = ({ productData }) => {
+import { unserialize } from "php-serialize";
+import HeroSection from "@/app/components/Header";
+import ProductCard from "@/app/components/Products/product-card";
+import { useCart } from "@/app/context/cartProvider";
+
+const CategoryProduct = ({ productData, categoryData }) => {
   console.log(productData, "productData");
   const { setIsCartOpen } = useCart();
   const [quantity, setQuantity] = useState({});
@@ -15,7 +16,7 @@ const Categories = ({ productData }) => {
       [id]: Math.max((prev[id] || 1) + change, 1),
     }));
   };
-  // console.log(productData, "productData");
+  // console.log(categoryData, "categoryData");
   const addToCart = (id, name, price, image) => {
     // console.log("Add to Cart clicked");
     const cartObj = {
@@ -43,8 +44,16 @@ const Categories = ({ productData }) => {
 
   return (
     <div>
-      <HeroSection header={productData[0]?.categories[0]?.name} />
-      <section className="container mx-auto px-4">
+       {/* <div dangerouslySetInnerHTML={{ __html: productData[0]?.description }} /> */}
+      {/* <HeroSection 
+        header={productData[0]?.meta_data?.rank_math_title[0].replace('%term%',productData[0].name)} 
+        featureImg={productData[0]?.meta_data?.Cat_Hero_Section_PNG[0]} /> */}
+        <HeroSection 
+          header={categoryData[0]?.meta_data?.cat_h1_tag[0]} 
+          featureImg={categoryData[0]?.meta_data?.Cat_Hero_Section_PNG[0]}
+          shortDesc={categoryData[0]?.meta_data?.cat_short_discription[0]}
+        />
+        <section className="container mx-auto px-4">
         <div className="grid grid-cols-2 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {productData.map((item, index) => {
             const {_harikrutfiwu_url} = item?.meta_data || {};
@@ -76,11 +85,11 @@ const Categories = ({ productData }) => {
           )})}
         </div>
         <div className="mt-8">
-          <p dangerouslySetInnerHTML={{ __html: productData[0]?.description }}></p>
+          <p dangerouslySetInnerHTML={{ __html: categoryData[0]?.description }}></p>
         </div>
       </section>
     </div>
   );
 };
 
-export default Categories;
+export default CategoryProduct;
