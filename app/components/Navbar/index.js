@@ -304,7 +304,7 @@ const Navbar = () => {
               className="relative hover:ease-in-out duration-300 "
             >
               <Link
-                href="/"
+                href="/blog "
                 className="flex items-center px-2 py-4 transition-colors"
               >
                 Blogs
