@@ -1,5 +1,5 @@
 
-export function StarRating({ rating, reviews, isCustomerReview = true }) {
+export function StarRating({ rating, reviews, isCustomerReview = true, isRating = true }) {
     return (
       <div className="flex items-center gap-1 flex-wrap justify-center">
         <div className="flex">
@@ -14,7 +14,7 @@ export function StarRating({ rating, reviews, isCustomerReview = true }) {
             </span>
           ))}
         </div>
-        <span className="text-sm">{rating}</span>
+        {isRating && <span className="text-sm">{rating}</span>}
         {isCustomerReview && (
           <span className="text-sm text-gray-600 text-center">({reviews} Customer reviews)</span>
         )}

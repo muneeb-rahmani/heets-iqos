@@ -7,7 +7,7 @@ import ProductCard from "@/app/components/Products/product-card";
 import { useCart } from "@/app/context/cartProvider";
 
 const CategoryProduct = ({ productData, categoryData }) => {
-  console.log(productData, "productData");
+  console.log(productData, "CategoryProduct");
   const { setIsCartOpen } = useCart();
   const [quantity, setQuantity] = useState({});
   const updateQuantity = (id, change) => {
@@ -67,8 +67,8 @@ const CategoryProduct = ({ productData, categoryData }) => {
               title={item.name}
               image={image?.img_url || ""}
               productUrl={`/products/${item.slug}`}
-              rating={item.average_rating}
-              reviews={item.rating_count}
+              rating={item?.meta_data?._wc_average_rating?.[0]}
+              reviews={item?.meta_data?._wc_review_count?.[0]}
               price={item.price}
               id={item.id}
               details={item.stock_status === "instock" ? "In Stock" : false}

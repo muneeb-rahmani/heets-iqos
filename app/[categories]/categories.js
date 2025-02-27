@@ -6,7 +6,7 @@ import { useCart } from "../context/cartProvider";
 import { unserialize } from "php-serialize";
 
 const Categories = ({ productData, categoryData }) => {
-  console.log(productData, "productData");
+  console.log(productData, "Categories");
   const { setIsCartOpen } = useCart();
   const [quantity, setQuantity] = useState({});
   const updateQuantity = (id, change) => {
@@ -68,13 +68,12 @@ const Categories = ({ productData, categoryData }) => {
                   title={item.name}
                   image={image?.img_url || ""}
                   productUrl={`/products/${item.slug}`}
-                  rating={item.average_rating}
-                  reviews={item.rating_count}
+                  rating={item?.meta_data?._wc_average_rating?.[0]}
+                  reviews={item?.meta_data?._wc_review_count?.[0]}
                   price={item.price}
                   id={item.id}
                   details={item.stock_status === "instock" ? "In Stock" : false}
                   quantity={quantity[item.id] || 1}
-                  reviewCount={item.rating_count}
                   origin={item?.meta_data?.proorigincard?.[0]}
                   soldItems={item?.total_sales}
                   onAddCart={() =>
