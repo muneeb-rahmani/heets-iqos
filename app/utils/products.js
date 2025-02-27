@@ -95,6 +95,23 @@ export async function getBlogs() {
   }
 }
 
+export async function getSEOData(slug) {
+  try {
+    let url = `${base_url}/wp-json/rankmath/v1/getHead?url=${slug}`;
+    console.log(url, 'response from seo data')
+    const response = await fetch(`${base_url}/wp-json/rankmath/v1/getHead?url=${base_url}${slug}`);
+    if (!response.ok) {
+      throw new Error("Failed to fetch SEO data");
+    }
+    const seoData = await response.json();
+    return seoData; // Returns full SEO data
+  } catch (error) {
+    console.error("Error fetching SEO data:", error);
+    return null;
+  }
+}
+
+
 export async function getSingleBlog(slug) {
   try {
     const response = await fetch(`${base_url}/wp-json/wp/v2/posts?slug=${slug}`);

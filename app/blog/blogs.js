@@ -34,7 +34,7 @@ const BlogPage = ({serverData}) => {
           <div key={blog.id} className="border rounded-lg overflow-hidden shadow-lg">
             <div className="p-4">
               <h2 className="text-xl font-semibold">
-                <Link href={`/blogs/${blog.slug}`} className="hover:text-red-600">
+                <Link href={`/blogs/${blog.slug}`} className="blogTitle">
                   {blog.title.rendered}
                 </Link>
               </h2>

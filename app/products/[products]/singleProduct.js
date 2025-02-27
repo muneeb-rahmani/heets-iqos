@@ -105,8 +105,14 @@ const SingleProduct = ({
   ];
   return (
     <>
+      <Breadcrumb
+        category="Heets Sticks"
+        categoryUrl="/heets-sticks"
+        subCategory={serverData?.categories?.[0]?.name}
+        subCategoryUrl={serverData?.categories?.[0]?.slug}
+        product={serverData?.name}
+      />
       <div className="max-w-7xl mx-auto">
-        <Breadcrumb items={breadcrumbItems} />
 
         <div className="grid md:grid-cols-2 gap-8 p-4">
           {/* Left Column - Image Gallery */}
@@ -293,11 +299,19 @@ const SingleProduct = ({
 
           <div className="space-y-8">
             <div className="flex flex-col">
-              <h3 className="text-3xl font-bold">Reviews</h3>
-              <p className="text-4xl font-bold my-3">{serverData?.meta_data?._wc_average_rating[0] || 0 }</p>
-              <h4 className="text-2xl font-bold">
+              <h3 className="text-3xl font-bold">{serverData?.name} Reviews</h3>
+              <div className="flex gap-4 items-end my-3">
+                <p className="text-4xl font-bold">{serverData?.meta_data?._wc_average_rating[0] || 0 }
+                  <span className="text-gray-500"> / 5</span></p> 
+                  <StarRating
+                    rating={serverData?.meta_data?._wc_average_rating[0] || 0}
+                    reviews={serverData?.meta_data?._wc_review_count[0] || 0}
+                    isRating={false}
+                  />
+              </div>
+              {/* <h4 className="text-2xl font-bold">
                 {serverData?.name} {`(${reviews.length} Reviews)`}
-              </h4>
+              </h4> */}
             </div>
 
             {/* Reviews List */}
@@ -342,7 +356,7 @@ const SingleProduct = ({
                 key={product.id}
                 title={product.name}
                 image={product.images[0]?.src || ""}
-                productUrl={`/${product.slug}`}
+                productUrl={`/products/${product.slug}`}
                 price={product.price}
                 id={product.id}
                 rating={product.average_rating}
@@ -374,22 +388,44 @@ const SingleProduct = ({
 
 export default SingleProduct;
 
-export function Breadcrumb({ items }) {
+export function Breadcrumb({ category,categoryUrl, subCategory,subCategoryUrl, product, productUrl }) {
   return (
-    <nav className="flex items-center space-x-2 text-sm py-4 px-4 bg-gray-50">
-      {items.map((item, index) => (
-        <div key={item.href} className="flex items-center">
-          {index > 0 && <ChevronRight className="w-4 h-4 mx-2 text-gray-400" />}
-          <Link
-            href={item.href}
-            className={`hover:text-red-800 ${
-              index === items.length - 1 ? "text-red-800" : "text-gray-600"
-            }`}
-          >
-            {item.label}
-          </Link>
-        </div>
-      ))}
+    <nav className=" space-x-2 text-sm py-4 px-4 bg-gray-50">
+      <div className="max-w-7xl mx-auto flex items-center">
+        
+          <div className="flex items-center">
+            <Link
+              href='/'
+              className="text-red-800 font-medium underline" 
+            >
+              Home
+            </Link>
+            <ChevronRight className="w-4 h-4 mx-2 text-gray-400" />
+            
+            <Link
+              href={categoryUrl || ""}
+              className="text-red-800 font-medium underline" 
+            >
+              {category}
+            </Link>
+            <ChevronRight className="w-4 h-4 mx-2 text-gray-400" />
+           
+            <Link
+              href={subCategoryUrl  || ""}
+              className="text-red-800 font-medium underline" 
+            >
+              {subCategory}
+            </Link>
+            <ChevronRight className="w-4 h-4 mx-2 text-gray-400" />
+           
+            <p
+              href={productUrl  || ""}
+              className="text-gray-800" 
+            >
+              {product}
+            </p>
+          </div>
+      </div>
     </nav>
   );
 }
