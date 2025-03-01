@@ -21,6 +21,13 @@ const nextConfig = {
           },
           {
             protocol: 'https',
+            hostname:"yourwebsite.com",
+            port: '',
+            pathname: '/**',
+            search: '',
+          },
+          {
+            protocol: 'https',
             hostname:"pandavapor.ae",
             port: '',
             pathname: '/**',

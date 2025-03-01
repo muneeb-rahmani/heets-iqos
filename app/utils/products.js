@@ -85,7 +85,7 @@ export async function getSliderData() {
 
 export async function getBlogs() {
   try {
-    const response = await fetch(`${base_url}/wp-json/wp/v2/posts`);
+    const response = await fetch(`${base_url}/wp-json/custom-api/v1/blogs`);
     // console.log(response, 'response')
     const blogsData = await response.json();
     return blogsData;
@@ -114,10 +114,10 @@ export async function getSEOData(slug) {
 
 export async function getSingleBlog(slug) {
   try {
-    const response = await fetch(`${base_url}/wp-json/wp/v2/posts?slug=${slug}`);
+    const response = await fetch(`${base_url}/wp-json/custom-api/v1/post/${slug}`);
     console.log(`${base_url}/wp-json/wp/v2/posts?slug=${slug}`, 'response')
     const blogsData = await response.json();
-    return blogsData;
+    return [blogsData];
   } catch (error) {
     console.log(error, "error from getBlogs");
     return null;
@@ -146,6 +146,19 @@ export async function getCategoryMetadata(slug) {
     return [req.data];
   } catch (error) {
     console.log(error, "error from getCategoryMetadata");
+    return null;
+  }
+}
+
+export async function getSubcategoriesUrl(slug) {
+  try {
+    const url = `${base_url}/wp-json/custom-api/v1/subcategories/${slug}`;
+    // console.log(url, 'check url from getproducts')
+    const req = await axios.get(url);
+    // console.log(req, "req from getProducts");
+    return req.data;
+  } catch (error) {
+    console.log(error, "error from getSubcategoriesUrl");
     return null;
   }
 }

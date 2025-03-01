@@ -31,7 +31,7 @@ const ProductCard = ({
         <div className='flex justify-between items-center w-full mb-2'>
           {/* Delivery Badge */}
           <div className="w-fit bg-[#e2e4e8] px-2 py-1 rounded flex gap-2 items-center">
-            <Image src="/imgs/free-delivery-logo.webp" alt="Home" width={16} height={16} />
+            <Image src="/imgs/product-delivery-within-2hours.webp" alt="product-delivery-within-2-hours" width={16} height={16} />
             <span className="text-gray-600 text-xs ">
               Delivery 2hrs
             </span>
@@ -39,7 +39,7 @@ const ProductCard = ({
 
           {/* sold items Badge */}
           <div className="w-fit bg-[#e2e4e8] px-2 py-1 rounded flex gap-2 items-center">
-            <Image src="/imgs/product-delivery-within-2hours.webp" alt="product-delivery-within-2-hours" width={16} height={16} />
+            {/* <Image src="/imgs/product-delivery-within-2hours.webp" alt="product-delivery-within-2-hours" width={16} height={16} /> */}
             <span className="text-gray-600 font-bold text-xs ">
               {soldItems}+ sold
             </span>
