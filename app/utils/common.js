@@ -6,16 +6,19 @@ export function ratingCalc(reviews) {
   return averageRating;
 }
 
-
 export const parseSerializedData = (serializedString) => {
-    try {
-        return unserialize(serializedString);
-    } catch (error) {
-        console.error("Parsing error:", error);
-        return null;
-    }
+  try {
+    return unserialize(serializedString);
+  } catch (error) {
+    console.error("Parsing error:", error);
+    return null;
+  }
 };
 
 export async function delay(ms) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  }
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+export function getSlug(url) {
+  return url.replace(/^https?:\/\/[^/]+\//, "").replace(/\/$/, ""); // Remove domain & trailing slashes
+}

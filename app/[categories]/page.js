@@ -1,5 +1,5 @@
 import React from 'react'
-import { getCategories, getCategoryBySlug, getCategoryMetadata, getProducts, getProductsByCategory } from '../utils/products';
+import { getCategories, getCategoryBySlug, getCategoryMetadata, getProducts, getProductsByCategory, getSubcategoriesUrl } from '../utils/products';
 import axios from 'axios';
 import Categories from './categories';
 
@@ -9,9 +9,10 @@ const Page = async ({params}) => {
   // const data = await getProductsByCategory(categoryId);
   const data = await getCategoryBySlug(categoryId);
   const categoryData = await getCategoryMetadata(categoryId);
-
+  const subCategory = await getSubcategoriesUrl(categoryId)
+  // console.log(subCategory, 'data from sub category')
   return (
-    <Categories productData={data} categoryData={categoryData} />
+    <Categories productData={data} subCategory={subCategory} categoryData={categoryData} />
   )
 }
 

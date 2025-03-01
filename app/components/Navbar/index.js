@@ -3,8 +3,15 @@ import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import { useCart } from "@/app/context/cartProvider";
 import Link from "next/link";
-import { fetchCategories, getCategories, getProducts, getReviews, getSliderData, getTotalSales } from "@/app/utils/products";
-import { Home, ShoppingCart, Phone, Search, Menu  } from "lucide-react"
+import {
+  fetchCategories,
+  getCategories,
+  getProducts,
+  getReviews,
+  getSliderData,
+  getTotalSales,
+} from "@/app/utils/products";
+import { Home, ShoppingCart, Phone, Search, Menu } from "lucide-react";
 import InfiniteSlider from "../TopSlider";
 
 const Navbar = () => {
@@ -43,7 +50,6 @@ const Navbar = () => {
       setCartItems(parsedCart || []);
     }
 
-   
     function handleClickOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setShowDropdown(false);
@@ -53,14 +59,12 @@ const Navbar = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-
-    
   }, []);
 
   useEffect(() => {
     async function fetchProducts() {
       try {
-        const response = await fetch('/api/products'); // Replace with your API endpoint
+        const response = await fetch("/api/products"); // Replace with your API endpoint
         const data = await response.json();
         // console.log(data, "data from api request");
         setProducts(data);
@@ -83,28 +87,43 @@ const Navbar = () => {
       setFilteredProducts([]);
       setShowDropdown(false);
     }
-
   }, [searchTerm, products]);
-
-
 
   useEffect(() => {
     async function loadCategories() {
       const data = await fetchCategories();
-      const sliderData = await getSliderData()
-      
-      setCategories(data);
-      setReviewLength(sliderData[0]?.total_reviews)
-      setTotalSales(sliderData[0]?.total_orders)
+      const sliderData = await getSliderData();
+
+      const filteredLinks = [
+        "ABU DHABI",
+        "AJMAN",
+        "AL AIN",
+        "FUJAIRAH",
+        "RAS AL KHAIMAH",
+        "SHARJAH",
+        "UMM AL QUWAIN",
+      ];
+
+      const filteredData = data.filter((item) => {
+        if (!item.slug) return true; // If slug is undefined, include it
+
+        // Convert slug to uppercase and replace hyphens with spaces
+        const formattedSlug = item.slug.replace(/-/g, " ").toUpperCase();
+
+        return !filteredLinks.includes(formattedSlug);
+      });
+
+      setCategories(filteredData);
+      setReviewLength(sliderData[0]?.total_reviews);
+      setTotalSales(sliderData[0]?.total_orders);
     }
+
     loadCategories();
   }, []);
 
-
-
   return (
     <>
-    <InfiniteSlider reviewLength={reviewLength} totalSales={totalSales}/>
+      <InfiniteSlider reviewLength={reviewLength} totalSales={totalSales} />
       <div className="px-5 py-5 md:px-5 md:py-0">
         {/* Desktop view start */}
         <div className="hidden md:flex flex-wrap sm:hidden py-1 justify-between items-center">
@@ -179,7 +198,6 @@ const Navbar = () => {
                   <span id="cart_item">{cartItems && cartItems.length}</span>{" "}
                   Items, <span id="subtotal">{subtotal}</span> AED
                 </div>
-
               </button>
             </p>
           </div>
@@ -219,44 +237,43 @@ const Navbar = () => {
           </div>
           {/* Search Bar */}
           <div className="flex-1 max-w-xl">
-          <div className="relative mx-auto">
-            <form
-              className="flex justify-between w-full border-2 border-black rounded-md overflow-hidden items-center"
-              autoComplete="off"
-            >
-              <input
-                type="text"
-                placeholder="Search your favorite product..."
+            <div className="relative mx-auto">
+              <form
+                className="flex justify-between w-full border-2 border-black rounded-md overflow-hidden items-center"
                 autoComplete="off"
-                name="search"
-                className="w-full p-2"
-              />
-              <button type="button" className="product_search_desktop w-[30px]">
-                <span className="flex items-center">
-                  <Image
-                    src="/imgs/product_search_icon.webp"
-                    alt="Cart"
-                    width={20}
-                    height={20}
-                  />
-                </span>
-              </button>
-            </form>
-            <div className="absolute w-full bg-white z-10 rounded-b-[6px] desktop-product-searched"></div>
-          </div>
+              >
+                <input
+                  type="text"
+                  placeholder="Search your favorite product..."
+                  autoComplete="off"
+                  name="search"
+                  className="w-full p-2"
+                />
+                <button
+                  type="button"
+                  className="product_search_desktop w-[30px]"
+                >
+                  <span className="flex items-center">
+                    <Image
+                      src="/imgs/product_search_icon.webp"
+                      alt="Cart"
+                      width={20}
+                      height={20}
+                    />
+                  </span>
+                </button>
+              </form>
+              <div className="absolute w-full bg-white z-10 rounded-b-[6px] desktop-product-searched"></div>
+            </div>
           </div>
         </nav>
         {/* Mobile view end */}
       </div>
 
-
-
       <nav className="bg-black text-white hidden md:block">
         <div className="relative flex items-center justify-center">
           <ul className="flex items-center space-x-1">
-            <li
-              className="relative hover:ease-in-out duration-300 "
-            >
+            <li className="relative hover:ease-in-out duration-300 ">
               <Link
                 href="/"
                 className="flex items-center px-4 py-4 transition-colors"
@@ -272,15 +289,15 @@ const Navbar = () => {
                 onMouseEnter={() => setActiveDropdown(item.name)}
                 onMouseLeave={() => setActiveDropdown(null)}
               >
-                {item.slug != 'shop' &&
+                {item.slug != "shop" && item.slug != "products" && (
                   <Link
                     href={`/${item.slug}`}
                     className="flex items-center px-2 py-4 transition-colors"
                   >
-                    {item?.slug?.split('-').join(' ').toUpperCase()}
+                    {item?.slug?.split("-").join(" ").toUpperCase()}
                     <span className="ml-2">→</span>
                   </Link>
-                }
+                )}
                 {item.children && activeDropdown === item.name && (
                   <div className="absolute left-0 top-full z-50 min-w-[200px] bg-white text-black shadow-lg">
                     <div className="flex">
@@ -300,9 +317,7 @@ const Navbar = () => {
                 )}
               </li>
             ))}
-            <li
-              className="relative hover:ease-in-out duration-300 "
-            >
+            <li className="relative hover:ease-in-out duration-300 ">
               <Link
                 href="/blog "
                 className="flex items-center px-2 py-4 transition-colors"
@@ -310,9 +325,7 @@ const Navbar = () => {
                 Blogs
               </Link>
             </li>
-            <li
-              className="relative hover:ease-in-out duration-300 "
-            >
+            <li className="relative hover:ease-in-out duration-300 ">
               <Link
                 href="/"
                 className="flex items-center px-2 py-4 transition-colors"
@@ -339,8 +352,17 @@ const Navbar = () => {
             <Phone className="h-6 w-6 text-primary" />
             <span className="text-xs mt-1 text-primary">Call</span>
           </Link>
-          <Link href="https://wa.me/1234567890" className="flex flex-col items-center">
-            <Image src='/imgs/whatsapp-icon.svg' alt="whatsapp icon" width={3} height={3} className="h-6 w-6 text-primary" />
+          <Link
+            href="https://wa.me/1234567890"
+            className="flex flex-col items-center"
+          >
+            <Image
+              src="/imgs/whatsapp-icon.svg"
+              alt="whatsapp icon"
+              width={3}
+              height={3}
+              className="h-6 w-6 text-primary"
+            />
             <span className="text-xs mt-1 text-primary">Whatsapp</span>
           </Link>
         </div>
