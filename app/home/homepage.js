@@ -53,12 +53,24 @@ const HomePage = ({ productData }) => {
     "Shop"
   ];
 
+  const includedCategories = [
+    "Heets Classic Kazakhstan",
+    "Terea Japan",
+    "Terea Kazakhstan",
+    "Terea Indonesia",
+    "Terea UAE",
+    "Terea Armenia",
+    "IQOS ILUMA One",
+    "IQOS ILUMA Standard",
+    "IQOS ILUMA Prime"
+  ]
+
 
   return (
     <div>
       <HeroSection />
       {productData
-        .filter(item => !excludedCategories.includes(item.category)) // Exclude unwanted categories
+        .filter(item => includedCategories.includes(item.category)) // Exclude unwanted categories
         .map((item, index) => (
           item.products.length > 0 && (
             <section key={index} className="odd:bg-white py-4 even:bg-[#f1f1f1]">
@@ -88,6 +100,7 @@ const HomePage = ({ productData }) => {
                         quantity={quantity[product.id] || 1}
                         reviewCount={product.rating_count}
                         soldItems={product?.total_sales}
+                        originalPrice={product?.regular_price}
                         onAddCart={() =>
                           addToCart(product.id, product.name, product.price, product.images[0]?.src)
                         }

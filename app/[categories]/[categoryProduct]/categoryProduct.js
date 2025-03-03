@@ -7,7 +7,7 @@ import ProductCard from "@/app/components/Products/product-card";
 import { useCart } from "@/app/context/cartProvider";
 
 const CategoryProduct = ({ productData, categoryData }) => {
-  console.log(productData, "CategoryProduct");
+  // console.log(productData, "CategoryProduct");
   const { setIsCartOpen } = useCart();
   const [quantity, setQuantity] = useState({});
   const updateQuantity = (id, change) => {
@@ -76,6 +76,7 @@ const CategoryProduct = ({ productData, categoryData }) => {
               reviewCount={item.rating_count}
               origin={item?.meta_data?.proorigincard?.[0]}
               soldItems={item?.total_sales}
+              originalPrice={item?.regular_price}
               onAddCart={() =>
                 addToCart(item.id, item.name, item.price, image?.img_url)
               }

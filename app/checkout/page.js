@@ -303,7 +303,7 @@ export default function CheckoutForm() {
                   <Label htmlFor="standard">
                     {subTotalValue >= 200 ? "Free Delivery" : "Standard Delivery"}
                   </Label>
-                  <span className="ml-auto">AED {subTotalValue >= 200 ? 0 : 49}</span>
+                  <span className="ml-auto">AED {subTotalValue >= 200 ? 0 : 30}</span>
                 </div>
 
                 {/* Express Delivery */}
@@ -378,7 +378,8 @@ export default function CheckoutForm() {
                     id="terms"
                     name="terms"
                     required
-                    onCheckedChange={(checked) => console.log("muneeb")}
+                    // onCheckedChange={(checked) => console.log("muneeb")}
+                    checked
                   />
                   <Label htmlFor="terms" className="text-sm">
                     I have read and agreed to the{" "}
