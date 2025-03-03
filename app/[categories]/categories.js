@@ -8,7 +8,7 @@ import Link from "next/link";
 import { getSlug } from "../utils/common";
 
 const Categories = ({ productData, categoryData,subCategory }) => {
-  console.log(subCategory, "subCategory");
+  // console.log(subCategory, "subCategory");
   const { setIsCartOpen } = useCart();
   const [quantity, setQuantity] = useState({});
   const updateQuantity = (id, change) => {
@@ -57,7 +57,7 @@ const Categories = ({ productData, categoryData,subCategory }) => {
 
       <section className="container mx-auto px-4">
         <div className="flex flex-wrap justify-center items-center gap-4 mt-8 mb-4">
-          {subCategory.map((item, index) => (
+          {subCategory?.map((item, index) => (
             <Link key={index} className="my-8" href={getSlug(item.url)}>
               <p className="mx-auto text-white text-[15px] text-center leading-normal bg-gradient-to-r from-[#ff6f6f] to-[#8b2c2a] px-4 py-5 rounded w-fit h-[35px] flex justify-center items-center">
                {item.name}
@@ -87,6 +87,7 @@ const Categories = ({ productData, categoryData,subCategory }) => {
                   quantity={quantity[item.id] || 1}
                   origin={item?.meta_data?.proorigincard?.[0]}
                   soldItems={item?.total_sales}
+                  originalPrice={item?.regular_price}
                   onAddCart={() =>
                     addToCart(item.id, item.name, item.price, image?.img_url)
                   }

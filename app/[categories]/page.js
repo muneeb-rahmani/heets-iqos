@@ -8,6 +8,7 @@ const Page = async ({params}) => {
   const categoryId = await paramsUrl?.categories; 
   // const data = await getProductsByCategory(categoryId);
   const data = await getCategoryBySlug(categoryId);
+  console.log(paramsUrl, 'check categor ka data')
   const categoryData = await getCategoryMetadata(categoryId);
   const subCategory = await getSubcategoriesUrl(categoryId)
   // console.log(subCategory, 'data from sub category')

@@ -31,7 +31,7 @@ const SingleProduct = ({
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);
   };
-  // console.log(imagesData, 'check imagesData')
+  // console.log(serverData, 'check product page')
 
   const router = useRouter();
 
@@ -108,12 +108,11 @@ const SingleProduct = ({
       <Breadcrumb
         category="Heets Sticks"
         categoryUrl="/heets-sticks"
-        subCategory={serverData?.categories?.[0]?.name}
-        subCategoryUrl={serverData?.categories?.[0]?.slug}
-        product={serverData?.name}
+        subCategory={serverData?.categories?.[0]?.name || ""}
+        subCategoryUrl={serverData?.categories?.[0]?.slug || ""}
+        product={serverData?.name || ""}
       />
       <div className="max-w-7xl mx-auto">
-
         <div className="grid md:grid-cols-2 gap-8 p-4">
           {/* Left Column - Image Gallery */}
           <div className="flex gap-4">
@@ -241,7 +240,7 @@ const SingleProduct = ({
                     serverData.id,
                     serverData.name,
                     serverData.price,
-                    serverData.images[0]?.src
+                    imagesData[0]?.url
                   )
                 }
                 className="flex-1 bg-[#8b2c2a] rounded-lg text-white py-2 hover:bg-red-900 transition-colors"
@@ -291,9 +290,11 @@ const SingleProduct = ({
           <div className=" text-gray-900 p-4 md:p-8">
             <h3 className="text-3xl font-bold mb-6">Description</h3>
             <div className="mx-auto">
-              <p
-                dangerouslySetInnerHTML={{ __html: serverData?.description }}
-              ></p>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: serverData?.description,
+                }}
+              />
             </div>
           </div>
 
@@ -301,13 +302,15 @@ const SingleProduct = ({
             <div className="flex flex-col">
               <h3 className="text-3xl font-bold">{serverData?.name} Reviews</h3>
               <div className="flex gap-4 items-end my-3">
-                <p className="text-4xl font-bold">{serverData?.meta_data?._wc_average_rating[0] || 0 }
-                  <span className="text-gray-500"> / 5</span></p> 
-                  <StarRating
-                    rating={serverData?.meta_data?._wc_average_rating[0] || 0}
-                    reviews={serverData?.meta_data?._wc_review_count[0] || 0}
-                    isRating={false}
-                  />
+                <p className="text-4xl font-bold">
+                  {serverData?.meta_data?._wc_average_rating[0] || 0}
+                  <span className="text-gray-500"> / 5</span>
+                </p>
+                <StarRating
+                  rating={serverData?.meta_data?._wc_average_rating[0] || 0}
+                  reviews={serverData?.meta_data?._wc_review_count[0] || 0}
+                  isRating={false}
+                />
               </div>
               {/* <h4 className="text-2xl font-bold">
                 {serverData?.name} {`(${reviews.length} Reviews)`}
@@ -330,7 +333,9 @@ const SingleProduct = ({
                         {review.reviewer}
                       </h3>
                       <span className="text-xs text-white absolute top-[-23px] px-2 py-1 bg-black rounded-b-lg right-3">
-                      {moment(review.date_created).format('DD-MM-YYYY HH:mm:ss')}
+                        {moment(review.date_created).format(
+                          "DD-MM-YYYY HH:mm:ss"
+                        )}
                       </span>
                     </div>
                     <p
@@ -367,6 +372,7 @@ const SingleProduct = ({
                 quantity={quantity[product.id] || 1}
                 reviewCount={product.rating_count}
                 soldItems={product?.total_sales}
+                originalPrice={product?.regular_price}
                 onAddCart={() =>
                   addToCart(
                     product.id,
@@ -388,43 +394,43 @@ const SingleProduct = ({
 
 export default SingleProduct;
 
-export function Breadcrumb({ category,categoryUrl, subCategory,subCategoryUrl, product, productUrl }) {
+export function Breadcrumb({
+  category,
+  categoryUrl,
+  subCategory,
+  subCategoryUrl,
+  product,
+  productUrl,
+}) {
   return (
     <nav className=" space-x-2 text-sm py-4 px-4 bg-gray-50">
       <div className="max-w-7xl mx-auto flex items-center">
-        
-          <div className="flex items-center">
-            <Link
-              href='/'
-              className="text-red-800 font-medium underline" 
-            >
-              Home
-            </Link>
-            <ChevronRight className="w-4 h-4 mx-2 text-gray-400" />
-            
-            <Link
-              href={categoryUrl || ""}
-              className="text-red-800 font-medium underline" 
-            >
-              {category}
-            </Link>
-            <ChevronRight className="w-4 h-4 mx-2 text-gray-400" />
-           
-            <Link
-              href={subCategoryUrl  || ""}
-              className="text-red-800 font-medium underline" 
-            >
-              {subCategory}
-            </Link>
-            <ChevronRight className="w-4 h-4 mx-2 text-gray-400" />
-           
-            <p
-              href={productUrl  || ""}
-              className="text-gray-800" 
-            >
-              {product}
-            </p>
-          </div>
+        <div className="flex items-center">
+          <Link href="/" className="text-red-800 font-medium underline">
+            Home
+          </Link>
+          <ChevronRight className="w-4 h-4 mx-2 text-gray-400" />
+
+          <Link
+            href={categoryUrl || "#"}
+            className="text-red-800 font-medium underline"
+          >
+            {category}
+          </Link>
+          <ChevronRight className="w-4 h-4 mx-2 text-gray-400" />
+
+          <Link
+            href={subCategoryUrl || "#"}
+            className="text-red-800 font-medium underline"
+          >
+            {subCategory}
+          </Link>
+          <ChevronRight className="w-4 h-4 mx-2 text-gray-400" />
+
+          <p href={productUrl || "#"} className="text-gray-800">
+            {product}
+          </p>
+        </div>
       </div>
     </nav>
   );
