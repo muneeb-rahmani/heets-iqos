@@ -8,9 +8,15 @@ const quickLinks = [
 ]
 
 const deliveryLocations = [
-  'Ajman', 'Abu Dhabi', 'Sharjah', 'Al Ain', 'Fujairah',
-  'Ras Al-Khaimah', 'Umm Al Quwain'
-]
+  { name: 'Ajman', url: '/ajman' },
+  { name: 'Abu Dhabi', url: '/abu-dhabi' },
+  { name: 'Sharjah', url: '/sharjah' },
+  { name: 'Al Ain', url: '/al-ain' },
+  { name: 'Fujairah', url: '/fujairah' },
+  { name: 'Ras Al-Khaimah', url: '/ras-al-khaimah' },
+  { name: 'Umm Al Quwain', url: '/umm-al-quwain' }
+];
+
 
 const usefulLinks = [
   'Malls in Dubai', 'Dubai Airport', 'Dubai Map', 'Dubai Weather'
@@ -56,10 +62,10 @@ export default function Footer() {
           <div>
             <h3 className="text-lg font-semibold mb-4">Our Delivery Locations</h3>
             <ul className="space-y-2">
-              {deliveryLocations.map((location) => (
-                <li key={location}>
-                  <Link href="#" className="hover:text-gray-300 transition-colors">
-                    {location}
+              {deliveryLocations.map((location,index) => (
+                <li key={index}>
+                  <Link href={location.url} className="hover:text-gray-300 transition-colors">
+                    {location.name}
                   </Link>
                 </li>
               ))}
