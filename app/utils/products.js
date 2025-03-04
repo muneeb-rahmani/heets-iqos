@@ -98,7 +98,7 @@ export async function getBlogs() {
 export async function getSEOData(slug) {
   try {
     let url = `${base_url}/wp-json/rankmath/v1/getHead?url=${slug}`;
-    console.log(url, 'response from seo data')
+    // console.log(url, 'response from seo data')
     const response = await fetch(`${base_url}/wp-json/rankmath/v1/getHead?url=${base_url}${slug}`);
     if (!response.ok) {
       throw new Error("Failed to fetch SEO data");
