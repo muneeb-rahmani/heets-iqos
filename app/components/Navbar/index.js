@@ -92,6 +92,7 @@ const Navbar = () => {
   useEffect(() => {
     async function loadCategories() {
       const data = await fetchCategories();
+      console.log(data, "data from fetchCategories");
       const sliderData = await getSliderData();
 
       const filteredLinks = [

@@ -86,6 +86,7 @@ const Fujairah = ({ productData }) => {
                   )}
                   <div className="grid grid-cols-2 gap-6 sm:grid-cols-2 lg:grid-cols-4">
                     {item.products.map((product) => (
+                      product.stock_status === "instock" && (
                       <ProductCard
                         key={product.id}
                         title={product.name}
@@ -94,7 +95,8 @@ const Fujairah = ({ productData }) => {
                         price={product.price}
                         rating={product.average_rating}
                         reviews={product.rating_count}
-                        details={product.stock_status === "instock" ? "In Stock" : false}
+                        details={product.stock_status === "instock" ? "In Stock" : "Out of Stock"}
+                        isDisabled={product.stock_status === "instock" ? false : true}
                         origin={product?.meta_data?.find(item => item.key === "proorigincard")?.value}
                         id={product.id}
                         quantity={quantity[product.id] || 1}
@@ -107,6 +109,7 @@ const Fujairah = ({ productData }) => {
                         incrementQuantity={() => updateQuantity(product.id, 1)}
                         decrementQuantity={() => updateQuantity(product.id, -1)}
                       />
+                      )
                     ))}
                   </div>
                 </div>

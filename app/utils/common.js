@@ -19,6 +19,11 @@ export async function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-export function getSlug(url) {
-  return url.replace(/^https?:\/\/[^/]+\//, "").replace(/\/$/, ""); // Remove domain & trailing slashes
+export function getSlug(url, method) {
+  if(method === 'split'){
+    return url.split('/').filter(Boolean).pop();
+  }else{
+
+    return url.replace(/^https?:\/\/[^/]+\//, "").replace(/\/$/, ""); // Remove domain & trailing slashes
+  }
 }

@@ -4,7 +4,7 @@ import Link from 'next/link'
 const quickLinks = [
   'Blogs', 'FAQ', 'Privacy Policy', 'Terms of Use', 
   'Shipping & Delivery Policy', 'Refund Policy', 'Age Policy',
-  'About Us', 'Contact Us', 'IQOS Heets Review', 'Heets Sticks Flavors'
+  'About Us', 'Contact Us'
 ]
 
 const deliveryLocations = [
@@ -73,7 +73,7 @@ export default function Footer() {
           </div>
 
           {/* Useful Links */}
-          <div>
+          {/* <div>
             <h3 className="text-lg font-semibold mb-4">Useful Links</h3>
             <ul className="space-y-2">
               {usefulLinks.map((link) => (
@@ -84,7 +84,7 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
-          </div>
+          </div> */}
         </div>
 
         {/* Social Links & Copyright */}
