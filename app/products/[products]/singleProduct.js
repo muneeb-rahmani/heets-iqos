@@ -118,7 +118,7 @@ const SingleProduct = ({
           <div className="flex gap-4">
             {/* Thumbnails */}
             <div className="flex flex-col gap-2">
-              {imagesData?.map((image, index) => (
+              {imagesData && imagesData?.map((image, index) => (
                 <button
                   key={index}
                   onClick={() => setSelectedImage(index)}
@@ -143,7 +143,7 @@ const SingleProduct = ({
             <div className="flex-1 p-4">
               <div className="relative aspect-square rounded-lg shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
                 <Image
-                  src={imagesData[selectedImage].url || "/placeholder.svg"}
+                  src={imagesData && imagesData[selectedImage].url || "/placeholder.svg"}
                   alt="Product main image"
                   fill
                   className="object-contain"
@@ -288,9 +288,9 @@ const SingleProduct = ({
 
         <div className="tab-content p-6">
           <div className=" text-gray-900 p-4 md:p-8">
-            <h3 className="text-3xl font-bold mb-6">Description</h3>
             <div className="mx-auto">
               <div
+                className="descContainer"
                 dangerouslySetInnerHTML={{
                   __html: serverData?.description,
                 }}
@@ -366,9 +366,8 @@ const SingleProduct = ({
                 id={product.id}
                 rating={product.average_rating}
                 reviews={product.rating_count}
-                details={
-                  product.stock_status === "instock" ? "In Stock" : false
-                }
+                details={product.stock_status === "instock" ? "In Stock" : "Out of Stock"}
+                isDisabled={product.stock_status === "instock" ? false : true}
                 quantity={quantity[product.id] || 1}
                 reviewCount={product.rating_count}
                 soldItems={product?.total_sales}
@@ -435,68 +434,3 @@ export function Breadcrumb({
     </nav>
   );
 }
-
-// export function ImageGallery({ images }) {
-//   const [selectedImage, setSelectedImage] = useState(0);
-
-//   return (
-//     <div className="flex gap-4">
-//       {/* Thumbnails */}
-//       <div className="flex flex-col gap-2">
-//         {images.map((image, index) => (
-//           <button
-//             key={index}
-//             onClick={() => setSelectedImage(index)}
-//             className={`border-2 p-1 rounded-lg w-20 h-20 ${
-//               selectedImage === index ? "border-red-800" : "border-gray-200"
-//             }`}
-//           >
-//             <Image
-//               src={image.src || "/placeholder.svg"}
-//               alt={`Product thumbnail ${index + 1}`}
-//               width={80}
-//               height={80}
-//               className="w-full h-full object-contain"
-//             />
-//           </button>
-//         ))}
-//       </div>
-
-//       {/* Main Image */}
-//       <div className="flex-1 p-4">
-//         <div className="relative aspect-square rounded-lg shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
-//           <Image
-//             src={images[selectedImage].src || "/placeholder.svg"}
-//             alt="Product main image"
-//             fill
-//             className="object-contain"
-//           />
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-
-// export function QuantitySelector({
-//   quantity,
-//   onIncrease,
-//   onDecrease,
-// }) {
-//   return (
-//     <div className="flex items-center gap-2">
-//       <button
-//         onClick={onDecrease}
-//         className="w-10 h-10 flex items-center justify-center border rounded-lg hover:bg-gray-50"
-//       >
-//         -
-//       </button>
-//       <span className="w-12 text-center">{quantity}</span>
-//       <button
-//         onClick={onIncrease}
-//         className="w-10 h-10 flex items-center justify-center border rounded-lg hover:bg-gray-50"
-//       >
-//         +
-//       </button>
-//     </div>
-//   )
-// }

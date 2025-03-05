@@ -71,7 +71,8 @@ const CategoryProduct = ({ productData, categoryData }) => {
               reviews={item?.meta_data?._wc_review_count?.[0]}
               price={item.price}
               id={item.id}
-              details={item.stock_status === "instock" ? "In Stock" : false}
+              details={item.stock_status === "instock" ? "In Stock" : "Out of Stock"}
+              isDisabled={item.stock_status === "instock" ? false : true}
               quantity={quantity[item.id] || 1}
               reviewCount={item.rating_count}
               origin={item?.meta_data?.proorigincard?.[0]}

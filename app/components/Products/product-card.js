@@ -22,7 +22,8 @@ const ProductCard = ({
   onNavigate,
   productUrl,
   id,
-  soldItems
+  soldItems,
+  isDisabled
 }) => {
 
   return (
@@ -94,8 +95,8 @@ const ProductCard = ({
               <Plus className="h-3 w-3 text-white" />
             </button>
           </div>
-          <button onClick={onAddCart} className="flex-1 bg-[#8b2c2a] rounded-lg text-white py-2 hover:bg-red-900 transition-colors">
-            Add to Cart
+          <button onClick={onAddCart} disabled={isDisabled} className={`flex-1  rounded-lg text-white py-2  transition-colors duration-300 ${isDisabled ? 'cursor-not-allowed bg-gray-500 hover:bg-gray-600' : 'bg-[#8b2c2a] hover:bg-red-900 cursor-pointer'}`}>
+            {isDisabled ? 'Out of Stock' : 'Add to Cart'}
           </button>
         </div>
 

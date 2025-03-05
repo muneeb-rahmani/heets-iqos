@@ -6,17 +6,17 @@ import { unserialize } from "php-serialize";
 
 export default async function Page({params, searchParams}) {
   const slugData = await getProductBySlug(params.products)
-  console.log(slugData, 'check slug data from page')
+  // console.log(slugData, 'check slug data from page')
   const {_harikrutfiwu_wcgallary} = slugData?.meta_data || {};
   const image = Array.isArray(_harikrutfiwu_wcgallary) && _harikrutfiwu_wcgallary.length > 0 
                 ? unserialize(_harikrutfiwu_wcgallary[0]) 
                 : null;
-                console.log(image, 'check image array')
+                // console.log(image, 'check image array')
   // console.log(imagesData, 'check images data from page')
   const productId = await slugData?.id; 
   const data = await getSingleProduct(productId);
   const reviews = await getReviewByProduct(productId);
-  console.log(reviews, 'check reviews from page')
+  // console.log(reviews, 'check reviews from page')
   const relatedProducts = await axios?.all(data?.related_ids?.map(id => getSingleProduct(id)))
   // console.log(relatedProducts, 'check data from page')
   const schema = {

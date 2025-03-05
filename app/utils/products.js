@@ -129,7 +129,7 @@ export async function getCategoryBySlug(slug) {
     const url = `${base_url}/wp-json/custom-api/v1/products-by-category/${slug}`;
     // console.log(url, 'check url from getproducts')
     const req = await axios.get(url);
-    // console.log(req, "req from getProducts");
+    console.log(req.data, "req from getProducts");
     return req.data;
   } catch (error) {
     console.log(error, "error from getCategoryBySlug");
