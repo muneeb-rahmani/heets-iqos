@@ -136,6 +136,7 @@ const Navbar = () => {
             >
               <Image
                 src="/imgs/heets-iqos-uae-logo.png"
+                overrideSrc="/imgs/heets-iqos-uae-logo.png"
                 alt="Heets IQOS UAE logo"
                 height={62}
                 width={250}
