@@ -22,7 +22,7 @@ const nextConfig = {
           },
           {
             protocol: 'https',
-            hostname:"yourwebsite.com",
+            hostname:"121heets.shop",
             port: '',
             pathname: '/**',
             search: '',

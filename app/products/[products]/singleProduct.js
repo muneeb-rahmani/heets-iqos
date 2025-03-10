@@ -31,7 +31,7 @@ const SingleProduct = ({
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);
   };
-  // console.log(serverData, 'check product page')
+  console.log(serverData, 'check product page')
 
   const router = useRouter();
 
