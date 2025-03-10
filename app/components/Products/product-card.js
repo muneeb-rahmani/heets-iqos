@@ -55,6 +55,7 @@ const ProductCard = ({
               src={image || "/placeholder.svg"}
               alt={title}
               fill={true}
+              overrideSrc={image || "/placeholder.svg"}
               className="w-full h-full object-contain"
             />
           </div>
