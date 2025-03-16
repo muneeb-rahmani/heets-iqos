@@ -92,7 +92,7 @@ const Navbar = () => {
   useEffect(() => {
     async function loadCategories() {
       const data = await fetchCategories();
-      console.log(data, "data from fetchCategories");
+      // console.log(data, "data from fetchCategories");
       const sliderData = await getSliderData();
 
       const filteredLinks = [
@@ -191,16 +191,18 @@ const Navbar = () => {
           </div>
           <div className="flex justify-end items-center w-[16%]">
             <p>
-              <button
-                onClick={() => setIsCartOpen(true)}
-                className="bg-transparent sm:bg-black inline-block py-2 px-5 text-white font-semibold rounded-lg transition duration-300 hover:bg-transparent sm:hover:bg-black hover:text-white"
-              >
-                {/* <i className="fas fa-shopping-cart"></i>{" "} */}
-                <div className="hidden md:block">
-                  <span id="cart_item">{cartItems && cartItems.length}</span>{" "}
-                  Items, <span id="subtotal">{subtotal}</span> AED
-                </div>
-              </button>
+              <Link href='/view-cart'>
+                <button
+                  // onClick={() => setIsCartOpen(true)}
+                  className="bg-transparent sm:bg-black inline-block py-2 px-5 text-white font-semibold rounded-lg transition duration-300 hover:bg-transparent sm:hover:bg-black hover:text-white"
+                  >
+                  {/* <i className="fas fa-shopping-cart"></i>{" "} */}
+                  <div className="hidden md:block">
+                    <span id="cart_item">{cartItems && cartItems.length}</span>{" "}
+                    Items, <span id="subtotal">{subtotal}</span> AED
+                  </div>
+                </button>
+              </Link>
             </p>
           </div>
         </div>

@@ -8,7 +8,7 @@ import Link from "next/link";
 import { getSlug } from "../utils/common";
 
 const Categories = ({ productData, categoryData,subCategory }) => {
-  // console.log(subCategory, "subCategory");
+  // console.log(productData, "productData");
   const { setIsCartOpen } = useCart();
   const [quantity, setQuantity] = useState({});
   const updateQuantity = (id, change) => {
@@ -66,7 +66,7 @@ const Categories = ({ productData, categoryData,subCategory }) => {
           ))}
         </div>
         <div className="grid grid-cols-2 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {productData.map((item, index) => {
+          {productData?.map((item, index) => {
             const { _harikrutfiwu_url } = item?.meta_data || {};
             const image =
               Array.isArray(_harikrutfiwu_url) && _harikrutfiwu_url.length > 0

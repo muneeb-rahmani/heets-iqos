@@ -4,7 +4,7 @@ import HeroSection from "../components/Header";
 import ProductCard from "../components/Products/product-card";
 import { useCart } from "../context/cartProvider";
 
-const Fujairah = ({ productData,metaData }) => {
+const UmmAlQuwain = ({ productData,metaData }) => {
   // console.log(productData, 'check product data')
   const { setIsCartOpen } = useCart();
   const [quantity, setQuantity] = useState({});
@@ -68,7 +68,7 @@ const Fujairah = ({ productData,metaData }) => {
 
   return (
     <div>
-      <HeroSection header={metaData[0]?.meta_data?.cat_h1_tag[0] || ""} featureImg={metaData[0]?.meta_data?.Cat_Hero_Section_PNG[0] || ""} />
+     <HeroSection header={metaData[0]?.meta_data?.cat_h1_tag[0] || ""} featureImg={metaData[0]?.meta_data?.Cat_Hero_Section_PNG[0] || ""} />
       {productData
         .filter(item => includedCategories.includes(item.category)) // Exclude unwanted categories
         .map((item, index) => (
@@ -122,4 +122,4 @@ const Fujairah = ({ productData,metaData }) => {
   );
 };
 
-export default Fujairah;
+export default UmmAlQuwain;

@@ -129,7 +129,7 @@ export async function getCategoryBySlug(slug) {
     const url = `${base_url}/wp-json/custom-api/v1/products-by-category/${slug}`;
     // console.log(url, 'check url from getproducts')
     const req = await axios.get(url);
-    console.log(req.data, "req from getProducts");
+    // console.log(req.data, "req from getProducts");
     return req.data;
   } catch (error) {
     console.log(error, "error from getCategoryBySlug");
@@ -167,7 +167,7 @@ export async function getCategories() {
   try {
     const url = `${base_url}/wp-json/wc/v3/products/categories?consumer_key=${consumerKey}&consumer_secret=${consumerSecret}&per_page=100`;
     const req = await axios.get(url);
-    // console.log(req,'check req')
+    // console.log(url,'check req') 
     return req.data;
   } catch (error) {
     console.log(error, "error from getCategories from utils");
@@ -301,5 +301,18 @@ export async function fetchCategories() {
   } catch (error) {
     console.error("❌ Error fetching categories:", error);
     return [];
+  }
+}
+
+
+export async function getBreadCrumbsData(category){
+  try {
+    const url = `${base_url}/wp-json/custom-api/v1/product-category/${category}`;
+    // console.log(url, 'check url from getBreadCrumbsData')
+    const req = await axios.get(url);
+    return req.data;
+  } catch (error) {
+    console.log(error, "error from getBreadCrumbsData");
+    throw error
   }
 }
