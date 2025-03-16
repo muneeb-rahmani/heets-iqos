@@ -7,12 +7,12 @@ import {
   getSEOData,
 } from "../utils/products";
 import axios from "axios";
-import AlAin from "./alAin";
 import config from "@/lib/config";
 import { getSlug, parseRankMathData } from "../utils/common";
+import UmmAlQuwain from "./ummAlQuwain";
 
 export async function generateMetadata(props) {
-  const data = await getCategoryMetadata('al-ain');
+  const data = await getCategoryMetadata('umm-al-quwain');
   // console.log(data, "check data from generateMetadata");
   const title = data
     ? data[0]?.meta_data.rank_math_title[0]
@@ -60,12 +60,12 @@ const Page = async () => {
   };
 
   const data = await fetchCategoryAndProducts();
-    const rankMathData = await getSEOData(`${config.mainifest.url}/al-ain`);
-    const jsonLdData = parseRankMathData(rankMathData);
-    const metaData = await getCategoryMetadata('al-ain');
+  const rankMathData = await getSEOData(`${config.mainifest.url}/al-ain`);
+  const jsonLdData = parseRankMathData(rankMathData);
+  const metaData = await getCategoryMetadata('umm-al-quwain');
   return (
     <>
-      <AlAin productData={data} metaData={metaData} />
+      <UmmAlQuwain productData={data} metaData={metaData} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{

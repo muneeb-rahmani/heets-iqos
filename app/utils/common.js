@@ -27,3 +27,24 @@ export function getSlug(url, method) {
     return url.replace(/^https?:\/\/[^/]+\//, "").replace(/\/$/, ""); // Remove domain & trailing slashes
   }
 }
+
+export function parseRankMathData(data){
+  const scriptRegex = /<script[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/;
+
+  // Apply the regex to extract the JSON-LD string
+  const match = data?.head?.match(scriptRegex);
+
+  if (match && match[1]) {
+    try {
+      // Parse the extracted JSON string
+      const parsedJson = JSON.parse(match[1]);
+      return parsedJson;
+      // console.log("Extracted JSON-LD data:", parsedJson);
+    } catch (error) {
+      console.error("Error parsing parseRankMathData data:", error);
+      throw error;
+    }
+  } else {
+    console.error("No matching <script> tag found.");
+  }
+}

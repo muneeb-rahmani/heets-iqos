@@ -8,7 +8,7 @@ import { StarRating } from "../../components/Products/star-rating";
 import { Button } from "@/components/ui/button";
 import ProductCard from "../../components/Products/product-card";
 import { useRouter } from "next/navigation";
-import { ratingCalc } from "../../utils/common";
+import { getSlug, ratingCalc } from "../../utils/common";
 import { useCart } from "../../context/cartProvider";
 import moment from "moment";
 
@@ -23,6 +23,7 @@ const SingleProduct = ({
   reviews,
   relatedProducts,
   imagesData,
+  breadCrumb,
 }) => {
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState("description");
@@ -31,7 +32,7 @@ const SingleProduct = ({
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);
   };
-  console.log(serverData, 'check product page')
+  // console.log(serverData, 'check product page')
 
   const router = useRouter();
 
@@ -103,13 +104,17 @@ const SingleProduct = ({
     { id: "faq", label: "Faq", content: "Frequently asked questions..." },
     { id: "reviews", label: `Reviews (${reviews.length})`, content: null },
   ];
+
+  const parentSlug = getSlug(breadCrumb?.parent_category?.url, 'split'); 
+  const subSlug    = getSlug(breadCrumb?.subcategories?.[0]?.url, 'split');     
+
   return (
     <>
       <Breadcrumb
-        category="Heets Sticks"
-        categoryUrl="/heets-sticks"
-        subCategory={serverData?.categories?.[0]?.name || ""}
-        subCategoryUrl={serverData?.categories?.[0]?.slug || ""}
+        category={breadCrumb?.parent_category.name || ""}
+        categoryUrl={`/${parentSlug}` || "#"}
+        subCategory={breadCrumb?.subcategories?.[0]?.name || ""}
+        subCategoryUrl={`/${parentSlug}/${subSlug}` || "#"}
         product={serverData?.name || ""}
       />
       <div className="max-w-7xl mx-auto">

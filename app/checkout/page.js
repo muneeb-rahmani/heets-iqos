@@ -28,6 +28,7 @@ export default function CheckoutForm() {
   const [subTotalValue, setSubTotalValue] = useState(0);
   const [orderId, setOrderId] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [errors, setErrors] = useState({});
   const [deliveryOption, setDeliveryOption] = useState("standard");
   const [paymentMode, setPaymentMode] = useState("cod");
   useEffect(() => {
@@ -85,6 +86,7 @@ export default function CheckoutForm() {
 
   useEffect(() => {
     setTotalPayment(subTotalValue + shippingFee);
+    console.log(shippingFee, 'shippingFee')
   }, [subTotalValue, shippingFee]);
 
   const radioHandleChange = (val) => {
@@ -98,8 +100,42 @@ export default function CheckoutForm() {
     try {
       const form = new FormData(e.target);
       const formatted = Object.fromEntries(form);
-      // const total = total();
-      // console.log(formatted, 'check formatted');
+      let newErrors = {};
+
+    // Check each required field and set errors accordingly
+    if (!formatted.fullName?.trim()) {
+      newErrors.fullName = "Full name is required.";
+    }
+    if (!formatted.phone?.trim()) {
+      newErrors.phone = "Phone number is required.";
+    }
+    if (!formatted.email?.trim()) {
+      newErrors.email = "Email is required.";
+    }
+    if (!formatted.address?.trim()) {
+      newErrors.address = "Address is required.";
+    }
+    if (!formatted.country?.trim()) {
+      newErrors.country = "Emirate selection is required.";
+    }
+
+    // If there are errors, set the state and return early
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      setIsLoading(false);
+      // Focus the first field with an error using its name attribute.
+      const firstErrorField = Object.keys(newErrors)[0];
+      const errorInput = document.querySelector(`[name="${firstErrorField}"]`);
+      if (errorInput) {
+        (errorInput).focus();
+      }
+      return;
+    } else {
+      // Clear any previous errors
+      setErrors({});
+    }
+
+      
 
       const localCart = JSON.parse(localStorage.getItem("cart"));
       const lineItems = localCart.map((item) => ({
@@ -186,7 +222,7 @@ export default function CheckoutForm() {
         <div className="grid lg:grid-cols-2 gap-20">
           {/* Left Column - Form */}
           <div className="space-y-6">
-            <form onSubmit={handleForm}>
+            <form onSubmit={handleForm} noValidate>
               {/* Customer Information */}
               <Card className="mb-4 p-6">
                 <h2 className="text-[#8B1F18] font-medium mb-4 text-center rounded-md border-l-4 border-red-800 bg-gray-100 p-2">
@@ -202,6 +238,11 @@ export default function CheckoutForm() {
                       className="mt-1"
                       required
                     />
+                    {errors.fullName && (
+                      <p className="text-sm text-red-600 font-medium mt-1">
+                        {errors.fullName}
+                      </p>
+                    )}
                   </div>
                   <div>
                     <Label htmlFor="phone">Phone number</Label>
@@ -212,6 +253,11 @@ export default function CheckoutForm() {
                       className="mt-1"
                       required
                     />
+                    {errors.phone && (
+                      <p className="text-sm text-red-600 font-medium mt-1">
+                        {errors.phone}
+                      </p>
+                    )}
                   </div>
                   <div>
                     <Label htmlFor="email">Email</Label>
@@ -223,6 +269,11 @@ export default function CheckoutForm() {
                       className="mt-1"
                       required
                     />
+                    {errors.email && (
+                      <p className="text-sm text-red-600 font-medium mt-1">
+                        {errors.email}
+                      </p>
+                    )}
                   </div>
                 </div>
               </Card>
@@ -261,6 +312,11 @@ export default function CheckoutForm() {
                         </SelectItem>
                       </SelectContent>
                     </Select>
+                    {errors.country && (
+                      <p className="text-sm text-red-600 font-medium mt-1">
+                        {errors.country}
+                      </p>
+                    )}
                   </div>
                   <div>
                     <Label htmlFor="address">Address</Label>
@@ -271,6 +327,11 @@ export default function CheckoutForm() {
                       placeholder="Please enter full address"
                       className="w-full mt-1 p-2 border rounded-md min-h-[100px]"
                     />
+                    {errors.address && (
+                      <p className="text-sm text-red-600 font-medium mt-1">
+                        {errors.address}
+                      </p>
+                    )}
                   </div>
                   <div>
                     <Label htmlFor="address">Order Note</Label>
@@ -289,7 +350,7 @@ export default function CheckoutForm() {
                 <h2 className="text-[#8B1F18] font-medium mb-4 bg-gray-100 p-2 text-center rounded-md border-l-4 border-red-800">
                   SHIPPING METHOD
                 </h2>
-                <RadioGroup value={deliveryOption} onValueChange={radioHandleChange} className="space-y-2">
+                {/* <RadioGroup value={deliveryOption} onValueChange={radioHandleChange} className="space-y-2"> */}
                 {/* Standard Delivery */}
                 <div className="flex items-center space-x-2">
                   <input
@@ -319,7 +380,7 @@ export default function CheckoutForm() {
                   <Label htmlFor="express">Express Delivery</Label>
                   <span className="ml-auto">AED 49</span>
                 </div>
-              </RadioGroup>
+              {/* </RadioGroup> */}
 
               </Card>
 

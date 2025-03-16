@@ -4,7 +4,7 @@ import HeroSection from "../components/Header";
 import ProductCard from "../components/Products/product-card";
 import { useCart } from "../context/cartProvider";
 
-const Fujairah = ({ productData,metaData }) => {
+const RasAlKhaimah = ({ productData,metaData }) => {
   // console.log(productData, 'check product data')
   const { setIsCartOpen } = useCart();
   const [quantity, setQuantity] = useState({});
@@ -122,4 +122,4 @@ const Fujairah = ({ productData,metaData }) => {
   );
 };
 
-export default Fujairah;
+export default RasAlKhaimah;
