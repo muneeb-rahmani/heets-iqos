@@ -115,7 +115,7 @@ export async function getSEOData(slug) {
 export async function getSingleBlog(slug) {
   try {
     const response = await fetch(`${base_url}/wp-json/custom-api/v1/post/${slug}`);
-    console.log(`${base_url}/wp-json/wp/v2/posts?slug=${slug}`, 'response')
+    // console.log(`${base_url}/wp-json/wp/v2/posts?slug=${slug}`, 'response')
     const blogsData = await response.json();
     return [blogsData];
   } catch (error) {
@@ -316,3 +316,17 @@ export async function getBreadCrumbsData(category){
     throw error
   }
 }
+
+
+export async function getPages(pageid){
+  try {
+    const url = `${base_url}/wp-json/wp/v2/pages/${pageid}`;
+    // console.log(url, 'check url from getBreadCrumbsData')
+    const req = await axios.get(url);
+    return req.data;
+  } catch (error) {
+    console.log(error, "error from getPages");
+    throw error
+  }
+}
+

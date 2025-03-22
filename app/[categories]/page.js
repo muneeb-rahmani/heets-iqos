@@ -9,14 +9,14 @@ import { getSlug } from '../utils/common';
 export async function generateMetadata(props) {
   const params = await props.params;
   const data = await getCategoryMetadata(params?.categories);
-  // console.log(data, 'check data from category')
+  console.log(data, 'check data from category')
 
   const title = data
     ? data[0]?.meta_data?.rank_math_title[0]
     : "Best Dermatologists in India - Find Top Rated Dermatologists Near You";
 
   const description = data
-    ? data[0]?.meta_data[0]?.rank_math_description[0]
+    ? data[0]?.meta_data?.rank_math_description[0]
     : "Explore detailed reviews, contact information, and opening hours. Learn about their expert skin and hair care treatments tailored to your needs. Discover personalized dermatology solutions today!";
 
   const url = data ? `${config.mainifest.url}/products/${data[0]?.permalink}` : "";
@@ -32,10 +32,11 @@ export async function generateMetadata(props) {
     description,
     url,
     alternates: {
-      canonical: `${config.mainifest.url}/${trimmedSlug}`,
+      canonical: `${config.mainifest.url}${trimmedSlug}`,
     },
     openGraph: {
-      images: `${config.mainifest.url}/uploads/productIMG/${trimmedUrl}`,
+      // images: `${config.mainifest.url}/uploads/productIMG/${trimmedUrl}`,
+      images: data[0]?.meta_data?.cat_share_image[0],
     },
   };
 }

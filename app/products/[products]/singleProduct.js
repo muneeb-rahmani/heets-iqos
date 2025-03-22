@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import Link from "next/link";
 import { useState } from "react";
 import Image from "next/image";
@@ -28,12 +28,13 @@ const SingleProduct = ({
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState("description");
   const [selectedImage, setSelectedImage] = useState(0);
+  const [imgHeight, setImgHeight] = useState(0);
   const { isCartOpen, setIsCartOpen } = useCart();
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);
   };
   // console.log(serverData, 'check product page')
-
+  const sliderHeight = useRef(null);
   const router = useRouter();
 
   const updateQuantity = (id, change) => {
@@ -42,6 +43,12 @@ const SingleProduct = ({
       [id]: Math.max((prev[id] || 1) + change, 1),
     }));
   };
+
+  useEffect(() => {
+    if(sliderHeight.current) {
+      setImgHeight(sliderHeight.current.clientHeight);
+    }
+  }, [imgHeight]);
 
   const addToCart = (id, name, price, image) => {
     const cartObj = {
@@ -122,7 +129,7 @@ const SingleProduct = ({
           {/* Left Column - Image Gallery */}
           <div className="flex gap-4">
             {/* Thumbnails */}
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 pr-3" style={{ maxHeight: imgHeight, overflow: "hidden auto" }}>
               {imagesData && imagesData?.map((image, index) => (
                 <button
                   key={index}
@@ -146,7 +153,7 @@ const SingleProduct = ({
 
             {/* Main Image */}
             <div className="flex-1 p-4">
-              <div className="relative aspect-square rounded-lg shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
+              <div ref={sliderHeight} className="relative aspect-square rounded-lg shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
                 <Image
                   src={imagesData && imagesData[selectedImage].url || "/placeholder.svg"}
                   alt="Product main image"

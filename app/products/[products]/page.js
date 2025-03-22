@@ -24,7 +24,7 @@ export async function generateMetadata(props) {
     ? data?.meta_data?.rank_math_description[0]
     : "Explore detailed reviews, contact information, and opening hours. Learn about their expert skin and hair care treatments tailored to your needs. Discover personalized dermatology solutions today!";
 
-  const url = data ? `${config.mainifest.url}/products/${data?.permalink}` : "";
+  const url = data ? `${config.mainifest.url}products/${data?.permalink}` : "";
   const serializedData =  data?.meta_data?._harikrutfiwu_url[0];
 
   const result = unserialize(serializedData);
@@ -34,7 +34,7 @@ export async function generateMetadata(props) {
     description,
     url,
     alternates: {
-      canonical: `${config.mainifest.url}/products/${data?.slug}`,
+      canonical: `${config.mainifest.url}products/${data?.slug}`,
     },
     openGraph: {
       images: result?.img_url,
@@ -63,7 +63,7 @@ export default async function Page({ params, searchParams }) {
 
   const rankMathData = await getSEOData(slugData?.permalink);
   const jsonLdData = parseRankMathData(rankMathData);
-  
+  // console.log(rankMathData, 'check jsonLdData')
 
   return (
     <>

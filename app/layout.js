@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { CartProvider } from "./context/cartProvider";
 import CartModal from "./components/Modal";
+import config from "@/lib/config";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,7 +26,7 @@ export async function generateMetadata(props) {
     title,
     description,
     alternates: {
-      canonical: `${process.env.ACTUAL_URL}`,
+      canonical: `${config.mainifest.url}`,
     },
   };
 }

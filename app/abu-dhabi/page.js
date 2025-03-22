@@ -30,7 +30,7 @@ export async function generateMetadata(props) {
     description,
     url,
     alternates: {
-      canonical: `${config.mainifest.url}/${url}`,
+      canonical: `${config.mainifest.url}${url}`,
     },
     openGraph: {
       images: data[0]?.meta_data?.cat_share_image[0],
