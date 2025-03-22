@@ -6,7 +6,7 @@ import { getBlogs } from '../utils/products';
 
 const Page = async () => {
     const serverData = await getBlogs();
- console.log(serverData, 'serverData')
+//  console.log(serverData, 'serverData')
   return (
     <>
       <BlogPage serverData={serverData} />

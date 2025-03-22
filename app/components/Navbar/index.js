@@ -191,11 +191,11 @@ const Navbar = () => {
           </div>
           <div className="flex justify-end items-center w-[16%]">
             <p>
-              <Link href='/view-cart'>
+              <Link href="/view-cart">
                 <button
                   // onClick={() => setIsCartOpen(true)}
                   className="bg-transparent sm:bg-black inline-block py-2 px-5 text-white font-semibold rounded-lg transition duration-300 hover:bg-transparent sm:hover:bg-black hover:text-white"
-                  >
+                >
                   {/* <i className="fas fa-shopping-cart"></i>{" "} */}
                   <div className="hidden md:block">
                     <span id="cart_item">{cartItems && cartItems.length}</span>{" "}
@@ -323,7 +323,7 @@ const Navbar = () => {
             ))}
             <li className="relative hover:ease-in-out duration-300 ">
               <Link
-                href="/blog "
+                href="/blog"
                 className="flex items-center px-2 py-4 transition-colors"
               >
                 Blogs
@@ -372,6 +372,20 @@ const Navbar = () => {
         </div>
       </nav>
       {/* Mobile view end*/}
+
+      {/* Whatsapp icon */}
+      <a href="https://api.whatsapp.com/send?phone=971526937203&amp;text=Hello There, What are the offers provided by your website? Can I know more about your products. - https://heetsiqosuae.ae/" className="whatsapp-float" target="_blank" aria-label="whatsapp button">
+          <div className="footer-sticky">
+              <div className="footer-sticky-left">
+                  <p>Want us to order for you? We are happy to take your order on WhatsApp. <span>Connect Now</span></p>
+              </div>
+              <div className="footer-sticky-right">
+                  <div className="rounded-icon">
+                      <p><Image src="https://heetsiqosuae.ae/assets/front/images/footerbar_desktop_whatsapp_icon.webp" alt="whatsapp" width={50} height={50} /></p>
+                  </div>
+              </div>
+          </div>
+      </a>
     </>
   );
 };

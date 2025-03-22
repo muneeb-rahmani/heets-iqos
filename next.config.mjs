@@ -34,6 +34,13 @@ const nextConfig = {
             pathname: '/**',
             search: '',
           },
+          {
+            protocol: 'https',
+            hostname:"yourwebsite.com",
+            port: '',
+            pathname: '/**',
+            search: '',
+          },
         ],
       },
 };

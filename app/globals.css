@@ -88,3 +88,55 @@ body {
   .DescTable th{white-space: nowrap;}
 }
 /* Categroy Page CSS end */
+
+
+
+/* Sticky whatsapp */
+
+.footer-sticky { 
+  display: flex; 
+  align-items: center; 
+  position: fixed; 
+  bottom: 0; 
+  right: 0; 
+  z-index: 99999;
+} 
+
+.footer-sticky-left { 
+  background: #000; 
+  border-radius: 10px;
+} 
+
+.footer-sticky-right { 
+  border-radius: 50%; 
+  position: relative; 
+  margin-left: -39px; 
+  background: #1b994f;
+} 
+
+.footer-sticky-left p  { 
+  max-width: 400px; 
+  padding: 0 25px 0 22px; 
+  font-size: 12px; 
+  color: #fff;
+} 
+
+.footer-sticky-left span  { 
+  font-weight: 900;
+} 
+
+.rounded-icon p  { 
+  margin: 0; 
+  border-radius: 50%; 
+  width: 58px; 
+  height: 58px;
+} 
+
+.rounded-icon img { 
+  width: 100%; 
+  height: 100%;
+} 
+
+.rounded-icon img  { 
+  height: 100%;
+} 

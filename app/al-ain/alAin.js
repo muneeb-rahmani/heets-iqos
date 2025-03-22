@@ -68,7 +68,11 @@ const AlAin = ({ productData, metaData }) => {
 
   return (
     <div>
-      <HeroSection header={metaData[0]?.meta_data?.cat_h1_tag[0] || ""} featureImg={metaData[0]?.meta_data?.Cat_Hero_Section_PNG[0] || ""} />
+      <HeroSection 
+        header={metaData[0]?.meta_data?.cat_h1_tag[0] || ""} 
+        featureImg={metaData[0]?.meta_data?.Cat_Hero_Section_PNG[0] || ""}
+        shortDesc={metaData[0]?.meta_data?.cat_short_discription[0] || ""}
+      />
       {productData
         .filter(item => includedCategories.includes(item.category)) // Exclude unwanted categories
         .map((item, index) => (
