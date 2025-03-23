@@ -4,13 +4,13 @@ import CategoryProduct from './categoryProduct';
 import Head from 'next/head';
 import config from '@/lib/config';
 import { unserialize } from 'php-serialize';
-import { getSlug } from '@/app/utils/common';
+import { getSlug, parseRankMathData } from '@/app/utils/common';
 
 export async function generateMetadata(props) {
   const params = await props.params;
   const { categoryProduct } = await params;
   const data = await getCategoryMetadata(categoryProduct);
-  console.log(data,'categoryData');
+  // console.log(data,'categoryData');
   
   const title = data
       ? data[0]?.meta_data?.rank_math_title[0]
@@ -48,17 +48,42 @@ const Page = async ({params}) => {
   const seoData = await getSEOData(`${categories}/${categoryProduct}`);
   const data = await getCategoryBySlug(categoryProduct);
   const categoryData = await getCategoryMetadata(categoryProduct);
+  // Extract meta tags & schema from API response
+  const metaTags = seoData?.head || "";
+  const schemaScript = seoData?.head?.match(/<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/)?.[1];
 
-    // Extract meta tags & schema from API response
-    const metaTags = seoData?.head || "";
-    const schemaScript = seoData?.head?.match(/<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/)?.[1];
+  const rankMathData = await getSEOData(`${categoryProduct}/${categories}`);
+  const jsonLdData = parseRankMathData(rankMathData);
+  // Dynamic URL replacement
+  const currentUrl = `${config.mainifest.url}/${categories}/${categoryProduct}`;
+
+  // Modify the jsonLdData to have the correct url.
+  if (jsonLdData && Array.isArray(jsonLdData['@graph'])) {
+    jsonLdData['@graph'] = jsonLdData['@graph'].map((item) => {
+      if (item['@type'] === 'WebPage' && item.url === '%url%') {
+        return { ...item, url: currentUrl, potentialAction: item.potentialAction.map(action => {
+          if(action['@type'] === 'ReadAction'){
+            return {...action, target: [currentUrl]};
+          }
+          return action;
+        })};
+      }
+      if (item['@type'] === 'WebPage' && item['@id'] === '#webpage'){
+        return {...item, url: currentUrl};
+      }
+      return item;
+    });
+  }
 
   return (
     <>
       <Head>
         <div dangerouslySetInnerHTML={{ __html: metaTags }} />
-        {schemaScript && (
-          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: schemaScript }} />
+        {jsonLdData && (
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdData) }}
+          />
         )}
       </Head>
       <CategoryProduct productData={data} categoryData={categoryData} />
