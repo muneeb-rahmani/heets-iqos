@@ -5,6 +5,7 @@ import Head from 'next/head';
 import config from '@/lib/config';
 import { unserialize } from 'php-serialize';
 import { getSlug, parseRankMathData } from '@/app/utils/common';
+import Script from 'next/script';
 
 export async function generateMetadata(props) {
   const params = await props.params;
@@ -80,8 +81,9 @@ const Page = async ({params}) => {
       <Head>
         <div dangerouslySetInnerHTML={{ __html: metaTags }} />
         {jsonLdData && (
-          <script
+          <Script
             type="application/ld+json"
+            strategy="worker"
             dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdData) }}
           />
         )}
