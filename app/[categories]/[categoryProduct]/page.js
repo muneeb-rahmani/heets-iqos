@@ -76,18 +76,20 @@ const Page = async ({params}) => {
     });
   }
 
+  console.log(jsonLdData, "check jsonLdData data");
   return (
     <>
-      <Head>
+      {/* <Head> */}
         <div dangerouslySetInnerHTML={{ __html: metaTags }} />
         {jsonLdData && (
           <Script
             type="application/ld+json"
-            strategy="worker"
+            strategy="beforeInteractive"
+            // strategy="worker"
             dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdData) }}
           />
         )}
-      </Head>
+      {/* </Head> */}
       <CategoryProduct productData={data} categoryData={categoryData} />
     </>
   )

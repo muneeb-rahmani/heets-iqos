@@ -78,9 +78,11 @@ const Navbar = () => {
 
   useEffect(() => {
     if (searchTerm.length > 0) {
+      console.log(products, 'list of products')
       const results = products.filter((product) =>
         product.name.toLowerCase().includes(searchTerm.toLowerCase())
       );
+      console.log(results,'filtered result')
       setFilteredProducts(results);
       setShowDropdown(true);
     } else {
