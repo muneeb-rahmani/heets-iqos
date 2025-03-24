@@ -60,9 +60,9 @@ const HomePage = ({ productData }) => {
     "Terea Indonesia",
     "Terea UAE",
     "Terea Armenia",
-    "IQOS ILUMA One",
-    "IQOS ILUMA Standard",
-    "IQOS ILUMA Prime"
+    "IQOS ILUMA One Device",
+    "IQOS ILUMA Standard Device",
+    "IQOS ILUMA Prime Device",
   ]
 
 

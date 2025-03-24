@@ -13,14 +13,13 @@ const Page = async () => {
   // const productData = await getProducts();
   // console.log(productData, 'check muneeb')
   const categoryIds = await getCategories();
-
   const fetchCategoryAndProducts = async () => {
     try {
       const categoryId = categoryIds?.map(({ id: itemId, name: itemName }) => ({
         id: itemId,
         name: itemName,
       }));
-      // console.log(categoryId, "check categoryId data");
+      console.log(categoryId, "check categoryId data");
       const data = await axios?.all(
         categoryId?.map(async (item) => {
           // console.log(item.id, "check id from categoryId map");
@@ -28,6 +27,7 @@ const Page = async () => {
           return { products, category: item.name };
         })
       );
+      console.log(data, "check category data");
   
       return data;
       
