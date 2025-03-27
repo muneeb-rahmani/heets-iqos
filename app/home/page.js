@@ -2,6 +2,8 @@ import React from "react";
 import HomePage from "./homepage";
 import {
   getCategories,
+  getPages,
+  getPagesFromCustom,
   getProducts,
   getProductsByCategory,
   getSEOData,
@@ -19,7 +21,7 @@ const Page = async () => {
         id: itemId,
         name: itemName,
       }));
-      console.log(categoryId, "check categoryId data");
+      // console.log(categoryId, "check categoryId data");
       const data = await axios?.all(
         categoryId?.map(async (item) => {
           // console.log(item.id, "check id from categoryId map");
@@ -27,7 +29,7 @@ const Page = async () => {
           return { products, category: item.name };
         })
       );
-      console.log(data, "check category data");
+      // console.log(data, "check category data");
   
       return data;
       
@@ -36,6 +38,9 @@ const Page = async () => {
       throw error
     }
   };
+
+  const homepageDescripton = await getPagesFromCustom("homepage")
+  // console.log(homepageDescripton , 'check homepageDescripton')
   const url = process.env.NEXT_PUBLIC_BASE_URL;
   const data = await fetchCategoryAndProducts();
   const rankMathData = await getSEOData(url)
@@ -43,7 +48,7 @@ const Page = async () => {
 
   return (
     <>
-      <HomePage productData={data} productCategories={categoryIds} />
+      <HomePage productData={data} homepageDescripton={homepageDescripton} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
