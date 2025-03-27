@@ -32,6 +32,7 @@ const HeroSection = ({header, isHome,featureImg,shortDesc}) => {
               // fill={true}
               width={500}
               height={200}
+              overrideSrc={featureImg}
               className="w-full max-w-[500px] h-auto object-contain transform lg:scale-110"
             />
           </div>

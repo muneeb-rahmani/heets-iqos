@@ -4,7 +4,7 @@ import HeroSection from "../components/Header";
 import ProductCard from "../components/Products/product-card";
 import { useCart } from "../context/cartProvider";
 
-const HomePage = ({ productData }) => {
+const HomePage = ({ productData,homepageDescripton }) => {
   // console.log(productData, 'check product data')
   const { setIsCartOpen } = useCart();
   const [quantity, setQuantity] = useState({});
@@ -68,7 +68,7 @@ const HomePage = ({ productData }) => {
 
   return (
     <div>
-      <HeroSection />
+      <HeroSection header={homepageDescripton?.rank_math?.rank_math_title} featureImg={homepageDescripton?.acf_fields?.hero_section_png_image} />
       {productData
         .filter(item => includedCategories.includes(item.category)) // Exclude unwanted categories
         .map((item, index) => (
@@ -117,6 +117,8 @@ const HomePage = ({ productData }) => {
             </section>
           )
         ))}
+
+      <div className="container mx-auto" dangerouslySetInnerHTML={{__html: homepageDescripton?.content}} />
     </div>
   );
 };

@@ -4,6 +4,7 @@ import SingleProduct from "./singleProduct";
 import {
   getBreadCrumbsData,
   getProductBySlug,
+  getProductImages,
   getReviewByProduct,
   getSEOData,
   getSingleProduct,
@@ -50,6 +51,8 @@ export default async function Page({ params, searchParams }) {
     Array.isArray(_harikrutfiwu_wcgallary) && _harikrutfiwu_wcgallary.length > 0
       ? unserialize(_harikrutfiwu_wcgallary[0])
       : null;
+  const imagesArray = await getProductImages(params?.products);
+  // console.log(imagesArray, 'check imagesArray')
   
   const productId = await slugData?.id;
   
@@ -69,7 +72,7 @@ export default async function Page({ params, searchParams }) {
     <>
       <SingleProduct
         serverData={slugData}
-        imagesData={image}
+        imagesData={imagesArray.images}
         reviews={reviews}
         relatedProducts={relatedProducts}
         breadCrumb={breadCrumb}

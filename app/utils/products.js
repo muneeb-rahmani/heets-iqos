@@ -72,6 +72,19 @@ export async function getProductBySlug(slug) {
   }
 }
 
+export async function getProductImages(slug) {
+  try {
+    const url = `${base_url}/wp-json/custom-api/v1/product-all-images/${slug}`;
+    // console.log(url, 'check url from getproducts')
+    const req = await axios.get(url);
+    // console.log(req, "req from getProducts");
+    return req.data;
+  } catch (error) {
+    console.log(error, "error from getProductImages");
+    return null;
+  }
+}
+
 export async function getSliderData() {
   try {
     const response = await fetch("/api/slider");
@@ -326,6 +339,18 @@ export async function getPages(pageid){
     return req.data;
   } catch (error) {
     console.log(error, "error from getPages");
+    throw error
+  }
+}
+
+export async function getPagesFromCustom(pageid){
+  try {
+    const url = `${base_url}/wp-json/custom/v1/${pageid}`;
+    // console.log(url, 'check url from getBreadCrumbsData')
+    const req = await axios.get(url);
+    return req.data;
+  } catch (error) {
+    console.log(error, "error from getPagesFromCustom");
     throw error
   }
 }

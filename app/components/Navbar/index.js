@@ -176,9 +176,9 @@ const Navbar = () => {
             {showDropdown && (
               <div className="searchBar absolute w-full bg-white z-10 rounded-b-[6px] shadow-lg border mt-1 max-h-[250px] overflow-y-auto">
                 {filteredProducts.length > 0 ? (
-                  filteredProducts.map((product) => (
+                  filteredProducts.map((product, index) => (
                     <Link
-                      key={product.id}
+                      key={index}
                       href={`/products/${product.slug}`}
                       className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
                     >
@@ -243,7 +243,7 @@ const Navbar = () => {
           </div>
           {/* Search Bar */}
           <div className="flex-1 max-w-xl">
-            <div className="relative mx-auto">
+            <div className="relative mx-auto" ref={dropdownRef}>
               <form
                 className="flex justify-between w-full border-2 border-black rounded-md overflow-hidden items-center"
                 autoComplete="off"
@@ -254,6 +254,8 @@ const Navbar = () => {
                   autoComplete="off"
                   name="search"
                   className="w-full p-2"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
                 />
                 <button
                   type="button"
@@ -269,6 +271,25 @@ const Navbar = () => {
                   </span>
                 </button>
               </form>
+
+               {/* Search Results Dropdown */}
+              {showDropdown && (
+                <div className="searchBar absolute w-full bg-white z-10 rounded-b-[6px] shadow-lg border mt-1 max-h-[250px] overflow-y-auto">
+                  {filteredProducts.length > 0 ? (
+                    filteredProducts.map((product, index) => (
+                      <Link
+                        key={index}
+                        href={`/products/${product.slug}`}
+                        className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                      >
+                        {product.name}
+                      </Link>
+                    ))
+                  ) : (
+                    <p className="px-4 py-2 text-gray-500">No products found</p>
+                  )}
+                </div>
+              )}
               <div className="absolute w-full bg-white z-10 rounded-b-[6px] desktop-product-searched"></div>
             </div>
           </div>

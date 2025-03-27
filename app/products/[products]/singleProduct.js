@@ -141,7 +141,7 @@ const SingleProduct = ({
                   }`}
                 >
                   <Image
-                    src={image.url || "/placeholder.svg"}
+                    src={image || "/placeholder.svg"}
                     alt={`Product thumbnail ${index + 1}`}
                     width={80}
                     height={80}
@@ -155,7 +155,7 @@ const SingleProduct = ({
             <div className="flex-1 p-4">
               <div ref={sliderHeight} className="relative aspect-square rounded-lg shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
                 <Image
-                  src={imagesData && imagesData[selectedImage].url || "/placeholder.svg"}
+                  src={imagesData && imagesData[selectedImage] || "/placeholder.svg"}
                   alt="Product main image"
                   fill
                   className="object-contain"
