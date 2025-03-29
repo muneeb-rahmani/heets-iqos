@@ -68,7 +68,11 @@ const HomePage = ({ productData,homepageDescripton }) => {
 
   return (
     <div>
-      <HeroSection header={homepageDescripton?.rank_math?.rank_math_title} featureImg={homepageDescripton?.acf_fields?.hero_section_png_image} />
+      <HeroSection 
+        header={homepageDescripton?.rank_math?.rank_math_title} 
+        featureImg={homepageDescripton?.acf_fields?.hero_section_png_image} 
+        shortDesc={homepageDescripton?.rank_math?.rank_math_description}
+      />
       {productData
         .filter(item => includedCategories.includes(item.category)) // Exclude unwanted categories
         .map((item, index) => (
@@ -78,13 +82,13 @@ const HomePage = ({ productData,homepageDescripton }) => {
                 <div>
                   {item.products.length > 0 && (
                     <div className="flex flex-col items-center justify-center mb-6">
-                      <h2 className={`text-3xl font-bold text-center ${index !== 0 ? "mt-10" : ""}`}>
+                      <h2 className={`text-2xl md:text-4xl font-bold text-center ${index !== 0 ? "mt-10" : ""}`}>
                         {item.category}
                       </h2>
                       <span className="w-[100px] border-b-red-800 h-2 border-b-4"></span>
                     </div>
                   )}
-                  <div className="grid grid-cols-2 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                  <div className="grid grid-cols-2 gap-3 md:gap-6 sm:grid-cols-2 lg:grid-cols-4">
                     {item.products.map((product) => (
                       product.stock_status === "instock" && (
                       <ProductCard

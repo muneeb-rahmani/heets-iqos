@@ -124,12 +124,12 @@ const SingleProduct = ({
         subCategoryUrl={`/${parentSlug}/${subSlug}` || "#"}
         product={serverData?.name || ""}
       />
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-full mx-auto md:max-w-7xl">
         <div className="grid md:grid-cols-2 gap-8 p-4">
           {/* Left Column - Image Gallery */}
-          <div className="flex gap-4">
+          <div className="flex gap-4 flex-col-reverse md:flex-row max-w-[90vw] w-full md:max-w-none">
             {/* Thumbnails */}
-            <div className="flex flex-col gap-2 pr-3" style={{ maxHeight: imgHeight, overflow: "hidden auto" }}>
+            <div className="hidden md:flex flex-row md:flex-col gap-2 pr-3 overflow-x-auto md:overflow-y-auto" style={{ maxHeight: imgHeight}}>
               {imagesData && imagesData?.map((image, index) => (
                 <button
                   key={index}
@@ -145,10 +145,33 @@ const SingleProduct = ({
                     alt={`Product thumbnail ${index + 1}`}
                     width={80}
                     height={80}
-                    className="w-full h-full object-contain"
+                    className="w-full h-full object-scale-down md:object-contain"
                   />
                 </button>
               ))}
+            </div>
+            
+            {/* Mobile: Horizontal Thumbnails (Below main image) */}
+            <div className="md:hidden w-full overflow-x-auto">
+              <div className="flex gap-2 pb-2" style={{ minWidth: `${imagesData?.length * 88}px` }}>
+                {imagesData?.map((image, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setSelectedImage(index)}
+                    className={`border-2 p-1 rounded-lg w-20 h-20 flex-shrink-0 ${
+                      selectedImage === index ? "border-red-800" : "border-gray-200"
+                    }`}
+                  >
+                    <Image
+                      src={image || "/placeholder.svg"}
+                      alt={`Thumbnail ${index + 1}`}
+                      width={80}
+                      height={80}
+                      className="object-contain w-full h-full"
+                    />
+                  </button>
+                ))}
+              </div>
             </div>
 
             {/* Main Image */}
@@ -173,6 +196,9 @@ const SingleProduct = ({
                 <StarRating
                   rating={serverData?.meta_data?._wc_average_rating[0] || 0}
                   reviews={serverData?.meta_data?._wc_review_count[0] || 0}
+                  productPage={true}
+                  isRating={false}
+                  isCustomerReview={false}
                 />
               </div>
               <div className="flex items-center gap-2 border-2 p-2 rounded-md text-sm">
@@ -199,10 +225,10 @@ const SingleProduct = ({
             <div className="space-y-2">
               <div className="flex items-center gap-4">
                 {serverData?.sku && (
-                  <span className="text-sm">SKU: {serverData?.sku}</span>
+                  <span className="text-[10px] md:text-sm">SKU: {serverData?.sku}</span>
                 )}
-                <span className="text-sm">VENDOR: Heets IQOS UAE</span>
-                <span className="text-sm">
+                <span className="text-[10px] md:text-sm">VENDOR: Heets IQOS UAE</span>
+                <span className="text-[10px] md:text-sm">
                   AVAILABILITY:{" "}
                   {serverData?.stock_status == "instock"
                     ? "In Stock"
@@ -247,6 +273,7 @@ const SingleProduct = ({
                 </button>
               </div>
               <button
+                disabled={serverData?.stock_status !== "instock"}
                 onClick={() =>
                   addToCart(
                     serverData.id,
@@ -255,7 +282,7 @@ const SingleProduct = ({
                     imagesData[0]?.url
                   )
                 }
-                className="flex-1 bg-[#8b2c2a] rounded-lg text-white py-2 hover:bg-red-900 transition-colors"
+                className={`flex-1 rounded-lg text-white py-2  transition-colors ${serverData?.stock_status !== "instock" ? 'cursor-not-allowed bg-gray-500 hover:bg-gray-600' : 'bg-[#8b2c2a] hover:bg-red-900 cursor-pointer'}`}
               >
                 {serverData?.stock_status === "instock"
                   ? "Add to Cart"
@@ -298,7 +325,7 @@ const SingleProduct = ({
           </div>
         </div>
 
-        <div className="tab-content p-6">
+        {/* <div className="tab-content p-6">
           <div className=" text-gray-900 p-4 md:p-8">
             <div className="mx-auto">
               <div
@@ -324,12 +351,9 @@ const SingleProduct = ({
                   isRating={false}
                 />
               </div>
-              {/* <h4 className="text-2xl font-bold">
-                {serverData?.name} {`(${reviews.length} Reviews)`}
-              </h4> */}
             </div>
 
-            {/* Reviews List */}
+            
             <div className="space-y-6">
               {reviews.map((review) => (
                 <div
@@ -359,7 +383,7 @@ const SingleProduct = ({
               ))}
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
       <section className="py-12 bg-[#f1f1f1]">
         <div className="px-4 max-w-7xl mx-auto">
@@ -367,7 +391,7 @@ const SingleProduct = ({
             {serverData?.categories[0]?.name}
             <div className="w-20 h-1 bg-red-800 mx-auto mt-2" />
           </h2>
-          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
             {relatedProducts.map((product) => (
               <ProductCard
                 key={product.id}
@@ -415,33 +439,71 @@ export function Breadcrumb({
 }) {
   return (
     <nav className=" space-x-2 text-sm py-4 px-4 bg-gray-50">
-      <div className="max-w-7xl mx-auto flex items-center">
-        <div className="flex items-center">
-          <Link href="/" className="text-red-800 font-medium underline">
-            Home
-          </Link>
-          <ChevronRight className="w-4 h-4 mx-2 text-gray-400" />
-
-          <Link
-            href={categoryUrl || "#"}
-            className="text-red-800 font-medium underline"
-          >
-            {category}
-          </Link>
-          <ChevronRight className="w-4 h-4 mx-2 text-gray-400" />
-
-          <Link
-            href={subCategoryUrl || "#"}
-            className="text-red-800 font-medium underline"
-          >
-            {subCategory}
-          </Link>
-          <ChevronRight className="w-4 h-4 mx-2 text-gray-400" />
-
-          <p href={productUrl || "#"} className="text-gray-800">
-            {product}
-          </p>
-        </div>
+      <div class="containerBreadcrumb">
+        <ul
+          class="breadcrumb"
+          itemType="https://schema.org/BreadcrumbList"
+        >
+          <li>
+            <Link
+              itemProp="itemListElement"
+              itemScope=""
+              itemType="https://schema.org/ListItem"
+              href="/"
+            >
+              <meta itemProp="position" content="1" />
+              <meta itemProp="name" content="Home" />
+              <meta itemProp="item" content="/" />
+              Home
+            </Link>
+          </li>
+          <li>
+            <Link
+              itemProp="itemListElement"
+              itemScope=""
+              itemType="https://schema.org/ListItem"
+              href={categoryUrl || "#"}
+            >
+              <meta itemProp="position" content="2" />
+              <meta itemProp="name" content="Heets Sticks" />
+              <meta
+                itemProp="item"
+                content={categoryUrl || "#"}
+              />
+              {category}
+            </Link>
+          </li>
+          <li>
+            <Link
+              itemProp="itemListElement"
+              itemScope=""
+              itemType="https://schema.org/ListItem"
+              href={subCategoryUrl || "#"}
+            >
+              <meta itemProp="position" content="2" />
+              <meta itemProp="name" content="Heets Sticks" />
+              <meta
+                itemProp="item"
+                content={subCategoryUrl || "#"}
+              />
+               {subCategory}
+            </Link>
+          </li>
+          <li>
+            <span
+              itemProp="itemListElement"
+              itemScope=""
+              itemType="https://schema.org/ListItem"
+            >
+              <meta itemProp="position" content="3" />
+              <meta
+                itemProp="name"
+                content={product}
+              />
+              {product}
+            </span>
+          </li>
+        </ul>
       </div>
     </nav>
   );

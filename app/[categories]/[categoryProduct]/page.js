@@ -76,7 +76,7 @@ const Page = async ({params}) => {
     });
   }
 
-  console.log(jsonLdData, "check jsonLdData data");
+  // console.log(jsonLdData, "check jsonLdData data");
   return (
     <>
       {/* <Head> */}

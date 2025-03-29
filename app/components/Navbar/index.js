@@ -13,6 +13,12 @@ import {
 } from "@/app/utils/products";
 import { Home, ShoppingCart, Phone, Search, Menu } from "lucide-react";
 import InfiniteSlider from "../TopSlider";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const Navbar = () => {
   const [activeDropdown, setActiveDropdown] = useState(null);
@@ -24,6 +30,7 @@ const Navbar = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [toggleMenu, settoggleMenu] = useState(false);
   const [products, setProducts] = useState([]);
   const dropdownRef = useRef(null);
 
@@ -78,11 +85,11 @@ const Navbar = () => {
 
   useEffect(() => {
     if (searchTerm.length > 0) {
-      console.log(products, 'list of products')
+      console.log(products, "list of products");
       const results = products.filter((product) =>
         product.name.toLowerCase().includes(searchTerm.toLowerCase())
       );
-      console.log(results,'filtered result')
+      console.log(results, "filtered result");
       setFilteredProducts(results);
       setShowDropdown(true);
     } else {
@@ -127,15 +134,11 @@ const Navbar = () => {
   return (
     <>
       <InfiniteSlider reviewLength={reviewLength} totalSales={totalSales} />
-      <div className="px-5 py-5 md:px-5 md:py-0">
+      <div className=" relative">
         {/* Desktop view start */}
         <div className="hidden md:flex flex-wrap sm:hidden py-1 justify-between items-center">
           <div className="flex items-center w-1/4">
-            <Link
-              href="/"
-              className="logo_img"
-              aria-label="Heets IQOS UAE logo"
-            >
+            <Link href="/" className="logo_img" ariaLabel="Heets IQOS UAE logo">
               <Image
                 src="/imgs/heets-iqos-uae-logo.png"
                 overrideSrc="/imgs/heets-iqos-uae-logo.png"
@@ -211,14 +214,10 @@ const Navbar = () => {
         {/* Desktop view end */}
 
         {/* Mobile view start */}
-        <nav className="bg-white block md:hidden border-b border-gray-200">
+        <nav className="bg-white block md:hidden border-b border-gray-200 px-5 py-5 md:px-5 md:py-0">
           <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
             {/* Logo */}
-            <Link
-              href="/"
-              className="logo_img"
-              aria-label="Heets IQOS UAE logo"
-            >
+            <Link href="/" className="logo_img" ariaLabel="Heets IQOS UAE logo">
               <Image
                 src="/imgs/heets-iqos-uae-logo.png"
                 alt="Heets IQOS UAE logo"
@@ -236,7 +235,10 @@ const Navbar = () => {
                   {cartItems && cartItems.length}
                 </span>
               </button>
-              <button className="p-1">
+              <button
+                className="p-1"
+                onClick={() => settoggleMenu(!toggleMenu)}
+              >
                 <Menu className="h-6 w-6 text-black" />
               </button>
             </div>
@@ -272,7 +274,7 @@ const Navbar = () => {
                 </button>
               </form>
 
-               {/* Search Results Dropdown */}
+              {/* Search Results Dropdown */}
               {showDropdown && (
                 <div className="searchBar absolute w-full bg-white z-10 rounded-b-[6px] shadow-lg border mt-1 max-h-[250px] overflow-y-auto">
                   {filteredProducts.length > 0 ? (
@@ -290,12 +292,54 @@ const Navbar = () => {
                   )}
                 </div>
               )}
+
               <div className="absolute w-full bg-white z-10 rounded-b-[6px] desktop-product-searched"></div>
             </div>
           </div>
         </nav>
         {/* Mobile view end */}
       </div>
+
+      {toggleMenu && (
+        <div className="searchBar absolute w-full bg-white z-10 rounded-b-[6px] shadow-lg border">
+          <Link href="/">Home Page</Link>
+          <Accordion className="w-full px-4 mt-4">
+            {categories.map((item) => (
+              <AccordionItem
+                key={item.id}
+                value={item?.slug?.split("-").join(" ").toUpperCase()}
+                className="w-full"
+              >
+                {item.slug != "shop" && item.slug != "products" && (
+                  <AccordionTrigger className="text-left p-0 w-full">
+                    <Link
+                      href={`/${item.slug}`}
+                      className="flex items-center px-2 py-4 transition-colors w-full arrowTrigger"
+                    >
+                        {item?.slug?.split("-").join(" ").toUpperCase()}
+                    </Link>
+                  </AccordionTrigger>
+                )}
+                <AccordionContent>
+                  <ul>
+                    {item.children.map((child) => (
+                      <li key={child.name}>
+                        <span className="mob-arrow">→</span>
+                        <Link
+                          href={`/${item.slug}/${child.slug}`}
+                          ariaLabel={child.name}
+                        >
+                          {child.name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
+      )}
 
       <nav className="bg-black text-white hidden md:block">
         <div className="relative flex items-center justify-center">
@@ -397,17 +441,32 @@ const Navbar = () => {
       {/* Mobile view end*/}
 
       {/* Whatsapp icon */}
-      <a href="https://api.whatsapp.com/send?phone=971526937203&amp;text=Hello There, What are the offers provided by your website? Can I know more about your products. - https://heetsiqosuae.ae/" className="whatsapp-float" target="_blank" aria-label="whatsapp button">
-          <div className="footer-sticky">
-              <div className="footer-sticky-left">
-                  <p>Want us to order for you? We are happy to take your order on WhatsApp. <span>Connect Now</span></p>
-              </div>
-              <div className="footer-sticky-right">
-                  <div className="rounded-icon">
-                      <p><Image src="https://heetsiqosuae.ae/assets/front/images/footerbar_desktop_whatsapp_icon.webp" alt="whatsapp" width={50} height={50} /></p>
-                  </div>
-              </div>
+      <a
+        href="https://api.whatsapp.com/send?phone=971526937203&amp;text=Hello There, What are the offers provided by your website? Can I know more about your products. - https://heetsiqosuae.ae/"
+        className="whatsapp-float"
+        target="_blank"
+        ariaLabel="whatsapp button"
+      >
+        <div className="footer-sticky">
+          <div className="footer-sticky-left">
+            <p>
+              Want us to order for you? We are happy to take your order on
+              WhatsApp. <span>Connect Now</span>
+            </p>
           </div>
+          <div className="footer-sticky-right">
+            <div className="rounded-icon">
+              <p>
+                <Image
+                  src="https://heetsiqosuae.ae/assets/front/images/footerbar_desktop_whatsapp_icon.webp"
+                  alt="whatsapp"
+                  width={50}
+                  height={50}
+                />
+              </p>
+            </div>
+          </div>
+        </div>
       </a>
     </>
   );

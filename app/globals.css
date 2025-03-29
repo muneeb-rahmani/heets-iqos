@@ -140,3 +140,59 @@ body {
 .rounded-icon img  { 
   height: 100%;
 } 
+
+.arrowTrigger h3 {
+  width: 100%;
+}
+
+
+/* breadcrumb css */
+
+.bread_wrap { 
+  background: #f1f1f1; 
+  padding: 10px 0; 
+  margin-bottom: 0; 
+  position: relative; 
+  z-index: 9;
+} 
+
+.containerBreadcrumb { 
+  max-width: 1170px; 
+  margin: auto;
+} 
+
+.breadcrumb { 
+  margin: 0; 
+  background: 0 0; 
+  padding: 0; 
+  display: flex; 
+  list-style: none; 
+  overflow: auto;
+} 
+
+.breadcrumb li  { 
+  margin-right: 13px; 
+  white-space: nowrap;
+} 
+
+
+.breadcrumb a  { 
+  color: #8b2c2a; 
+  font-weight: 600;
+} 
+
+.breadcrumb li a  { 
+  position: relative;
+} 
+
+.breadcrumb li a::before { 
+  content: ''; 
+  height: 100%; 
+  right: -9px; 
+  width: 1px; 
+  transform: rotate(21deg); 
+  background: #000; 
+  position: absolute;
+} 
+
+

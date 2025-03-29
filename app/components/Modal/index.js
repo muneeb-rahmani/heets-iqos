@@ -47,8 +47,8 @@ export default function CartModal() {
       {/* Modal */}
       <Dialog open={isCartOpen} onOpenChange={setIsCartOpen}>
         <DialogTitle className="sr-only">Cart</DialogTitle>
-        <DialogContent className="sm:max-w-[65vw] max-h-[90vh] p-0 border-none">
-          <div className="relative w-full bg-white rounded-lg">
+        <DialogContent className="sm:max-w-[50vw] max-h-[90vh] p-0 border-none">
+          <div className="relative bg-white rounded-lg">
             {/* Close Button */}
             <button
               onClick={() => setIsOpen(false)}
