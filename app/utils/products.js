@@ -289,14 +289,14 @@ export async function fetchCategories() {
     // Step 1: Create a lookup object for categories
     const categoryMap = {};
 
-    categories.forEach((category) => {
+    categories ? categories?.forEach((category) => {
       categoryMap[category.id] = { ...category, children: [] };
-    });
+    }) : [];
 
     // Step 2: Arrange categories into parent-child hierarchy
     const structuredCategories = [];
 
-    categories.forEach((category) => {
+    categories?.forEach((category) => {
       if (category.parent === 0) {
         // Top-level category
         structuredCategories.push(categoryMap[category.id]);

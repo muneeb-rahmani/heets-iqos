@@ -36,7 +36,7 @@ export default function InfiniteSlider({ reviewLength, totalSales }) {
               <div className="relative w-5 h-5 mr-2">
                 <Image
                   src={announcement.icon || "/placeholder.svg"}
-                  alt=""
+                  alt={announcement.icon}
                   fill
                   className="object-contain"
                   priority={index === 0}
