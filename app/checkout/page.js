@@ -219,9 +219,9 @@ export default function CheckoutForm() {
       {showThankyou ? (
         <ThankYou orderId={orderId} />
       ) : (
-        <div className="grid lg:grid-cols-2 gap-20">
+        <div className="grid lg:grid-cols-2 gap-8 md:gap-20">
           {/* Left Column - Form */}
-          <div className="space-y-6">
+          <div className="order-2 lg:order-none space-y-6">
             <form onSubmit={handleForm} noValidate>
               {/* Customer Information */}
               <Card className="mb-4 p-6">
@@ -462,7 +462,7 @@ export default function CheckoutForm() {
           </div>
 
           {/* Right Column - Order Summary */}
-          <div className="space-y-6">
+          <div className="order-1 lg:order-none space-y-6">
             <Card className="p-6 sticky top-0">
               <h2 className="text-[#8B1F18] font-medium mb-4 bg-gray-100 p-2 text-center rounded-md border-l-4 border-red-800">
                 Total

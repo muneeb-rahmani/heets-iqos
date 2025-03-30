@@ -229,12 +229,12 @@ const Navbar = () => {
 
             {/* Cart & Menu */}
             <div className="flex items-center gap-4">
-              <button onClick={() => setIsCartOpen(true)} className="relative">
+              <Link href='/view-cart' className="relative">
                 <ShoppingCart className="h-6 w-6 text-black" />
                 <span className="absolute -top-2 -right-2 bg-black text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
                   {cartItems && cartItems.length}
                 </span>
-              </button>
+              </Link>
               <button
                 className="p-1"
                 onClick={() => settoggleMenu(!toggleMenu)}
@@ -415,7 +415,7 @@ const Navbar = () => {
             <Home className="h-6 w-6 text-primary" />
             <span className="text-xs mt-1 text-primary">Home</span>
           </Link>
-          <Link href="/cart" className="flex flex-col items-center">
+          <Link href="/view-cart" className="flex flex-col items-center">
             <ShoppingCart className="h-6 w-6 text-primary" />
             <span className="text-xs mt-1 text-primary">Cart</span>
           </Link>
