@@ -28,6 +28,7 @@ export default function CheckoutForm() {
   const [subTotalValue, setSubTotalValue] = useState(0);
   const [orderId, setOrderId] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isFreeDelivery, setIsFreeDelivery] = useState("");
   const [errors, setErrors] = useState({});
   const [deliveryOption, setDeliveryOption] = useState("standard");
   const [paymentMode, setPaymentMode] = useState("cod");
@@ -80,13 +81,15 @@ export default function CheckoutForm() {
       return 49; // Express is always AED 49
     } else {
       // For "standard": free if subtotal >= 200, else AED 49
-      return subTotalValue >= 200 ? 0 : 49;
+      return subTotalValue >= 200 ? 0 : 30;
     }
   }, [deliveryOption, subTotalValue]);
 
   useEffect(() => {
     setTotalPayment(subTotalValue + shippingFee);
-    console.log(shippingFee, 'shippingFee')
+    const freeDelivery = deliveryOption == 'express' ? "Express delivery charges" : deliveryOption == "standard" && subTotalValue >= 200 ? "Standard delivery charges" : "Free delivery"
+    setIsFreeDelivery(freeDelivery)
+    // console.log(shippingFee, 'shippingFee')
   }, [subTotalValue, shippingFee]);
 
   const radioHandleChange = (val) => {
@@ -175,15 +178,15 @@ export default function CheckoutForm() {
           country: "",
         },
         line_items: lineItems,
-        shipping_lines: [
+        shipping_lines: isFreeDelivery == "free delivery" ? [] : [
           {
             method_id: "flat_rate",
-            method_title: "Flat Rate",
-            total: totalPayment.toLocaleString(),
+            method_title: `${deliveryOption == 'express' ? "Express delivery charges" : deliveryOption == "standard" && subTotalValue >= 200 ? "Standard delivery charges" : "Free delivery"}`,
+            // total: totalPayment.toLocaleString(),
           },
         ],
       };
-
+      console.log(data, 'check data of order')
       const response = await createOrder(data);
       if (response) {
         setOrderId(response?.id)
