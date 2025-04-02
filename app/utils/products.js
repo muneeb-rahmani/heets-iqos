@@ -20,6 +20,28 @@ const logRequestOrigin = (functionName) => {
   );
 };
 
+// new api written start
+export async function getHomeData() {
+  try {
+    const url = `${base_url}/wp-json/custom/v1/homepage?category_slug=classic-kazakhstan,dimensions,one`;
+    // console.log(url, 'check url from getproducts')
+    const req = await axios.get(url);
+    // console.log(req, "req from getProducts");
+    return req.data;
+  } catch (error) {
+    console.log(error, "error from getHomeData");
+    return null;
+  }
+}
+
+
+
+// new api written end
+
+
+
+
+
 // export async function getProducts() {
 //   try {
 //     const url = `${base_url}/wp-json/wc/v3/products?consumer_key=${consumerKey}&consumer_secret=${consumerSecret}&per_page=100`;
