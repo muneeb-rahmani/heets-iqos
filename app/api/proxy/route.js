@@ -14,7 +14,7 @@ const consumerSecret = isServer()
 
 export async function GET() {
     const url = `${base_url}/wp-json/wc/v3/products/categories?consumer_key=${consumerKey}&consumer_secret=${consumerSecret}&per_page=100`;
-    
+    // console.log(url, 'check proxy url')
     try {
       const response = await fetch(url);
       const data = await response.json();

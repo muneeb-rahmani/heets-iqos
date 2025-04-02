@@ -325,7 +325,7 @@ const SingleProduct = ({
           </div>
         </div>
 
-        {/* <div className="tab-content p-6">
+        <div className="tab-content p-6">
           <div className=" text-gray-900 p-4 md:p-8">
             <div className="mx-auto">
               <div
@@ -383,7 +383,7 @@ const SingleProduct = ({
               ))}
             </div>
           </div>
-        </div> */}
+        </div>
       </div>
       <section className="py-12 bg-[#f1f1f1]">
         <div className="px-4 max-w-7xl mx-auto">
