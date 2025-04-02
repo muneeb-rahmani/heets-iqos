@@ -2,6 +2,7 @@ import React from "react";
 import HomePage from "./homepage";
 import {
   getCategories,
+  getHomeData,
   getPages,
   getPagesFromCustom,
   getProducts,
@@ -14,6 +15,9 @@ import { parseRankMathData } from "../utils/common";
 const Page = async () => {
   // const productData = await getProducts();
   // console.log(productData, 'check muneeb')
+  const homeData = await getHomeData()
+  console.log(homeData, 'check muneeb')
+
   const categoryIds = await getCategories();
   const fetchCategoryAndProducts = async () => {
     try {
@@ -48,7 +52,7 @@ const Page = async () => {
 
   return (
     <>
-      <HomePage productData={data} homepageDescripton={homepageDescripton} />
+      <HomePage productData={data} homeData={homeData} homepageDescripton={homepageDescripton} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
