@@ -12,7 +12,7 @@ const BlogPage = ({serverData}) => {
       <h1 className="text-3xl font-bold text-center mb-6">Latest Blogs</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {serverData.map((blog, index) => {
-          const formattedUrl = getSlug(blog.url)
+          const formattedUrl = getSlug(blog.url, 'split')
           return (
           <div key={index} className="border rounded-lg overflow-hidden shadow-lg">
             <div className="p-4">
@@ -24,7 +24,7 @@ const BlogPage = ({serverData}) => {
                   height={200}
                 />
               </Link>
-              <h2 className="text-xl font-semibold">
+              <h2 className="text-xl font-semibold mt-4">
                 <Link href={formattedUrl} className="blogTitle">
                   {blog.title}
                 </Link>
@@ -33,7 +33,7 @@ const BlogPage = ({serverData}) => {
                 {new Date(blog.date).toLocaleDateString()}
               </p> */}
               {/* <p className="text-gray-800 mt-2" dangerouslySetInnerHTML={{ __html: blog.excerpt.rendered }}></p> */}
-              <Link href={`/blog/${formattedUrl}`} className="text-red-500 font-semibold mt-4 inline-block">
+              <Link href={formattedUrl} className="text-red-500 font-semibold mt-4 inline-block">
                 Read More →
               </Link>
             </div>
