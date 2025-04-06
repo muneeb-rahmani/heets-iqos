@@ -103,10 +103,10 @@ const HomePage = ({ productData,homepageDescripton, homeData }) => {
                         price={product.sale_price}
                         // rating={product.average_rating}
                         reviews={product.total_reviews}
-                        // details={product.stock_status === "instock" ? "In Stock" : "Out of Stock"}
-                        // isDisabled={product.stock_status === "instock" ? false : true}
-                        origin={product?.meta_data?.find(item => item.key === "proorigincard")?.value}
-                        id={product.id}
+                        details={product.stock_status === "instock" ? "In Stock" : "Out of Stock"}
+                        isDisabled={product.stock_status === "instock" ? false : true}
+                        origin={product?.proorigincard}
+                        id={product.product_id}
                         quantity={quantity[product.product_id] || 1}
                         reviewCount={product.total_reviews}
                         soldItems={product?.total_sold}

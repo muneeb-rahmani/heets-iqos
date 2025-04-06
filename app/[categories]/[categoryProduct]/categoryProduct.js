@@ -44,49 +44,38 @@ const CategoryProduct = ({ productData, categoryData }) => {
 
   return (
     <div>
-       {/* <div dangerouslySetInnerHTML={{ __html: productData[0]?.description }} /> */}
-      {/* <HeroSection 
-        header={productData[0]?.meta_data?.rank_math_title[0].replace('%term%',productData[0].name)} 
-        featureImg={productData[0]?.meta_data?.Cat_Hero_Section_PNG[0]} /> */}
-        <HeroSection
-          header={categoryData?.[0]?.meta_data?.cat_h1_tag?.[0] || ""}
-          featureImg={categoryData?.[0]?.meta_data?.Cat_Hero_Section_PNG?.[0] || ""}
-          shortDesc={categoryData?.[0]?.meta_data?.cat_short_discription?.[0] || ""}
+       <HeroSection
+          header={categoryData?.custom_fields?.cat_h1_tag || ""}
+          featureImg={categoryData?.custom_fields?.Cat_Hero_Section_PNG || ""}
+          shortDesc={categoryData?.custom_fields?.cat_short_discription || ""}
         />
         <section className="container mx-auto px-4">
         <div className="grid grid-cols-2 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {productData.map((item, index) => {
-            const {_harikrutfiwu_url} = item?.meta_data || {};
-            const image = Array.isArray(_harikrutfiwu_url) && _harikrutfiwu_url.length > 0 
-                            ? unserialize(_harikrutfiwu_url?.[0]) 
-                            : null;
-            // console.log(image, 'check image')
-            return (
+          {categoryData?.products?.map((item, index) => (
             <ProductCard
               key={index}
-              title={item.name}
-              image={image?.img_url || ""}
-              productUrl={`/products/${item.slug}`}
-              rating={item?.meta_data?._wc_average_rating?.[0]}
-              reviews={item?.meta_data?._wc_review_count?.[0]}
-              price={item.price}
-              id={item.id}
+              title={item?.product_name}
+              image={item?.product_image || ""}
+              productUrl={`/products/${item.product_slug}`}
+              // rating={item?.meta_data?._wc_average_rating?.[0]}
+              reviews={item?.total_reviews}
+              price={item.sale_price}
+              id={item.product_id}
               details={item.stock_status === "instock" ? "In Stock" : "Out of Stock"}
               isDisabled={item.stock_status === "instock" ? false : true}
-              quantity={quantity[item.id] || 1}
-              reviewCount={item.rating_count}
-              origin={item?.meta_data?.proorigincard?.[0]}
-              soldItems={item?.total_sales}
+              quantity={quantity[item.product_id] || 1}
+              origin={item?.custom_fields?.proorigincard}
+              soldItems={item?.total_sold}
               originalPrice={item?.regular_price}
               onAddCart={() =>
-                addToCart(item.id, item.name, item.price, image?.img_url)
+                addToCart(item.product_id, item.product_name, item.sale_price, item?.product_image)
               }
-              incrementQuantity={() => updateQuantity(item.id, 1)}
-              decrementQuantity={() => updateQuantity(item.id, -1)}
+              incrementQuantity={() => updateQuantity(item.product_id, 1)}
+              decrementQuantity={() => updateQuantity(item.product_id, -1)}
             />
-          )})}
+          ))}
         </div>
-        <div className="mt-8" dangerouslySetInnerHTML={{ __html: categoryData[0]?.description }} />
+        <div className="mt-8" dangerouslySetInnerHTML={{ __html: categoryData?.category_details?.cat_description  }} />
       </section>
     </div>
   );

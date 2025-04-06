@@ -34,6 +34,44 @@ export async function getHomeData() {
   }
 }
 
+export async function getCategoryData(slug) {
+  try {
+    const url = `${base_url}/wp-json/schema/v1/fetch-all-by-slug/${slug}`;
+    // console.log(url, 'check url from getproducts')
+    const req = await axios.get(url);
+    // console.log(req, "req from getProducts");
+    return req.data;
+  } catch (error) {
+    console.log(error, "error from getCategoryData");
+    return null;
+  }
+}
+
+export async function getProductData(slug) {
+  try {
+    const url = `${base_url}/wp-json/custom/v1/product/${slug}`;
+    // console.log(url, 'check url from getproducts')
+    const req = await axios.get(url);
+    // console.log(req, "req from getProducts");
+    return req.data;
+  } catch (error) {
+    console.log(error, "error from getProductData");
+    return null;
+  }
+}
+
+export async function getSingleBlogData(slug) {
+  try {
+    const url = `${base_url}/wp-json/custom/v1/post/${slug}`;
+    // console.log(url, 'check url from getproducts')
+    const req = await axios.get(url);
+    // console.log(req, "req from getProducts");
+    return req.data;
+  } catch (error) {
+    console.log(error, "error from getSingleBlogData");
+    return null;
+  }
+}
 
 
 // new api written end

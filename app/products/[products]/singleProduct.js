@@ -3,26 +3,18 @@ import React, { useEffect, useRef } from "react";
 import Link from "next/link";
 import { useState } from "react";
 import Image from "next/image";
-import { ChevronRight, Minus, Plus } from "lucide-react";
+import { Minus, Plus } from "lucide-react";
 import { StarRating } from "../../components/Products/star-rating";
-import { Button } from "@/components/ui/button";
 import ProductCard from "../../components/Products/product-card";
 import { useRouter } from "next/navigation";
-import { getSlug, ratingCalc } from "../../utils/common";
+import { getSlug } from "../../utils/common";
 import { useCart } from "../../context/cartProvider";
 import moment from "moment";
 
-const breadcrumbItems = [
-  { label: "Home", href: "/" },
-  { label: "Heets Sticks", href: "/heets-sticks" },
-  { label: "IQOS Heets Amber Label Selection", href: "#" },
-];
+
 
 const SingleProduct = ({
   serverData,
-  reviews,
-  relatedProducts,
-  imagesData,
   breadCrumb,
 }) => {
   const [quantity, setQuantity] = useState(1);
@@ -72,7 +64,7 @@ const SingleProduct = ({
     setIsCartOpen(true);
     setQuantity(1);
   };
-  const reviewsRating = ratingCalc(reviews);
+
 
   const handleBuyNow = (id, name, price, image) => {
     const cartObj = {
@@ -96,21 +88,7 @@ const SingleProduct = ({
     router.push("/checkout");
   };
 
-  const tabs = [
-    {
-      id: "description",
-      label: "Description",
-      content: "Description content goes here...",
-    },
-    {
-      id: "specification",
-      label: "Specification",
-      content: "Specification details...",
-    },
-    { id: "howToUse", label: "How To Use", content: "Usage instructions..." },
-    { id: "faq", label: "Faq", content: "Frequently asked questions..." },
-    { id: "reviews", label: `Reviews (${reviews.length})`, content: null },
-  ];
+
 
   const parentSlug = getSlug(breadCrumb?.parent_category?.url, 'split'); 
   const subSlug    = getSlug(breadCrumb?.subcategories?.[0]?.url, 'split');     
@@ -130,7 +108,7 @@ const SingleProduct = ({
           <div className="flex gap-4 flex-col-reverse md:flex-row max-w-[90vw] w-full md:max-w-none">
             {/* Thumbnails */}
             <div className="hidden md:flex flex-row md:flex-col gap-2 pr-3 overflow-x-auto md:overflow-y-auto" style={{ maxHeight: imgHeight}}>
-              {imagesData && imagesData?.map((image, index) => (
+              {serverData?.images && serverData?.images?.map((image, index) => (
                 <button
                   key={index}
                   onClick={() => setSelectedImage(index)}
@@ -153,8 +131,8 @@ const SingleProduct = ({
             
             {/* Mobile: Horizontal Thumbnails (Below main image) */}
             <div className="md:hidden w-full overflow-x-auto">
-              <div className="flex gap-2 pb-2" style={{ minWidth: `${imagesData?.length * 88}px` }}>
-                {imagesData?.map((image, index) => (
+              <div className="flex gap-2 pb-2" style={{ minWidth: `${serverData?.images?.length * 88}px` }}>
+                {serverData?.images?.map((image, index) => (
                   <button
                     key={index}
                     onClick={() => setSelectedImage(index)}
@@ -178,7 +156,7 @@ const SingleProduct = ({
             <div className="flex-1 p-4">
               <div ref={sliderHeight} className="relative aspect-square rounded-lg shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
                 <Image
-                  src={imagesData && imagesData[selectedImage] || "/placeholder.svg"}
+                  src={serverData?.images && serverData?.images[selectedImage] || "/placeholder.svg"}
                   alt="Product main image"
                   fill
                   className="object-contain"
@@ -194,8 +172,8 @@ const SingleProduct = ({
             <div className="space-y-2">
               <div className="flex items-start">
                 <StarRating
-                  rating={serverData?.meta_data?._wc_average_rating[0] || 0}
-                  reviews={serverData?.meta_data?._wc_review_count[0] || 0}
+                  // rating={serverData?.meta_data?._wc_average_rating[0] || 0}
+                  reviews={serverData?.reviews.length || 0}
                   productPage={true}
                   isRating={false}
                   isCustomerReview={false}
@@ -238,7 +216,7 @@ const SingleProduct = ({
 
               <div className="flex items-baseline gap-2">
                 <span className="text-3xl font-bold text-red-800">
-                  AED {serverData?.price}
+                  AED {serverData?.sale_price}
                 </span>
                 {serverData?.regular_price && (
                   <span className="text-lg  line-through">
@@ -278,8 +256,8 @@ const SingleProduct = ({
                   addToCart(
                     serverData.id,
                     serverData.name,
-                    serverData.price,
-                    imagesData[0]?.url
+                    serverData.sale_price,
+                    serverData.main_image[0],
                   )
                 }
                 className={`flex-1 rounded-lg text-white py-2  transition-colors ${serverData?.stock_status !== "instock" ? 'cursor-not-allowed bg-gray-500 hover:bg-gray-600' : 'bg-[#8b2c2a] hover:bg-red-900 cursor-pointer'}`}
@@ -346,8 +324,8 @@ const SingleProduct = ({
                   <span className="text-gray-500"> / 5</span>
                 </p>
                 <StarRating
-                  rating={serverData?.meta_data?._wc_average_rating[0] || 0}
-                  reviews={serverData?.meta_data?._wc_review_count[0] || 0}
+                  // rating={serverData?.meta_data?._wc_average_rating[0] || 0}
+                  reviews={serverData?.reviews.length || 0}
                   isRating={false}
                 />
               </div>
@@ -355,28 +333,28 @@ const SingleProduct = ({
 
             
             <div className="space-y-6">
-              {reviews.map((review) => (
+              {serverData?.reviews.map((review) => (
                 <div
-                  key={review.id}
+                  key={review.date}
                   className="flex gap-4 items-start bg-[#efefef] p-6 rounded-lg"
                 >
                   <div className="w-12 h-12 rounded-full bg-red-700 text-white flex items-center justify-center text-xl font-semibold">
-                    {review.reviewer.substring(0, 1)}
+                    {review.author.substring(0, 1)}
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center justify-between relative">
                       <h3 className="font-semibold text-lg">
-                        {review.reviewer}
+                        {review.author}
                       </h3>
                       <span className="text-xs text-white absolute top-[-23px] px-2 py-1 bg-black rounded-b-lg right-3">
-                        {moment(review.date_created).format(
+                        {moment(review.date).format(
                           "DD-MM-YYYY HH:mm:ss"
                         )}
                       </span>
                     </div>
                     <p
                       className="mt-2 text-gray-600"
-                      dangerouslySetInnerHTML={{ __html: review?.review }}
+                      dangerouslySetInnerHTML={{ __html: review?.content }}
                     ></p>
                   </div>
                 </div>
@@ -388,32 +366,32 @@ const SingleProduct = ({
       <section className="py-12 bg-[#f1f1f1]">
         <div className="px-4 max-w-7xl mx-auto">
           <h2 className="text-2xl font-bold text-center mb-8">
-            {serverData?.categories[0]?.name}
+            {serverData?.categories[0]}
             <div className="w-20 h-1 bg-red-800 mx-auto mt-2" />
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
-            {relatedProducts.map((product) => (
+            {serverData?.related_products.map((product) => (
               <ProductCard
                 key={product.id}
                 title={product.name}
-                image={product.images[0]?.src || ""}
+                image={product.image || ""}
                 productUrl={`/products/${product.slug}`}
-                price={product.price}
+                price={product.sale_price}
                 id={product.id}
-                rating={product.average_rating}
-                reviews={product.rating_count}
+                // rating={product.average_rating}
+                reviews={product.total_reviews}
                 details={product.stock_status === "instock" ? "In Stock" : "Out of Stock"}
                 isDisabled={product.stock_status === "instock" ? false : true}
                 quantity={quantity[product.id] || 1}
-                reviewCount={product.rating_count}
-                soldItems={product?.total_sales}
+                reviewCount={product.total_reviews}
+                soldItems={product?.total_sold}
                 originalPrice={product?.regular_price}
                 onAddCart={() =>
                   addToCart(
                     product.id,
                     product.name,
-                    product.price,
-                    product.images[0]?.src
+                    product.sale_price,
+                    product.image
                   )
                 }
                 incrementQuantity={() => updateQuantity(product.id, 1)}

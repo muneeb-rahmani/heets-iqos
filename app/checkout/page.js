@@ -181,8 +181,9 @@ export default function CheckoutForm() {
         shipping_lines: isFreeDelivery == "free delivery" ? [] : [
           {
             method_id: "flat_rate",
-            method_title: `${deliveryOption == 'express' ? "Express delivery charges" : deliveryOption == "standard" && subTotalValue >= 200 ? "Standard delivery charges" : "Free delivery"}`,
-            // total: totalPayment.toLocaleString(),
+            // method_title: `${deliveryOption == 'express' ? "Express delivery charges" : deliveryOption == "standard" && subTotalValue >= 200 ? "Standard delivery charges" : "Free delivery"}`,
+            method_title: deliveryOption,
+            total: shippingFee.toLocaleString(),
           },
         ],
       };
@@ -358,13 +359,13 @@ export default function CheckoutForm() {
                 <div className="flex items-center space-x-2">
                   <input
                     type="radio"
-                    value="standard"
-                    id="standard"
+                    value={subTotalValue >= 200 ? "free" : "standard"}
+                    id={subTotalValue >= 200 ? "free" : "standard"}
                     checked={deliveryOption === "standard"}
                     onChange={(e) => radioHandleChange(e.target.value)}
                     className="w-4 h-4 border-gray-400 focus:ring-red-600 text-red-600"
                   />
-                  <Label htmlFor="standard">
+                  <Label htmlFor={subTotalValue >= 200 ? "free" : "standard"}>
                     {subTotalValue >= 200 ? "Free Delivery" : "Standard Delivery"}
                   </Label>
                   <span className="ml-auto">AED {subTotalValue >= 200 ? 0 : 30}</span>

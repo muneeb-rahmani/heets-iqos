@@ -5,7 +5,7 @@ import Footer from "./components/Footer";
 import { CartProvider } from "./context/cartProvider";
 import CartModal from "./components/Modal";
 import config from "@/lib/config";
-import { getPagesFromCustom } from "./utils/products";
+import { getHomeData, getPagesFromCustom } from "./utils/products";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,10 +18,10 @@ const geistMono = Geist_Mono({
 });
 
 export async function generateMetadata(props) {
-  const homepageDescripton = await getPagesFromCustom("homepage")
-  const title = homepageDescripton?.rank_math?.rank_math_title || "IQOS Heets Dubai | #1 Trusted Heets IQOS UAE Online Store"
+    const homeData = await getHomeData()
+  const title = homeData?.rank_math?.rank_math_title || "IQOS Heets Dubai | #1 Trusted Heets IQOS UAE Online Store"
 
-  const description = homepageDescripton?.rank_math?.rank_math_description || "Buy IQOS Heets online in Dubai from the #1 trusted store in UAE. Enjoy 20% discount, instant 1 hour delivery, and a wide range of premium heets and terea flavors. Shop now!"
+  const description = homeData?.rank_math?.rank_math_description || "Buy IQOS Heets online in Dubai from the #1 trusted store in UAE. Enjoy 20% discount, instant 1 hour delivery, and a wide range of premium heets and terea flavors. Shop now!"
 
   
   return {
