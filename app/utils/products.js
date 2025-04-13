@@ -73,6 +73,19 @@ export async function getSingleBlogData(slug) {
   }
 }
 
+export async function getProductsList() {
+  try {
+    const url = `${base_url}/wp-json/custom/v1/products`;
+    // console.log(url, 'check url from getproducts')
+    const req = await axios.get(url);
+    // console.log(req, "req from getProducts");
+    return req.data;
+  } catch (error) {
+    console.log(error, "error from getProductsList");
+    return null;
+  }
+}
+
 
 // new api written end
 
@@ -226,7 +239,7 @@ export async function getCategoryMetadata(slug) {
 export async function getSubcategoriesUrl(slug) {
   try {
     const url = `${base_url}/wp-json/custom-api/v1/subcategories/${slug}`;
-    // console.log(url, 'check url from getproducts')
+    console.log(url, 'check url from getproducts')
     const req = await axios.get(url);
     // console.log(req, "req from getProducts");
     return req.data;

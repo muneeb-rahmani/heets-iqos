@@ -57,7 +57,7 @@ const CategoryProduct = ({ productData, categoryData }) => {
               title={item?.product_name}
               image={item?.product_image || ""}
               productUrl={`/products/${item.product_slug}`}
-              // rating={item?.meta_data?._wc_average_rating?.[0]}
+              rating={item?.average_rating}
               reviews={item?.total_reviews}
               price={item.sale_price}
               id={item.product_id}

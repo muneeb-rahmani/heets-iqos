@@ -54,7 +54,7 @@ const Categories = ({ productData, categoryData,subCategory }) => {
       <section className="container mx-auto px-4">
         <div className="flex flex-wrap justify-center items-center gap-2 md:gap-4 mt-8 mb-4">
           {subCategory?.map((item, index) => (
-            <Link key={index} className="my-0 md:my-8" href={getSlug(item.url, "split")}>
+            <Link key={index} className="my-0 md:my-8" href={`${getSlug(item.url, "split")}/`}>
               <p className="mx-auto text-white text-[15px] text-center leading-normal bg-gradient-to-r from-[#ff6f6f] to-[#8b2c2a] px-4 py-5 rounded w-fit h-[35px] flex justify-center items-center">
                {item.name}
               </p>
@@ -70,7 +70,7 @@ const Categories = ({ productData, categoryData,subCategory }) => {
                   title={item?.product_name}
                   image={item?.product_image || ""}
                   productUrl={`/products/${item.product_slug}`}
-                  // rating={item?.meta_data?._wc_average_rating?.[0]}
+                  rating={item?.average_rating}
                   reviews={item?.total_reviews}
                   price={item.sale_price}
                   id={item.product_id}

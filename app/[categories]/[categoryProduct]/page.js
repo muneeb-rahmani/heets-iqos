@@ -20,7 +20,7 @@ export async function generateMetadata(props) {
       ? data?.rank_math?.description
       : "Explore detailed reviews, contact information, and opening hours. Learn about their expert skin and hair care treatments tailored to your needs. Discover personalized dermatology solutions today!";
   
-    const url = data ? `${config.mainifest.url}/${data?.category_details?.parent_cat?.slug}/${data?.category_details?.cat_slug}` : "";
+    const url = data ? `${config.mainifest.url}${data?.category_details?.parent_cat?.slug}/${data?.category_details?.cat_slug}` : "";
   
     
     return {
