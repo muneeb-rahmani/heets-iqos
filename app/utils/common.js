@@ -20,8 +20,9 @@ export async function delay(ms) {
 }
 
 export function getSlug(url, method) {
+  console.log("URL:", url); 
   if(method === 'split'){
-    return url.split('/').filter(Boolean).pop();
+    return url ? url.split('/').filter(Boolean).pop() : "#";
   }else{
 
     return url.replace(/^https?:\/\/[^/]+\//, "").replace(/\/$/, ""); // Remove domain & trailing slashes

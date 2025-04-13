@@ -1,21 +1,14 @@
 import React from "react";
 import HomePage from "./homepage";
 import {
-  getCategories,
   getHomeData,
-  getPages,
-  getPagesFromCustom,
-  getProducts,
-  getProductsByCategory,
-  getSEOData,
 } from "../utils/products";
-import axios from "axios";
-import { parseRankMathData } from "../utils/common";
+
 
 const Page = async () => {
 
   const homeData = await getHomeData()
-
+  // console.log(homeData, "homeData");
   return (
     <>
       <HomePage  homeData={homeData} />

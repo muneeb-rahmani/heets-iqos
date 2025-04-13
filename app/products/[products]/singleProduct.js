@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { getSlug } from "../../utils/common";
 import { useCart } from "../../context/cartProvider";
 import moment from "moment";
+import config from "@/lib/config";
 
 
 
@@ -102,6 +103,44 @@ const SingleProduct = ({
         subCategoryUrl={`/${parentSlug}/${subSlug}` || "#"}
         product={serverData?.name || ""}
       />
+      {/* <nav className=" space-x-2 text-sm py-4 px-4 bg-gray-50">
+      <div class="containerBreadcrumb">
+        <ul
+          class="breadcrumb"
+          itemType="https://schema.org/BreadcrumbList"
+        >
+          <li>
+              <Link
+                itemProp="itemListElement"
+                itemScope=""
+                itemType="https://schema.org/ListItem"
+                href="/"
+              >
+                <meta itemProp="position" content="1" />
+                <meta itemProp="name" content="Home" />
+                <meta itemProp="item" content="/" />
+                Home
+              </Link>
+            </li>
+          {serverData?.breadcrumbs?.map((item, index) => (
+            <li>
+              <Link
+                itemProp="itemListElement"
+                itemScope=""
+                itemType="https://schema.org/ListItem"
+                href={`${config.mainifest.url}${getSlug(item.url, "split")}`}
+              >
+                <meta itemProp="position" content={index} />
+                <meta itemProp="name" content={item.name} />
+                <meta itemProp="item" content={`${config.mainifest.url}${getSlug(item.url, "split")}`} />
+                {item.name}
+              </Link>
+            </li>
+          ))}
+
+        </ul>
+      </div>
+    </nav> */}
       <div className="max-w-full mx-auto md:max-w-7xl">
         <div className="grid md:grid-cols-2 gap-8 p-4">
           {/* Left Column - Image Gallery */}
@@ -172,7 +211,7 @@ const SingleProduct = ({
             <div className="space-y-2">
               <div className="flex items-start">
                 <StarRating
-                  // rating={serverData?.meta_data?._wc_average_rating[0] || 0}
+                  rating={serverData?.average_rating || 0}
                   reviews={serverData?.reviews.length || 0}
                   productPage={true}
                   isRating={false}
@@ -191,7 +230,7 @@ const SingleProduct = ({
                   Good purchase!
                   <span className="text-primary text-md font-bold">
                     {" "}
-                    {serverData?.total_sales}+{" "}
+                    {serverData?.total_sold}+{" "}
                   </span>
                   sold in past month
                   <br />
@@ -205,7 +244,7 @@ const SingleProduct = ({
                 {serverData?.sku && (
                   <span className="text-[10px] md:text-sm">SKU: {serverData?.sku}</span>
                 )}
-                <span className="text-[10px] md:text-sm">VENDOR: Heets IQOS UAE</span>
+                <span className="text-[10px] md:text-sm">VENDOR: {serverData?.vendor}</span>
                 <span className="text-[10px] md:text-sm">
                   AVAILABILITY:{" "}
                   {serverData?.stock_status == "instock"
@@ -378,7 +417,7 @@ const SingleProduct = ({
                 productUrl={`/products/${product.slug}`}
                 price={product.sale_price}
                 id={product.id}
-                // rating={product.average_rating}
+                rating={product.average_rating}
                 reviews={product.total_reviews}
                 details={product.stock_status === "instock" ? "In Stock" : "Out of Stock"}
                 isDisabled={product.stock_status === "instock" ? false : true}
