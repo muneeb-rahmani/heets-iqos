@@ -85,6 +85,42 @@ export async function getProductsList() {
     return null;
   }
 }
+export async function getAbout() {
+  try {
+    const url = `${base_url}/wp-json/custom/v1/about`;
+    // console.log(url, 'check url from getproducts')
+    const req = await axios.get(url);
+    // console.log(req, "req from getProducts");
+    return req.data;
+  } catch (error) {
+    console.log(error, "error from getAbout");
+    return null;
+  }
+}
+export async function getAgePolicy() {
+  try {
+    const url = `${base_url}/wp-json/custom/v1/agepolicy`;
+    // console.log(url, 'check url from getproducts')
+    const req = await axios.get(url);
+    // console.log(req, "req from getProducts");
+    return req.data;
+  } catch (error) {
+    console.log(error, "error from getAgePolicy");
+    return null;
+  }
+}
+export async function getTermsUse() {
+  try {
+    const url = `${base_url}/wp-json/custom/v1/terms-of-use`;
+    // console.log(url, 'check url from getproducts')
+    const req = await axios.get(url);
+    // console.log(req, "req from getProducts");
+    return req.data;
+  } catch (error) {
+    console.log(error, "error from getTermsUse");
+    return null;
+  }
+}
 
 
 // new api written end
