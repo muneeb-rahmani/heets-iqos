@@ -1,7 +1,5 @@
 "use client";
 import React, { useState } from "react";
-
-import { unserialize } from "php-serialize";
 import HeroSection from "@/app/components/Header";
 import ProductCard from "@/app/components/Products/product-card";
 import { useCart } from "@/app/context/cartProvider";
