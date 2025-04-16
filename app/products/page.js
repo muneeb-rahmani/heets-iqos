@@ -5,16 +5,16 @@ import ProductList from './productList';
 
 const Page = async () => {
  const homeData = await getProductsList()
-   // console.log(homeData, "homeData");
+   console.log(homeData, "homeData");
    return (
      <>
        <ProductList  data={homeData} />
-       <script
+       {/* <script
          type="application/ld+json"
          dangerouslySetInnerHTML={{
            __html: JSON.stringify(homeData?.schema_data),
          }}
-       />
+       /> */}
      </>
    );
 }

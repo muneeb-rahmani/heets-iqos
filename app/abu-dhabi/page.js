@@ -1,17 +1,10 @@
 import React from "react";
 import {
-  getCategories,
   getCategoryData,
-  getCategoryMetadata,
-  getProducts,
-  getProductsByCategory,
-  getSEOData,
 } from "../utils/products";
 import axios from "axios";
 import AbuDhabi from "./abuDhabi";
-import { getSlug, parseRankMathData } from "../utils/common";
 import config from "@/lib/config";
-import { unserialize } from "php-serialize";
 
 export async function generateMetadata(props) {
   const data = await getCategoryData('abu-dhabi');

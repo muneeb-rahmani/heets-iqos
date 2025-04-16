@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import HeroSection from "../components/Header";
 import ProductCard from "../components/Products/product-card";
 import { useCart } from "../context/cartProvider";
-import { unserialize } from "php-serialize";
 import Link from "next/link";
 import { getSlug } from "../utils/common";
 

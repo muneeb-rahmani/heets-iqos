@@ -3,7 +3,6 @@ import { getCategoryBySlug, getCategoryData, getCategoryMetadata, getProductBySl
 import CategoryProduct from './categoryProduct';
 import Head from 'next/head';
 import config from '@/lib/config';
-import { unserialize } from 'php-serialize';
 import { getSlug, parseRankMathData } from '@/app/utils/common';
 import Script from 'next/script';
 
