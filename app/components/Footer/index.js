@@ -2,10 +2,16 @@ import { MapPin, Phone, Clock } from 'lucide-react'
 import Link from 'next/link'
 
 const quickLinks = [
-  'Blogs', 'FAQ', 'Privacy Policy', 'Terms of Use', 
-  'Shipping & Delivery Policy', 'Refund Policy', 'Age Policy',
-  'About Us', 'Contact Us'
-]
+  { name: 'Blogs', link: '/blogs' },
+  { name: 'FAQ', link: '/faq' },
+  { name: 'Privacy Policy', link: '/privacy-policy' },
+  { name: 'Terms of Use', link: '/heets-iqos-dubai-terms-of-use' },
+  // { name: 'Shipping & Delivery Policy', link: '/shipping-delivery-policy' },
+  { name: 'Refund Policy', link: '/refund-policy' },
+  { name: 'Age Policy', link: '/age-policy' },
+  { name: 'About Us', link: '/about-us' },
+  { name: 'Contact Us', link: '/contact-us' }
+];
 
 const deliveryLocations = [
   { name: 'Ajman', url: '/ajman' },
@@ -50,8 +56,8 @@ export default function Footer() {
             <ul className="space-y-2">
               {quickLinks.map((link) => (
                 <li key={link}>
-                  <Link href="#" className="hover:text-gray-300 transition-colors">
-                    {link}
+                  <Link href={link?.link} className="hover:text-gray-300 transition-colors">
+                    {link?.name}
                   </Link>
                 </li>
               ))}

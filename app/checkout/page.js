@@ -188,6 +188,7 @@ export default function CheckoutForm() {
         ],
       };
       console.log(data, 'check data of order')
+      return 
       const response = await createOrder(data);
       if (response) {
         setOrderId(response?.id)
