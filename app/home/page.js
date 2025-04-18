@@ -1,3 +1,4 @@
+export const revalidate = 60;
 import React from "react";
 import HomePage from "./homepage";
 import {
@@ -12,12 +13,15 @@ const Page = async () => {
   return (
     <>
       <HomePage  homeData={homeData} />
-      <script
+      {homeData?.schema_data && (
+
+        <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(homeData?.schema_data),
         }}
-      />
+        />
+      )}
     </>
   );
 };

@@ -1,3 +1,4 @@
+export const revalidate = 60;
 import React from 'react'
 import axios from 'axios';
 import BlogPage from './blogs';

@@ -1,3 +1,4 @@
+export const revalidate = 60;
 import React from 'react'
 import { getProductsList } from '../utils/products';
 import ProductList from './productList';
@@ -5,7 +6,7 @@ import ProductList from './productList';
 
 const Page = async () => {
  const homeData = await getProductsList()
-   console.log(homeData, "homeData");
+  //  console.log(homeData, "homeData");
    return (
      <>
        <ProductList  data={homeData} />

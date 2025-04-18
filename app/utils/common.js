@@ -20,7 +20,7 @@ export async function delay(ms) {
 }
 
 export function getSlug(url, method) {
-  console.log("URL:", url); 
+  // console.log("URL:", url); 
   if(method === 'split'){
     return url ? url.split('/').filter(Boolean).pop() : "#";
   }else{

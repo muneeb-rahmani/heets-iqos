@@ -62,9 +62,9 @@ const Navbar = () => {
         setShowDropdown(false);
       }
     }
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("click", handleClickOutside);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("click", handleClickOutside);
     };
   }, []);
 
@@ -184,6 +184,10 @@ const Navbar = () => {
                       key={index}
                       href={`/products/${product.slug}`}
                       className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                      onClick={() => {
+                        setSearchTerm("")
+                        setShowDropdown(false)
+                      }}
                     >
                       {product.name}
                     </Link>

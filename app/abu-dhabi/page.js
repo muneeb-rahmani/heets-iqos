@@ -1,3 +1,4 @@
+export const revalidate = 60;
 import React from "react";
 import {
   getCategoryData,
@@ -41,13 +42,14 @@ const Page = async (props) => {
   return (
     <>
       <AbuDhabi productData={data}  />
-
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(data?.schema_data) || {},
-        }}
-      />
+      {data?.schema_data && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(data?.schema_data),
+          }}
+        />
+      )}
     </>
   );
 };

@@ -1,3 +1,4 @@
+export const revalidate = 60;
 import React from 'react'
 import { getPages } from '../utils/products'
 
