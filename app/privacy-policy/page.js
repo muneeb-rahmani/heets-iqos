@@ -1,6 +1,6 @@
-export const revalidate = 60;
 import React from 'react'
 import { getPages } from '../utils/products'
+export const revalidate = 60;
 
 const Page = async () => {
   const data = await getPages(4993)

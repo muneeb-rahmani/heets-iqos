@@ -1,4 +1,3 @@
-export const revalidate = 60;
 import React from "react";
 import {
   getCategoryData,
@@ -7,6 +6,7 @@ import {
 import config from "@/lib/config";
 import RasAlKhaimah from "./rasAlKhaimah";
 
+export const revalidate = 60;
 
 export async function generateMetadata(props) {
   const data = await getCategoryData('ras-al-khaimah');

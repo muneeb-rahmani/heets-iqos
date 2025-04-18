@@ -1,7 +1,7 @@
-export const revalidate = 60;
 import React from 'react'
 import {  getTermsUse } from '../utils/products'
 
+export const revalidate = 60;
 const Page = async () => {
   const data = await getTermsUse()
     // console.log(data, 'check data from privacy')

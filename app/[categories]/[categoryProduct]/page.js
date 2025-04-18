@@ -1,4 +1,3 @@
-export const revalidate = 60;
 import React from 'react'
 import { getCategoryBySlug, getCategoryData, getCategoryMetadata, getProductBySlug, getSEOData } from '@/app/utils/products';
 import CategoryProduct from './categoryProduct';
@@ -6,6 +5,7 @@ import Head from 'next/head';
 import config from '@/lib/config';
 import { getSlug, parseRankMathData } from '@/app/utils/common';
 import Script from 'next/script';
+export const revalidate = 60;
 
 export async function generateMetadata(props) {
   const params = await props.params;

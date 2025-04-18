@@ -1,9 +1,9 @@
-export const revalidate = 60;
 import React from 'react'
 import { getSingleBlog, getSingleBlogData } from '@/app/utils/products';
 import SingleBlog from './singleBlog';
 import config from '@/lib/config';
 
+export const revalidate = 60;
 export async function generateMetadata(props) {
   const params = await props.params;
   const data = await getSingleBlogData(params.singleBlog);

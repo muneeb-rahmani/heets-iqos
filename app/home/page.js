@@ -1,10 +1,10 @@
-export const revalidate = 60;
 import React from "react";
 import HomePage from "./homepage";
 import {
   getHomeData,
 } from "../utils/products";
 
+export const revalidate = 60;
 
 const Page = async () => {
 
