@@ -1,7 +1,7 @@
-export const revalidate = 60;
 import React from 'react'
 import {  getAgePolicy } from '../utils/products'
 
+export const revalidate = 60;
 const Page = async () => {
   const data = await getAgePolicy()
     // console.log(data, 'check data from privacy')

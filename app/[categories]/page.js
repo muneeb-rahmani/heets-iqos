@@ -1,11 +1,11 @@
-export const revalidate = 60;
+
 import React from 'react'
 import { getCategoryData, getSubcategoriesUrl } from '../utils/products';
 import axios from 'axios';
 import Categories from './categories';
 import config from '@/lib/config';
 
-
+export const revalidate = 60;
 export async function generateMetadata(props) {
   const params = await props.params;
   const data = await getCategoryData(params?.categories);

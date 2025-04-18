@@ -1,4 +1,3 @@
-export const revalidate = 60;
 import React from "react";
 import {
   getCategoryData,
@@ -6,6 +5,7 @@ import {
 
 import config from "@/lib/config";
 import UmmAlQuwain from "./ummAlQuwain";
+export const revalidate = 60;
 
 
 export async function generateMetadata(props) {

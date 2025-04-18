@@ -1,9 +1,9 @@
-export const revalidate = 60;
 import React from 'react'
 import axios from 'axios';
 import BlogPage from './blogs';
 import { getBlogs } from '../utils/products';
 import { getSlug } from '../utils/common';
+export const revalidate = 60;
 
 
 const Page = async () => {

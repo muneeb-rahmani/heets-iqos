@@ -1,8 +1,8 @@
-export const revalidate = 60;
 import React from 'react'
 import { getProductsList } from '../utils/products';
 import ProductList from './productList';
 
+export const revalidate = 60;
 
 const Page = async () => {
  const homeData = await getProductsList()
