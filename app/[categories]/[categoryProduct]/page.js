@@ -1,3 +1,4 @@
+export const revalidate = 60;
 import React from 'react'
 import { getCategoryBySlug, getCategoryData, getCategoryMetadata, getProductBySlug, getSEOData } from '@/app/utils/products';
 import CategoryProduct from './categoryProduct';
@@ -43,12 +44,14 @@ const Page = async ({params}) => {
   return (
     <>
       <CategoryProduct categoryData={categoryData} />
-      <script
+      {categoryData?.schema_data && (
+        <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(categoryData?.schema_data),
         }}
-      />
+        />
+      )}
     </>
   )
 }

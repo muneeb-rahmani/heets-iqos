@@ -85,6 +85,7 @@ const ProductCard = ({
             <button
               onClick={decrementQuantity}
               className="px-3 h-10 w-10 py-1 rounded-lg border-r bg-[#8b2c2a] hover:bg-[#712322]"
+              ariaLabel="Product Quantity Minus"
             >
               <Minus className="h-3 w-3 text-white" />
             </button>
@@ -92,6 +93,7 @@ const ProductCard = ({
             <button
               onClick={incrementQuantity}
               className="px-3 h-10 w-10 rounded-lg py-1 border-l bg-[#8b2c2a] hover:bg-[#712322]"
+              ariaLabel="Product Quantity Plus"
             >
               <Plus className="h-3 w-3 text-white" />
             </button>

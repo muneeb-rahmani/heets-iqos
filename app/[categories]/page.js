@@ -1,3 +1,4 @@
+export const revalidate = 60;
 import React from 'react'
 import { getCategoryData, getSubcategoriesUrl } from '../utils/products';
 import axios from 'axios';
@@ -46,12 +47,14 @@ const Page = async ({params}) => {
   return (
     <>
       <Categories subCategory={subCategory} categoryData={categoryData} />
-      <script
+      {categoryData?.schema_data && (
+        <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(categoryData?.schema_data),
         }}
-      />
+        />
+      )}
     </>
   )
 }

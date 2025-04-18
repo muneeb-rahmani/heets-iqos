@@ -87,7 +87,7 @@ export default function CheckoutForm() {
 
   useEffect(() => {
     setTotalPayment(subTotalValue + shippingFee);
-    const freeDelivery = deliveryOption == 'express' ? "Express delivery charges" : deliveryOption == "standard" && subTotalValue >= 200 ? "Standard delivery charges" : "Free delivery"
+    const freeDelivery = deliveryOption == 'express' ? "Express delivery charges" : deliveryOption == "standard" && subTotalValue < 200 ? "Standard delivery charges" : "Free delivery"
     setIsFreeDelivery(freeDelivery)
     // console.log(shippingFee, 'shippingFee')
   }, [subTotalValue, shippingFee]);
@@ -147,12 +147,12 @@ export default function CheckoutForm() {
         quantity: item.quantity,
       }));
 
-      // console.log(formatted)
+      // console.log(isFreeDelivery, 'isFreeDelivery')
       const data = {
         payment_method:
           formatted.paymentMode == "cod"
             ? "Cash on Delivery" : formatted.paymentMode == "bank" ? "bank trasnfer"
-            : "Online Payment",
+            : "Credit Card Machine On Delivery",
         payment_method_title: "",
         set_paid: true,
         billing: {
@@ -178,17 +178,16 @@ export default function CheckoutForm() {
           country: "",
         },
         line_items: lineItems,
-        shipping_lines: isFreeDelivery == "free delivery" ? [] : [
+        shipping_lines:  [
           {
             method_id: "flat_rate",
-            // method_title: `${deliveryOption == 'express' ? "Express delivery charges" : deliveryOption == "standard" && subTotalValue >= 200 ? "Standard delivery charges" : "Free delivery"}`,
-            method_title: deliveryOption,
+            method_title: isFreeDelivery != "Free delivery" ? isFreeDelivery + ` (${shippingFee} AED)` : isFreeDelivery,
             total: shippingFee.toLocaleString(),
           },
         ],
       };
       console.log(data, 'check data of order')
-      return 
+      
       const response = await createOrder(data);
       if (response) {
         setOrderId(response?.id)

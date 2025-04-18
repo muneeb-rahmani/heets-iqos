@@ -1,3 +1,4 @@
+export const revalidate = 60;
 import React from 'react'
 import { getSingleBlog, getSingleBlogData } from '@/app/utils/products';
 import SingleBlog from './singleBlog';

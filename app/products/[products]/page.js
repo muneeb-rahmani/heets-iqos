@@ -1,3 +1,4 @@
+export const revalidate = 60;
 import SingleProduct from "./singleProduct";
 import {
   getBreadCrumbsData,
@@ -44,12 +45,15 @@ export default async function Page({ params}) {
         serverData={productData}
         breadCrumb={breadCrumb}
       />
-      <script
+      {productData?.schema_data && (
+
+       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(productData?.schema_data) || {},
         }}
-      />
+        />
+      )}
     </>
   );
 }

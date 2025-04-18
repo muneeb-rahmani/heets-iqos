@@ -1,3 +1,4 @@
+export const revalidate = 60;
 import React from 'react'
 import {  getTermsUse } from '../utils/products'
 
