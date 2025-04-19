@@ -41,7 +41,7 @@ const SingleProduct = ({
     if(sliderHeight.current) {
       setImgHeight(sliderHeight.current.clientHeight);
     }
-  }, [imgHeight]);
+  }, [sliderHeight.current]);
 
   const addToCart = (id, name, price, image) => {
     const cartObj = {
@@ -96,14 +96,14 @@ const SingleProduct = ({
 
   return (
     <>
-      <Breadcrumb
+      {/* <Breadcrumb
         category={breadCrumb?.parent_category.name || ""}
         categoryUrl={`/${parentSlug}` || "#"}
         subCategory={breadCrumb?.subcategories?.[0]?.name || ""}
         subCategoryUrl={`/${parentSlug}/${subSlug}` || "#"}
         product={serverData?.name || ""}
-      />
-      {/* <nav className=" space-x-2 text-sm py-4 px-4 bg-gray-50">
+      /> */}
+      <nav className=" space-x-2 text-sm py-4 px-4 bg-gray-50">
       <div class="containerBreadcrumb">
         <ul
           class="breadcrumb"
@@ -124,23 +124,35 @@ const SingleProduct = ({
             </li>
           {serverData?.breadcrumbs?.map((item, index) => (
             <li>
+              {item.url !== null ? (
               <Link
                 itemProp="itemListElement"
                 itemScope=""
                 itemType="https://schema.org/ListItem"
-                href={`${config.mainifest.url}${getSlug(item.url, "split")}`}
-              >
+                href={`${config.mainifest.url}${item.actual_url}`}
+                >
                 <meta itemProp="position" content={index} />
                 <meta itemProp="name" content={item.name} />
-                <meta itemProp="item" content={`${config.mainifest.url}${getSlug(item.url, "split")}`} />
+                <meta itemProp="item" content={`${config.mainifest.url}${item.actual_url}`} />
                 {item.name}
               </Link>
+              ) : (
+                <span
+                  itemProp="itemListElement"
+                  itemScope=""
+                  itemType="https://schema.org/ListItem"
+                >
+                  <meta itemProp="position" content={index} />
+                  <meta itemProp="name" content={item.name} />
+                  {item.name}
+                </span>
+              )}
             </li>
           ))}
 
         </ul>
       </div>
-    </nav> */}
+    </nav>
       <div className="max-w-full mx-auto md:max-w-7xl">
         <div className="grid md:grid-cols-2 gap-8 p-4">
           {/* Left Column - Image Gallery */}
@@ -158,7 +170,8 @@ const SingleProduct = ({
                   }`}
                 >
                   <Image
-                    src={image || "/placeholder.svg"}
+                    src={image?.trimEnd() || "/placeholder.svg"}
+                    overrideSrc={image?.trimEnd() || "/placeholder.svg"}
                     alt={`Product thumbnail ${index + 1}`}
                     width={80}
                     height={80}
@@ -180,7 +193,8 @@ const SingleProduct = ({
                     }`}
                   >
                     <Image
-                      src={image || "/placeholder.svg"}
+                      src={image?.trimEnd() || "/placeholder.svg"}
+                      overrideSrc={image?.trimEnd() || "/placeholder.svg"}
                       alt={`Thumbnail ${index + 1}`}
                       width={80}
                       height={80}
@@ -195,7 +209,8 @@ const SingleProduct = ({
             <div className="flex-1 p-4">
               <div ref={sliderHeight} className="relative aspect-square rounded-lg shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
                 <Image
-                  src={serverData?.images && serverData?.images[selectedImage] || "/placeholder.svg"}
+                  src={serverData?.images && serverData?.images[selectedImage]?.trimEnd() || "/placeholder.svg"}
+                  overrideSrc={serverData?.images && serverData?.images[selectedImage]?.trimEnd() || "/placeholder.svg"}
                   alt="Product main image"
                   fill
                   className="object-contain"
@@ -276,7 +291,7 @@ const SingleProduct = ({
                 <button
                   onClick={() => updateQuantity(serverData.id, -1)}
                   className="px-3 h-10 w-10 py-1 rounded-lg border-r bg-[#8b2c2a] hover:bg-[#712322]"
-                  ariaLabel="Product Quantity Minus"
+                  aria-label="Product Quantity Minus"
                 >
                   <Minus className="h-3 w-3 text-white" />
                 </button>
@@ -286,7 +301,7 @@ const SingleProduct = ({
                 <button
                   onClick={() => updateQuantity(serverData.id, 1)}
                   className="px-3 h-10 w-10 rounded-lg py-1 border-l bg-[#8b2c2a] hover:bg-[#712322]"
-                  ariaLabel="Product Quantity Plus"
+                  aria-label="Product Quantity Plus"
                 >
                   <Plus className="h-3 w-3 text-white" />
                 </button>

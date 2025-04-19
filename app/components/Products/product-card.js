@@ -52,7 +52,7 @@ const ProductCard = ({
         <Link href={productUrl} onClick={onNavigate}>
           <div className="relative aspect-square mb-4">
             <Image
-              src={image || "/placeholder.svg"}
+              src={image?.trimEnd() || "/placeholder.svg"}
               alt={title}
               fill={true}
               overrideSrc={image || "/placeholder.svg"}
@@ -85,7 +85,7 @@ const ProductCard = ({
             <button
               onClick={decrementQuantity}
               className="px-3 h-10 w-10 py-1 rounded-lg border-r bg-[#8b2c2a] hover:bg-[#712322]"
-              ariaLabel="Product Quantity Minus"
+              aria-label="Product Quantity Minus"
               aria-describedby="quantity-info"
             >
               <Minus className="h-3 w-3 text-white" />
@@ -94,7 +94,7 @@ const ProductCard = ({
             <button
               onClick={incrementQuantity}
               className="px-3 h-10 w-10 rounded-lg py-1 border-l bg-[#8b2c2a] hover:bg-[#712322]"
-              ariaLabel="Product Quantity Plus"
+              aria-label="Product Quantity Plus"
               aria-describedby="quantity-info"
             >
               <Plus className="h-3 w-3 text-white" />

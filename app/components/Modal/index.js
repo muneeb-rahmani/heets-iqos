@@ -65,7 +65,8 @@ export default function CartModal() {
               cartItems.map((item, index) => (
                 <div key={index} className="flex items-center gap-2 sm:gap-4 p-3 sm:p-4 border-b border-gray-200">
                   <Image
-                    src={item?.image || "/placeholder.svg"}
+                    src={item?.image?.trimEnd() || "/placeholder.svg"}
+                    overrideSrc={item?.image?.trimEnd() || "/placeholder.svg"}
                     alt={item?.name}
                     width={50}
                     height={50}

@@ -128,6 +128,10 @@ export async function getPagesFromCustom(pageid) {
   return await handleFetch(`${base_url}/wp-json/custom/v1/${pageid}`);
 }
 
+export async function getMenu() {
+  return await handleFetch(`${base_url}/wp-json/custom/v1/menu/primary`);
+}
+
 
 // ========================================================================
 
@@ -327,16 +331,16 @@ export async function getPagesFromCustom(pageid) {
 //   }
 // }
 
-// export async function getSliderData() {
-//   try {
-//     const response = await fetch("/api/slider");
-//     const categories = await response.json();
-//     return [categories];
-//   } catch (error) {
-//     console.log(error, "error from getSliderData");
-//     return null;
-//   }
-// }
+export async function getSliderData() {
+  try {
+    const response = await fetch("/api/slider");
+    const categories = await response.json();
+    return [categories];
+  } catch (error) {
+    console.log(error, "error from getSliderData");
+    return null;
+  }
+}
 
 // export async function getBlogs() {
 //   try {
@@ -518,46 +522,46 @@ export async function getPagesFromCustom(pageid) {
 // }
 
 
-// export async function fetchCategories() {
-//   try {
-//     const response = await fetch("/api/proxy");
-//     const categories = await response.json();
+export async function fetchCategories() {
+  try {
+    const response = await fetch("/api/proxy");
+    const categories = await response.json();
 
-//     if (!categories || categories.length === 0) {
-//       console.warn("⚠️ No categories found.");
-//       return [];
-//     }
+    if (!categories || categories.length === 0) {
+      console.warn("⚠️ No categories found.");
+      return [];
+    }
 
-//     // Step 1: Create a lookup object for categories
-//     const categoryMap = {};
+    // Step 1: Create a lookup object for categories
+    const categoryMap = {};
 
-//     categories ? categories?.forEach((category) => {
-//       categoryMap[category.id] = { ...category, children: [] };
-//     }) : [];
+    categories ? categories?.forEach((category) => {
+      categoryMap[category.id] = { ...category, children: [] };
+    }) : [];
 
-//     // Step 2: Arrange categories into parent-child hierarchy
-//     const structuredCategories = [];
+    // Step 2: Arrange categories into parent-child hierarchy
+    const structuredCategories = [];
 
-//     categories?.forEach((category) => {
-//       if (category.parent === 0) {
-//         // Top-level category
-//         structuredCategories.push(categoryMap[category.id]);
-//       } else {
-//         // Child category - Add to its parent's children array
-//         if (categoryMap[category.parent]) {
-//           categoryMap[category.parent].children.push(categoryMap[category.id]);
-//         }
-//       }
-//     });
+    categories?.forEach((category) => {
+      if (category.parent === 0) {
+        // Top-level category
+        structuredCategories.push(categoryMap[category.id]);
+      } else {
+        // Child category - Add to its parent's children array
+        if (categoryMap[category.parent]) {
+          categoryMap[category.parent].children.push(categoryMap[category.id]);
+        }
+      }
+    });
 
-//     // console.log("✅ Structured Categories:", structuredCategories);
-//     return structuredCategories;
+    // console.log("✅ Structured Categories:", structuredCategories);
+    return structuredCategories;
 
-//   } catch (error) {
-//     console.error("❌ Error fetching categories:", error);
-//     return [];
-//   }
-// }
+  } catch (error) {
+    console.error("❌ Error fetching categories:", error);
+    return [];
+  }
+}
 
 
 // export async function getBreadCrumbsData(category){

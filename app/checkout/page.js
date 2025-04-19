@@ -478,7 +478,8 @@ export default function CheckoutForm() {
                   <>
                     <div key={index} className="flex gap-4">
                       <Image
-                        src={item?.image}
+                        src={item?.image?.trimEnd()}
+                        overrideSrc={item?.image?.trimEnd()}
                         alt={item?.name}
                         width={90}
                         height={90}
