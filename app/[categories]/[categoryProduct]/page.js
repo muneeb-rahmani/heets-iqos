@@ -40,6 +40,7 @@ const Page = async ({params}) => {
   const paramsUrl = await params; 
   const { categoryProduct } = await paramsUrl;
   const categoryData = await getCategoryData(categoryProduct)
+  // console.log(categoryData, "categoryData")
   
   return (
     <>

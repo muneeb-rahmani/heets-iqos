@@ -26,15 +26,17 @@ const HeroSection = ({header, isHome,featureImg,shortDesc}) => {
           
           {/* Right Content */}
           <div className="relative flex justify-center lg:justify-end">
-            <Image
-              src={featureImg || "/imgs/trusted-IQOS-Heets-Online-Seller-in-Dubai-UAE.webp"}
-              alt="IQOS Heets Products"
-              // fill={true}
-              width={500}
-              height={200}
-              overrideSrc={featureImg}
-              className="w-full max-w-[500px] h-auto object-contain transform lg:scale-110"
-            />
+            {featureImg && (
+              <Image
+                src={featureImg?.trimEnd() || "-"}
+                alt="IQOS Heets Products"
+                // fill={true}
+                width={500}
+                height={200}
+                overrideSrc={featureImg?.trimEnd()}
+                className="w-full max-w-[500px] h-auto object-contain transform lg:scale-110"
+              />
+            )}
           </div>
         </div>
       </div>

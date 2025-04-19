@@ -18,7 +18,8 @@ const BlogPage = ({serverData}) => {
             <div className="p-4">
               <Link href={formattedUrl} className="blogTitle">
                 <Image
-                  src={blog.image}
+                  src={blog.image?.trimEnd()}
+                  overrideSrc={blog.image?.trimEnd()}
                   alt={blog.title}
                   width={400}
                   height={200}

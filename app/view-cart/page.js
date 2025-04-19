@@ -96,7 +96,8 @@ export default function ShoppingCart() {
                     <div className="p-4">
                       <div className="flex items-center gap-4">
                         <Image
-                          src={item?.image || "/placeholder.svg"}
+                          src={item?.image?.trimEnd() || "/placeholder.svg"}
+                          overrideSrc={item?.image?.trimEnd() || "/placeholder.svg"}
                           alt={item?.name}
                           width={80}
                           height={80}
@@ -154,7 +155,8 @@ export default function ShoppingCart() {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <Image
-                          src={item?.image || "/placeholder.svg"}
+                          src={item?.image?.trimEnd() || "/placeholder.svg"}
+                          overrideSrc={item?.image?.trimEnd() || "/placeholder.svg"}
                           alt={item?.name}
                           width={60}
                           height={60}

@@ -35,7 +35,8 @@ export default function InfiniteSlider({ reviewLength, totalSales }) {
             <div key={`first-${index}`} className="flex items-center whitespace-nowrap mx-8">
               <div className="relative w-5 h-5 mr-2">
                 <Image
-                  src={announcement.icon || "/placeholder.svg"}
+                  src={announcement.icon?.trimEnd() || "/placeholder.svg"}
+                  overrideSrc={announcement.icon?.trimEnd() || "/placeholder.svg"}
                   alt={announcement.icon}
                   fill
                   className="object-contain"

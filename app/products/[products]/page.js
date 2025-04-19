@@ -8,8 +8,8 @@ import config from "@/lib/config";
 //muneeb
 
 export async function generateMetadata(props) {
-  const params = await props.params;
-  const data = await getProductData(params?.products);
+  const parameter = await props.params;
+  const data = await getProductData(parameter?.products);
 
   const title = data
     ? data?.seo?.rank_math_title
@@ -36,8 +36,9 @@ export async function generateMetadata(props) {
 }
 
 export default async function Page({ params}) {
-  const productData = await getProductData(params?.products);
-  const breadCrumb = await getBreadCrumbsData(params?.products);
+  const parameter = await params;
+  const productData = await getProductData(parameter?.products);
+  const breadCrumb = await getBreadCrumbsData(parameter?.products);
   
   return (
     <>

@@ -5,13 +5,10 @@ import { useCart } from "@/app/context/cartProvider";
 import Link from "next/link";
 import {
   fetchCategories,
-  getCategories,
-  getProducts,
-  getReviews,
+  getMenu,
   getSliderData,
-  getTotalSales,
 } from "@/app/utils/products";
-import { Home, ShoppingCart, Phone, Search, Menu } from "lucide-react";
+import { Home, ShoppingCart, Phone,  Menu } from "lucide-react";
 import InfiniteSlider from "../TopSlider";
 import {
   Accordion,
@@ -85,11 +82,11 @@ const Navbar = () => {
 
   useEffect(() => {
     if (searchTerm.length > 0) {
-      console.log(products, "list of products");
+      // console.log(products, "list of products");
       const results = products.filter((product) =>
         product.name.toLowerCase().includes(searchTerm.toLowerCase())
       );
-      console.log(results, "filtered result");
+      // console.log(results, "filtered result");
       setFilteredProducts(results);
       setShowDropdown(true);
     } else {
@@ -100,37 +97,44 @@ const Navbar = () => {
 
   useEffect(() => {
     async function loadCategories() {
-      const data = await fetchCategories();
+      // const data = await fetchCategories();  
       // console.log(data, "data from fetchCategories");
       const sliderData = await getSliderData();
 
-      const filteredLinks = [
-        "ABU DHABI",
-        "AJMAN",
-        "AL AIN",
-        "FUJAIRAH",
-        "RAS AL KHAIMAH",
-        "SHARJAH",
-        "UMM AL QUWAIN",
-      ];
+      // const filteredLinks = [
+      //   "ABU DHABI",
+      //   "AJMAN",
+      //   "AL AIN",
+      //   "FUJAIRAH",
+      //   "RAS AL KHAIMAH",
+      //   "SHARJAH",
+      //   "UMM AL QUWAIN",
+      // ];
 
-      const filteredData = data.filter((item) => {
-        if (!item.slug) return true; // If slug is undefined, include it
+      // const filteredData = data.filter((item) => {
+      //   if (!item.slug) return true; // If slug is undefined, include it
 
-        // Convert slug to uppercase and replace hyphens with spaces
-        const formattedSlug = item.slug.replace(/-/g, " ").toUpperCase();
+      //   // Convert slug to uppercase and replace hyphens with spaces
+      //   const formattedSlug = item.slug.replace(/-/g, " ").toUpperCase();
 
-        return !filteredLinks.includes(formattedSlug);
-      });
+      //   return !filteredLinks.includes(formattedSlug);
+      // });
 
-      setCategories(filteredData);
+      // setCategories(filteredData);
       setReviewLength(sliderData[0]?.total_reviews);
       setTotalSales(sliderData[0]?.total_orders);
+      getMenuData()
     }
 
     loadCategories();
   }, []);
 
+  async function getMenuData() {
+    const menu = await getMenu()
+    // console.log(menu, "menu data from getMenuData")
+    setCategories(menu)
+    return menu
+  }
   return (
     <>
       <InfiniteSlider reviewLength={reviewLength} totalSales={totalSales} />
@@ -138,7 +142,7 @@ const Navbar = () => {
         {/* Desktop view start */}
         <div className="hidden md:flex flex-wrap sm:hidden py-1 justify-between items-center">
           <div className="flex items-center w-1/4">
-            <Link href="/" className="logo_img" ariaLabel="Heets IQOS UAE logo">
+            <Link href="/" className="logo_img" aria-label="Heets IQOS UAE logo">
               <Image
                 src="/imgs/heets-iqos-uae-logo.png"
                 overrideSrc="/imgs/heets-iqos-uae-logo.png"
@@ -221,7 +225,7 @@ const Navbar = () => {
         <nav className="bg-white block md:hidden border-b border-gray-200 px-5 py-5 md:px-5 md:py-0">
           <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
             {/* Logo */}
-            <Link href="/" className="logo_img" ariaLabel="Heets IQOS UAE logo">
+            <Link href="/" className="logo_img" aria-label="Heets IQOS UAE logo">
               <Image
                 src="/imgs/heets-iqos-uae-logo.png"
                 alt="Heets IQOS UAE logo"
@@ -311,29 +315,29 @@ const Navbar = () => {
             {categories.map((item) => (
               <AccordionItem
                 key={item.id}
-                value={item?.slug?.split("-").join(" ").toUpperCase()}
+                value={item?.title || "-"}
                 className="w-full"
               >
-                {item.slug != "shop" && item.slug != "products" && (
+                {item.actual_url != "shop" && item.actual_url != "products" && (
                   <AccordionTrigger className="text-left p-0 w-full">
                     <Link
-                      href={`/${item.slug}`}
+                      href={item?.actual_url || "#"}
                       className="flex items-center px-2 py-4 transition-colors w-full arrowTrigger"
                     >
-                        {item?.slug?.split("-").join(" ").toUpperCase()}
+                        {item?.title || "-"}
                     </Link>
                   </AccordionTrigger>
                 )}
                 <AccordionContent>
                   <ul>
-                    {item.children.map((child) => (
-                      <li key={child.name}>
+                    {item?.sub_menu?.map((child) => (
+                      <li key={child.id}>
                         <span className="mob-arrow">→</span>
                         <Link
-                          href={`/${item.slug}/${child.slug}`}
-                          ariaLabel={child.name}
+                          href={child?.actual_url || "#"}
+                          aria-label={child?.title}
                         >
-                          {child.name}
+                          {child?.title}
                         </Link>
                       </li>
                     ))}
@@ -361,29 +365,29 @@ const Navbar = () => {
               <li
                 key={item.id}
                 className="relative hover:ease-in-out duration-300 "
-                onMouseEnter={() => setActiveDropdown(item.name)}
+                onMouseEnter={() => setActiveDropdown(item.id)}
                 onMouseLeave={() => setActiveDropdown(null)}
               >
-                {item.slug != "shop" && item.slug != "products" && (
+                {item.actual_url != "shop" && item.actual_url != "products" && (
                   <Link
-                    href={`/${item.slug}`}
+                    href={item.actual_url}
                     className="flex items-center px-2 py-4 transition-colors"
                   >
-                    {item?.slug?.split("-").join(" ").toUpperCase()}
+                    {item?.title || "-"}
                     <span className="ml-2">→</span>
                   </Link>
                 )}
-                {item.children && activeDropdown === item.name && (
+                {item.sub_menu && activeDropdown === item.id && (
                   <div className="absolute left-0 top-full z-50 min-w-[200px] bg-white text-black shadow-lg">
                     <div className="flex">
                       <div className="flex-1">
-                        {item.children.map((child) => (
+                        {item.sub_menu.map((child) => (
                           <Link
-                            key={child.name}
-                            href={`/${item.slug}/${child.slug}`}
+                            key={child.title}
+                            href={child?.actual_url || "#"}
                             className="block px-4 py-2 hover:bg-gray-100"
                           >
-                            {child.name}
+                            {child.title}
                           </Link>
                         ))}
                       </div>
@@ -449,7 +453,7 @@ const Navbar = () => {
         href="https://api.whatsapp.com/send?phone=971526937203&amp;text=Hello There, What are the offers provided by your website? Can I know more about your products. - https://heetsiqosuae.ae/"
         className="whatsapp-float"
         target="_blank"
-        ariaLabel="whatsapp button"
+        aria-label="whatsapp button"
       >
         <div className="footer-sticky">
           <div className="footer-sticky-left">
