@@ -3,7 +3,7 @@ import { getSingleBlog, getSingleBlogData } from '@/app/utils/products';
 import SingleBlog from './singleBlog';
 import config from '@/lib/config';
 
-export const revalidate = 60;
+//muneeb
 export async function generateMetadata(props) {
   const params = await props.params;
   const data = await getSingleBlogData(params.singleBlog);

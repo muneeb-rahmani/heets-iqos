@@ -5,7 +5,7 @@ import {
 } from "@/app/utils/products";
 
 import config from "@/lib/config";
-export const revalidate = 60;
+//muneeb
 
 export async function generateMetadata(props) {
   const params = await props.params;

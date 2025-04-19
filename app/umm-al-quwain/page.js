@@ -5,7 +5,7 @@ import {
 
 import config from "@/lib/config";
 import UmmAlQuwain from "./ummAlQuwain";
-export const revalidate = 60;
+//muneeb
 
 
 export async function generateMetadata(props) {

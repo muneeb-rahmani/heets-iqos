@@ -5,7 +5,7 @@ import {
 
 import config from "@/lib/config";
 import Fujairah from "./Fujairah";
-export const revalidate = 60;
+//muneeb
 
 
 

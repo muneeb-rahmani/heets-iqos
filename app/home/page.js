@@ -4,7 +4,7 @@ import {
   getHomeData,
 } from "../utils/products";
 
-export const revalidate = 60;
+//muneeb
 
 const Page = async () => {
 

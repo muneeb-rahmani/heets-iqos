@@ -5,7 +5,7 @@ import axios from 'axios';
 import Categories from './categories';
 import config from '@/lib/config';
 
-export const revalidate = 60;
+//muneeb
 export async function generateMetadata(props) {
   const params = await props.params;
   const data = await getCategoryData(params?.categories);

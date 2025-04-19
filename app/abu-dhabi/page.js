@@ -5,7 +5,7 @@ import {
 import axios from "axios";
 import AbuDhabi from "./abuDhabi";
 import config from "@/lib/config";
-export const revalidate = 60;
+//muneeb
 
 export async function generateMetadata(props) {
   const data = await getCategoryData('abu-dhabi');

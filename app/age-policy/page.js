@@ -1,7 +1,7 @@
 import React from 'react'
 import {  getAgePolicy } from '../utils/products'
 
-export const revalidate = 60;
+//muneeb
 const Page = async () => {
   const data = await getAgePolicy()
     // console.log(data, 'check data from privacy')
