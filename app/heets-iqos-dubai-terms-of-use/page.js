@@ -1,7 +1,7 @@
 import React from 'react'
 import {  getTermsUse } from '../utils/products'
 
-export const revalidate = 60;
+//muneeb
 const Page = async () => {
   const data = await getTermsUse()
     // console.log(data, 'check data from privacy')

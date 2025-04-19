@@ -3,7 +3,7 @@ import axios from 'axios';
 import BlogPage from './blogs';
 import { getBlogs } from '../utils/products';
 import { getSlug } from '../utils/common';
-export const revalidate = 60;
+//muneeb
 
 
 const Page = async () => {

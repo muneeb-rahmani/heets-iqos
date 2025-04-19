@@ -458,9 +458,9 @@ export function Breadcrumb({
 }) {
   return (
     <nav className=" space-x-2 text-sm py-4 px-4 bg-gray-50">
-      <div class="containerBreadcrumb">
+      <div className="containerBreadcrumb">
         <ul
-          class="breadcrumb"
+          className="breadcrumb"
           itemType="https://schema.org/BreadcrumbList"
         >
           <li>

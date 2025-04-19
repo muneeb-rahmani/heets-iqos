@@ -6,7 +6,7 @@ import {
 import config from "@/lib/config";
 import Sharjah from "./sharjah";
 
-export const revalidate = 60;
+//muneeb
 
 export async function generateMetadata(props) {
   const data = await getCategoryData('sharjah');

@@ -5,7 +5,7 @@ import Head from 'next/head';
 import config from '@/lib/config';
 import { getSlug, parseRankMathData } from '@/app/utils/common';
 import Script from 'next/script';
-export const revalidate = 60;
+//muneeb
 
 export async function generateMetadata(props) {
   const params = await props.params;
