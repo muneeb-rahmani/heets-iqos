@@ -103,6 +103,7 @@ const RasAlKhaimah = ({ productData }) => {
               }
               incrementQuantity={() => updateQuantity(product.product_id, 1)}
               decrementQuantity={() => updateQuantity(product.product_id, -1)}
+              isH2={true}
             />
           ))}
         </div>

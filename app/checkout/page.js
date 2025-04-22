@@ -361,7 +361,7 @@ export default function CheckoutForm() {
                     type="radio"
                     value={subTotalValue >= 200 ? "free" : "standard"}
                     id={subTotalValue >= 200 ? "free" : "standard"}
-                    checked={deliveryOption === "standard"}
+                    checked={deliveryOption === "standard" || deliveryOption === "free"}
                     onChange={(e) => radioHandleChange(e.target.value)}
                     className="w-4 h-4 border-gray-400 focus:ring-red-600 text-red-600"
                   />

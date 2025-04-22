@@ -84,6 +84,7 @@ const Categories = ({ productData, categoryData,subCategory }) => {
                   }
                   incrementQuantity={() => updateQuantity(item.product_id, 1)}
                   decrementQuantity={() => updateQuantity(item.product_id, -1)}
+                  isH2={true}
                 />
               )
           ))}

@@ -23,7 +23,8 @@ const ProductCard = ({
   productUrl,
   id,
   soldItems,
-  isDisabled
+  isDisabled,
+  isH2 = false,
 }) => {
 
   return (
@@ -63,7 +64,11 @@ const ProductCard = ({
 
         {/* Product Info */}
         <Link href={productUrl} onClick={onNavigate}>
-          <h3 className="text-base md:text-lg text-center font-semibold mb-2">{title}</h3>
+          {isH2 ? (
+            <h2 className="text-base md:text-lg text-center font-semibold mb-2">{title}</h2>
+          ) : (
+            <h3 className="text-base md:text-lg text-center font-semibold mb-2">{title}</h3>
+          )}
         </Link>
 
         {/* Price */}

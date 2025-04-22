@@ -1,13 +1,26 @@
 "use client"
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useEffect, useState } from 'react'
 
 const CartContext = createContext()
 
 export function CartProvider({ children }) {
   const [isCartOpen, setIsCartOpen] = useState(false)
+  const [cartItems, setCartItems] = useState([]);
+
+  // Load cart from localStorage on mount
+  useEffect(() => {
+    const cartData = localStorage.getItem("cart");
+    const parsedCart = JSON.parse(cartData);
+    setCartItems(parsedCart || []);
+  }, []);
+
+  // Sync changes to localStorage whenever cartItems change
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cartItems));
+  }, [cartItems]);
 
   return (
-    <CartContext.Provider value={{ isCartOpen, setIsCartOpen }}>
+    <CartContext.Provider value={{ isCartOpen, setIsCartOpen,cartItems,setCartItems }}>
       {children}
     </CartContext.Provider>
   )

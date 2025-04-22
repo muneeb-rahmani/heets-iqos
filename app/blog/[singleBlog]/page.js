@@ -16,7 +16,7 @@ export async function generateMetadata(props) {
     ? data?.excerpt
     : "Explore detailed reviews, contact information, and opening hours. Learn about their expert skin and hair care treatments tailored to your needs. Discover personalized dermatology solutions today!";
 
-  const url = data ? `${config.mainifest.url}${data?.slug}` : "";
+  const url = data?.actual_slug ? `${config.mainifest.url}${data?.actual_slug}` : "";
 
 
   return {
