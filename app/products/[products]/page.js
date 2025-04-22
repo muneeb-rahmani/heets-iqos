@@ -10,7 +10,7 @@ import config from "@/lib/config";
 export async function generateMetadata(props) {
   const parameter = await props.params;
   const data = await getProductData(parameter?.products);
-
+console.log(data, "product data in metadata")
   const title = data
     ? data?.seo?.rank_math_title
     : "Best Dermatologists in India - Find Top Rated Dermatologists Near You";
@@ -19,7 +19,7 @@ export async function generateMetadata(props) {
     ? data?.seo?.rank_math_description
     : "Explore detailed reviews, contact information, and opening hours. Learn about their expert skin and hair care treatments tailored to your needs. Discover personalized dermatology solutions today!";
 
-  const url = data ? `${config.mainifest.url}products/${data?.slug}` : "";
+  const url = data ? `${config.mainifest.url}${data?.actual_slug}` : "";
 
 
   return {

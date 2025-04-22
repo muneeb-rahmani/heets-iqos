@@ -35,7 +35,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold mb-4">Heets Iqos UAE</h3>
+            <p className="text-lg font-semibold mb-4">Heets Iqos UAE</p>
             <div className="flex items-start space-x-2">
               <MapPin className="w-5 h-5 mt-1 flex-shrink-0" />
               <p>Address : 27 Street 56B - Al Barsha - Al Barsha 3 - Dubai - United Arab Emirates</p>
@@ -52,7 +52,7 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
+            <p className="text-lg font-semibold mb-4">Quick Links</p>
             <ul className="space-y-2">
               {quickLinks.map((link, index) => (
                 <li key={index}>
@@ -66,7 +66,7 @@ export default function Footer() {
 
           {/* Delivery Locations */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Our Delivery Locations</h3>
+            <p className="text-lg font-semibold mb-4">Our Delivery Locations</p>
             <ul className="space-y-2">
               {deliveryLocations.map((location,index) => (
                 <li key={index}>

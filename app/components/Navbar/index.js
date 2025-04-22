@@ -22,8 +22,8 @@ const Navbar = () => {
   const [categories, setCategories] = useState([]);
   const [reviewLength, setReviewLength] = useState("");
   const [totalSales, setTotalSales] = useState("");
-  const { isCartOpen, setIsCartOpen } = useCart();
-  const [cartItems, setCartItems] = useState([]);
+  const { isCartOpen, setIsCartOpen,cartItems, setCartItems } = useCart();
+  // const [cartItems, setCartItems] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -352,15 +352,6 @@ const Navbar = () => {
       <nav className="bg-black text-white hidden md:block">
         <div className="relative flex items-center justify-center">
           <ul className="flex items-center space-x-1">
-            <li className="relative hover:ease-in-out duration-300 ">
-              <Link
-                href="/"
-                className="flex items-center px-4 py-4 transition-colors"
-              >
-                Home
-                <span className="ml-2">→</span>
-              </Link>
-            </li>
             {categories.map((item) => (
               <li
                 key={item.id}
@@ -419,10 +410,6 @@ const Navbar = () => {
       {/* Mobile view start*/}
       <nav className="fixed block md:hidden bottom-0 left-0 right-0 z-[9999999] bg-white border-t border-gray-200 py-2">
         <div className="flex justify-around items-center">
-          <Link href="/" className="flex flex-col items-center">
-            <Home className="h-6 w-6 text-primary" />
-            <span className="text-xs mt-1 text-primary">Home</span>
-          </Link>
           <Link href="/view-cart" className="flex flex-col items-center">
             <ShoppingCart className="h-6 w-6 text-primary" />
             <span className="text-xs mt-1 text-primary">Cart</span>

@@ -10,17 +10,17 @@ export async function generateMetadata(props) {
   const params = await props.params;
   const data = await getCategoryData(params?.categories);
   
-
   const title = data
-    ? data?.rank_math?.title
-    : "Best Dermatologists in India - Find Top Rated Dermatologists Near You";
-
+  ? data?.rank_math?.title
+  : "Best Dermatologists in India - Find Top Rated Dermatologists Near You";
+  
   const description = data
-    ? data?.rank_math?.description
-    : "Explore detailed reviews, contact information, and opening hours. Learn about their expert skin and hair care treatments tailored to your needs. Discover personalized dermatology solutions today!";
-
-  const url = data ? `${config.mainifest.url}${data?.category_details?.cat_slug}` : "";
-
+  ? data?.rank_math?.description
+  : "Explore detailed reviews, contact information, and opening hours. Learn about their expert skin and hair care treatments tailored to your needs. Discover personalized dermatology solutions today!";
+  
+  const url = data?.category_details?.cat_slug ? `${config.mainifest.url}${data?.category_details?.cat_slug}` : "";
+  
+  // console.log(url, "category data in metadata")
 
   
   return {
@@ -43,7 +43,7 @@ const Page = async ({params}) => {
   const categoryData = await getCategoryData(categoryId)
 
   const subCategory = await getSubcategoriesUrl(categoryId)
-
+console.log(categoryData, "category data in page")
   return (
     <>
       <Categories subCategory={subCategory} categoryData={categoryData} />

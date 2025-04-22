@@ -13,26 +13,16 @@ import { Trash2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useCart } from "../context/cartProvider";
 
 export default function ShoppingCart() {
   const [quantity, setQuantity] = useState(null);
   const [data, setData] = useState([]);
-
-  useEffect(() => {
-    const fetchLocalData = () => {
-      try {
-        const fetchLocal = JSON.parse(localStorage.getItem("cart")) || [];
-        setData(fetchLocal);
-      } catch (error) {
-        console.log(error, "fetch error in local storage");
-      }
-    };
-    fetchLocalData();
-  }, []);
+  const { cartItems, setCartItems } = useCart();
 
   const updateQuantity = (id, change) => {
-    setData((prevData) =>
-      prevData.map((item) =>
+    setCartItems((prevItems) =>
+      prevItems.map((item) =>
         item.id === id
           ? { ...item, quantity: Math.max(1, item.quantity + change) }
           : item
@@ -41,32 +31,18 @@ export default function ShoppingCart() {
   };
 
   const removeItem = (id) => {
-    setData((prevData) => {
-      const updatedData = prevData.filter((item) => item.id !== id);
-      localStorage.setItem("cart", JSON.stringify(updatedData));
-      return updatedData;
-    });
+    setCartItems((prevItems) => prevItems.filter((item) => item.id !== id));
   };
 
-  const calculateSubtotal = (basePrice, qty) => {
-    // console.log(basePrice, qty, 'checkprice se baba')
-    return basePrice * qty;
+  const subFinal = () => {
+    return cartItems?.reduce((acc, item) => acc + item.price * item.quantity, 0);
   };
-
-  function subFinal() {
-    const total = data?.reduce((acc, price) => {
-      return acc + price.price * price.quantity;
-    }, 0);
-    return total;
-  }
 
   useEffect(() => {
-    if (data.length > 0) {
-      localStorage.setItem("cart", JSON.stringify(data));
-    }
-    console.log(data, "check data");
-    subFinal()
-  }, [data]);
+    // just for debugging
+    subFinal();
+    console.log(cartItems, "cartItems updated");
+  }, [cartItems]);
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -74,7 +50,7 @@ export default function ShoppingCart() {
         Shopping Cart
       </h1>
 
-      {data && data.length > 0 ? (
+      {cartItems && cartItems.length > 0 ? (
         <>
           <div className="border w-full">
             {/* Header Row - Hidden on mobile */}
@@ -88,7 +64,7 @@ export default function ShoppingCart() {
 
             {/* Table Body */}
             <div className="w-full">
-              {data.map((item, index) => (
+              {cartItems.map((item, index) => (
                 <div key={index} className="border-t">
                   {/* Desktop View */}
                   <div className="hidden md:grid grid-cols-5 w-full">

@@ -106,7 +106,7 @@ const SingleProduct = ({
       <nav className=" space-x-2 text-sm py-4 px-4 bg-gray-50">
       <div class="containerBreadcrumb">
         <ul
-          class="breadcrumb"
+          className="breadcrumb"
           itemType="https://schema.org/BreadcrumbList"
         >
           <li>
@@ -123,7 +123,7 @@ const SingleProduct = ({
               </Link>
             </li>
           {serverData?.breadcrumbs?.map((item, index) => (
-            <li>
+            <li key={index}>
               {item.url !== null ? (
               <Link
                 itemProp="itemListElement"
@@ -259,7 +259,7 @@ const SingleProduct = ({
                 {serverData?.sku && (
                   <span className="text-[10px] md:text-sm">SKU: {serverData?.sku}</span>
                 )}
-                <span className="text-[10px] md:text-sm">VENDOR: {serverData?.vendor}</span>
+                <span className="text-[10px] md:text-sm">VENDOR: Heets IQOS UAE</span>
                 <span className="text-[10px] md:text-sm">
                   AVAILABILITY:{" "}
                   {serverData?.stock_status == "instock"
@@ -376,7 +376,7 @@ const SingleProduct = ({
               <h3 className="text-3xl font-bold">{serverData?.name} Reviews</h3>
               <div className="flex gap-4 items-end my-3">
                 <p className="text-4xl font-bold">
-                  {serverData?.meta_data?._wc_average_rating[0] || 0}
+                  {serverData?.average_rating || 0}
                   <span className="text-gray-500"> / 5</span>
                 </p>
                 <StarRating
@@ -399,9 +399,9 @@ const SingleProduct = ({
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center justify-between relative">
-                      <h3 className="font-semibold text-lg">
+                      <p className="font-semibold text-lg">
                         {review.author}
-                      </h3>
+                      </p>
                       <span className="text-xs text-white absolute top-[-23px] px-2 py-1 bg-black rounded-b-lg right-3">
                         {moment(review.date).format(
                           "DD-MM-YYYY HH:mm:ss"
@@ -422,7 +422,7 @@ const SingleProduct = ({
       <section className="py-12 bg-[#f1f1f1]">
         <div className="px-4 max-w-7xl mx-auto">
           <h2 className="text-2xl font-bold text-center mb-8">
-            {serverData?.categories[0]}
+             Related Products
             <div className="w-20 h-1 bg-red-800 mx-auto mt-2" />
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
