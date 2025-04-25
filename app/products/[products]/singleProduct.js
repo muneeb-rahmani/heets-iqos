@@ -96,7 +96,7 @@ const SingleProduct = ({ serverData, breadCrumb }) => {
         product={serverData?.name || ""}
       /> */}
       <nav className=" space-x-2 text-sm py-4 px-4 bg-gray-50">
-        <div class="containerBreadcrumb">
+        <div className="containerBreadcrumb">
           <ul
             className="breadcrumb"
             itemType="https://schema.org/BreadcrumbList"
@@ -478,11 +478,11 @@ const SingleProduct = ({ serverData, breadCrumb }) => {
           </div>
         </div>
       </section>
-      {productData?.schema_data && (
+      {serverData?.schema_data && (
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(productData?.schema_data) || {},
+            __html: JSON.stringify(serverData?.schema_data) || {},
           }}
         />
       )}
