@@ -10,7 +10,7 @@ import config from "@/lib/config";
 export async function generateMetadata(props) {
   const parameter = await props.params;
   const data = await getProductData(parameter?.products);
-console.log(data, "product data in metadata")
+// console.log(data, "product data in metadata")
   const title = data
     ? data?.seo?.rank_math_title
     : "Best Dermatologists in India - Find Top Rated Dermatologists Near You";

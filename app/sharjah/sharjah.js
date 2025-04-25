@@ -113,11 +113,11 @@ const Sharjah = ({ productData }) => {
         dangerouslySetInnerHTML={{ __html: productData?.category_details?.cat_description }}
       />
 
-      {data?.schema_data && (
+      {productData?.schema_data && (
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(data?.schema_data),
+            __html: JSON.stringify(productData?.schema_data),
           }}
         />
       )}
