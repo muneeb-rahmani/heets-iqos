@@ -39,12 +39,7 @@ const Page = async ({params}) => {
   return (
     <>
       <SingleBlog serverData={serverData} />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(serverData?.schema_data) || {},
-        }}
-      />
+      
     </>
     
   )

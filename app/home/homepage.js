@@ -127,6 +127,16 @@ const HomePage = ({ productData,homepageDescripton, homeData }) => {
         ))}
 
       <div className="container mx-auto" dangerouslySetInnerHTML={{__html: homeData?.content}} />
+
+      {homeData?.schema_data && (
+
+        <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(homeData?.schema_data),
+        }}
+        />
+      )}
     </div>
   );
 };

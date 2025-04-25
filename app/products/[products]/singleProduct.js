@@ -12,12 +12,7 @@ import { useCart } from "../../context/cartProvider";
 import moment from "moment";
 import config from "@/lib/config";
 
-
-
-const SingleProduct = ({
-  serverData,
-  breadCrumb,
-}) => {
+const SingleProduct = ({ serverData, breadCrumb }) => {
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState("description");
   const [selectedImage, setSelectedImage] = useState(0);
@@ -38,7 +33,7 @@ const SingleProduct = ({
   };
 
   useEffect(() => {
-    if(sliderHeight.current) {
+    if (sliderHeight.current) {
       setImgHeight(sliderHeight.current.clientHeight);
     }
   }, [sliderHeight.current]);
@@ -66,7 +61,6 @@ const SingleProduct = ({
     setQuantity(1);
   };
 
-
   const handleBuyNow = (id, name, price, image) => {
     const cartObj = {
       id,
@@ -89,10 +83,8 @@ const SingleProduct = ({
     router.push("/checkout");
   };
 
-
-
-  const parentSlug = getSlug(breadCrumb?.parent_category?.url, 'split'); 
-  const subSlug    = getSlug(breadCrumb?.subcategories?.[0]?.url, 'split');     
+  const parentSlug = getSlug(breadCrumb?.parent_category?.url, "split");
+  const subSlug = getSlug(breadCrumb?.subcategories?.[0]?.url, "split");
 
   return (
     <>
@@ -104,12 +96,12 @@ const SingleProduct = ({
         product={serverData?.name || ""}
       /> */}
       <nav className=" space-x-2 text-sm py-4 px-4 bg-gray-50">
-      <div class="containerBreadcrumb">
-        <ul
-          className="breadcrumb"
-          itemType="https://schema.org/BreadcrumbList"
-        >
-          <li>
+        <div class="containerBreadcrumb">
+          <ul
+            className="breadcrumb"
+            itemType="https://schema.org/BreadcrumbList"
+          >
+            <li>
               <Link
                 itemProp="itemListElement"
                 itemScope=""
@@ -122,74 +114,85 @@ const SingleProduct = ({
                 Home
               </Link>
             </li>
-          {serverData?.breadcrumbs?.map((item, index) => (
-            <li key={index}>
-              {item.url !== null ? (
-              <Link
-                itemProp="itemListElement"
-                itemScope=""
-                itemType="https://schema.org/ListItem"
-                href={`${config.mainifest.url}${item.actual_url}`}
-                >
-                <meta itemProp="position" content={index} />
-                <meta itemProp="name" content={item.name} />
-                <meta itemProp="item" content={`${config.mainifest.url}${item.actual_url}`} />
-                {item.name}
-              </Link>
-              ) : (
-                <span
-                  itemProp="itemListElement"
-                  itemScope=""
-                  itemType="https://schema.org/ListItem"
-                >
-                  <meta itemProp="position" content={index} />
-                  <meta itemProp="name" content={item.name} />
-                  {item.name}
-                </span>
-              )}
-            </li>
-          ))}
-
-        </ul>
-      </div>
-    </nav>
+            {serverData?.breadcrumbs?.map((item, index) => (
+              <li key={index}>
+                {item.url !== null ? (
+                  <Link
+                    itemProp="itemListElement"
+                    itemScope=""
+                    itemType="https://schema.org/ListItem"
+                    href={`${config.mainifest.url}${item.actual_url}`}
+                  >
+                    <meta itemProp="position" content={index} />
+                    <meta itemProp="name" content={item.name} />
+                    <meta
+                      itemProp="item"
+                      content={`${config.mainifest.url}${item.actual_url}`}
+                    />
+                    {item.name}
+                  </Link>
+                ) : (
+                  <span
+                    itemProp="itemListElement"
+                    itemScope=""
+                    itemType="https://schema.org/ListItem"
+                  >
+                    <meta itemProp="position" content={index} />
+                    <meta itemProp="name" content={item.name} />
+                    {item.name}
+                  </span>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </nav>
       <div className="max-w-full mx-auto md:max-w-7xl">
         <div className="grid md:grid-cols-2 gap-8 p-4">
           {/* Left Column - Image Gallery */}
           <div className="flex gap-4 flex-col-reverse md:flex-row max-w-[90vw] w-full md:max-w-none">
             {/* Thumbnails */}
-            <div className="hidden md:flex flex-row md:flex-col gap-2 pr-3 overflow-x-auto md:overflow-y-auto" style={{ maxHeight: imgHeight}}>
-              {serverData?.images && serverData?.images?.map((image, index) => (
-                <button
-                  key={index}
-                  onClick={() => setSelectedImage(index)}
-                  className={`border-2 p-1 rounded-lg w-20 h-20 ${
-                    selectedImage === index
-                      ? "border-red-800"
-                      : "border-gray-200"
-                  }`}
-                >
-                  <Image
-                    src={image?.trimEnd() || "/placeholder.svg"}
-                    overrideSrc={image?.trimEnd() || "/placeholder.svg"}
-                    alt={`Product thumbnail ${index + 1}`}
-                    width={80}
-                    height={80}
-                    className="w-full h-full object-scale-down md:object-contain"
-                  />
-                </button>
-              ))}
+            <div
+              className="hidden md:flex flex-row md:flex-col gap-2 pr-3 overflow-x-auto md:overflow-y-auto"
+              style={{ maxHeight: imgHeight }}
+            >
+              {serverData?.images &&
+                serverData?.images?.map((image, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setSelectedImage(index)}
+                    className={`border-2 p-1 rounded-lg w-20 h-20 ${
+                      selectedImage === index
+                        ? "border-red-800"
+                        : "border-gray-200"
+                    }`}
+                  >
+                    <Image
+                      src={image?.trimEnd() || "/placeholder.svg"}
+                      overrideSrc={image?.trimEnd() || "/placeholder.svg"}
+                      alt={`Product thumbnail ${index + 1}`}
+                      width={80}
+                      height={80}
+                      className="w-full h-full object-scale-down md:object-contain"
+                    />
+                  </button>
+                ))}
             </div>
-            
+
             {/* Mobile: Horizontal Thumbnails (Below main image) */}
             <div className="md:hidden w-full overflow-x-auto">
-              <div className="flex gap-2 pb-2" style={{ minWidth: `${serverData?.images?.length * 88}px` }}>
+              <div
+                className="flex gap-2 pb-2"
+                style={{ minWidth: `${serverData?.images?.length * 88}px` }}
+              >
                 {serverData?.images?.map((image, index) => (
                   <button
                     key={index}
                     onClick={() => setSelectedImage(index)}
                     className={`border-2 p-1 rounded-lg w-20 h-20 flex-shrink-0 ${
-                      selectedImage === index ? "border-red-800" : "border-gray-200"
+                      selectedImage === index
+                        ? "border-red-800"
+                        : "border-gray-200"
                     }`}
                   >
                     <Image
@@ -207,10 +210,21 @@ const SingleProduct = ({
 
             {/* Main Image */}
             <div className="flex-1 p-4">
-              <div ref={sliderHeight} className="relative aspect-square rounded-lg shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
+              <div
+                ref={sliderHeight}
+                className="relative aspect-square rounded-lg shadow-[0_3px_10px_rgb(0,0,0,0.2)]"
+              >
                 <Image
-                  src={serverData?.images && serverData?.images[selectedImage]?.trimEnd() || "/placeholder.svg"}
-                  overrideSrc={serverData?.images && serverData?.images[selectedImage]?.trimEnd() || "/placeholder.svg"}
+                  src={
+                    (serverData?.images &&
+                      serverData?.images[selectedImage]?.trimEnd()) ||
+                    "/placeholder.svg"
+                  }
+                  overrideSrc={
+                    (serverData?.images &&
+                      serverData?.images[selectedImage]?.trimEnd()) ||
+                    "/placeholder.svg"
+                  }
                   alt="Product main image"
                   fill
                   className="object-contain"
@@ -257,9 +271,13 @@ const SingleProduct = ({
             <div className="space-y-2">
               <div className="flex items-center gap-4">
                 {serverData?.sku && (
-                  <span className="text-[10px] md:text-sm">SKU: {serverData?.sku}</span>
+                  <span className="text-[10px] md:text-sm">
+                    SKU: {serverData?.sku}
+                  </span>
                 )}
-                <span className="text-[10px] md:text-sm">VENDOR: Heets IQOS UAE</span>
+                <span className="text-[10px] md:text-sm">
+                  VENDOR: Heets IQOS UAE
+                </span>
                 <span className="text-[10px] md:text-sm">
                   AVAILABILITY:{" "}
                   {serverData?.stock_status == "instock"
@@ -313,10 +331,14 @@ const SingleProduct = ({
                     serverData.id,
                     serverData.name,
                     serverData.sale_price,
-                    serverData.main_image[0],
+                    serverData.main_image[0]
                   )
                 }
-                className={`flex-1 rounded-lg text-white py-2  transition-colors ${serverData?.stock_status !== "instock" ? 'cursor-not-allowed bg-gray-500 hover:bg-gray-600' : 'bg-[#8b2c2a] hover:bg-red-900 cursor-pointer'}`}
+                className={`flex-1 rounded-lg text-white py-2  transition-colors ${
+                  serverData?.stock_status !== "instock"
+                    ? "cursor-not-allowed bg-gray-500 hover:bg-gray-600"
+                    : "bg-[#8b2c2a] hover:bg-red-900 cursor-pointer"
+                }`}
               >
                 {serverData?.stock_status === "instock"
                   ? "Add to Cart"
@@ -387,7 +409,6 @@ const SingleProduct = ({
               </div>
             </div>
 
-            
             <div className="space-y-6">
               {serverData?.reviews.map((review) => (
                 <div
@@ -399,13 +420,9 @@ const SingleProduct = ({
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center justify-between relative">
-                      <p className="font-semibold text-lg">
-                        {review.author}
-                      </p>
+                      <p className="font-semibold text-lg">{review.author}</p>
                       <span className="text-xs text-white absolute top-[-23px] px-2 py-1 bg-black rounded-b-lg right-3">
-                        {moment(review.date).format(
-                          "DD-MM-YYYY HH:mm:ss"
-                        )}
+                        {moment(review.date).format("DD-MM-YYYY HH:mm:ss")}
                       </span>
                     </div>
                     <p
@@ -422,7 +439,7 @@ const SingleProduct = ({
       <section className="py-12 bg-[#f1f1f1]">
         <div className="px-4 max-w-7xl mx-auto">
           <h2 className="text-2xl font-bold text-center mb-8">
-             Related Products
+            Related Products
             <div className="w-20 h-1 bg-red-800 mx-auto mt-2" />
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
@@ -436,7 +453,11 @@ const SingleProduct = ({
                 id={product.id}
                 rating={product.average_rating}
                 reviews={product.total_reviews}
-                details={product.stock_status === "instock" ? "In Stock" : "Out of Stock"}
+                details={
+                  product.stock_status === "instock"
+                    ? "In Stock"
+                    : "Out of Stock"
+                }
                 isDisabled={product.stock_status === "instock" ? false : true}
                 quantity={quantity[product.id] || 1}
                 reviewCount={product.total_reviews}
@@ -457,6 +478,14 @@ const SingleProduct = ({
           </div>
         </div>
       </section>
+      {productData?.schema_data && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(productData?.schema_data) || {},
+          }}
+        />
+      )}
     </>
   );
 };
@@ -474,10 +503,7 @@ export function Breadcrumb({
   return (
     <nav className=" space-x-2 text-sm py-4 px-4 bg-gray-50">
       <div className="containerBreadcrumb">
-        <ul
-          className="breadcrumb"
-          itemType="https://schema.org/BreadcrumbList"
-        >
+        <ul className="breadcrumb" itemType="https://schema.org/BreadcrumbList">
           <li>
             <Link
               itemProp="itemListElement"
@@ -500,10 +526,7 @@ export function Breadcrumb({
             >
               <meta itemProp="position" content="2" />
               <meta itemProp="name" content="Heets Sticks" />
-              <meta
-                itemProp="item"
-                content={categoryUrl || "#"}
-              />
+              <meta itemProp="item" content={categoryUrl || "#"} />
               {category}
             </Link>
           </li>
@@ -516,11 +539,8 @@ export function Breadcrumb({
             >
               <meta itemProp="position" content="2" />
               <meta itemProp="name" content="Heets Sticks" />
-              <meta
-                itemProp="item"
-                content={subCategoryUrl || "#"}
-              />
-               {subCategory}
+              <meta itemProp="item" content={subCategoryUrl || "#"} />
+              {subCategory}
             </Link>
           </li>
           <li>
@@ -530,10 +550,7 @@ export function Breadcrumb({
               itemType="https://schema.org/ListItem"
             >
               <meta itemProp="position" content="3" />
-              <meta
-                itemProp="name"
-                content={product}
-              />
+              <meta itemProp="name" content={product} />
               {product}
             </span>
           </li>

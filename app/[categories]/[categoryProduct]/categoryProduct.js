@@ -76,6 +76,14 @@ const CategoryProduct = ({ productData, categoryData }) => {
         </div>
         <div className="mt-8" dangerouslySetInnerHTML={{ __html: categoryData?.category_details?.cat_description  }} />
       </section>
+      {categoryData?.schema_data && (
+        <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(categoryData?.schema_data),
+        }}
+        />
+      )}
     </div>
   );
 };
