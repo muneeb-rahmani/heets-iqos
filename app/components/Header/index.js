@@ -7,12 +7,12 @@ const HeroSection = ({header, isHome,featureImg,shortDesc}) => {
   
   return (
     <div className="relative w-full bg-gradient-to-b from-cyan-300 to-white overflow-hidden">
-      <div className="container max-w-7xl mx-auto px-4 py-16">
+      <div className="container max-w-7xl mx-auto px-4 py-6">
         <div className="grid lg:grid-cols-2 gap-8 items-center">
           {/* Left Content */}
           <div className="space-y-6 text-center lg:text-left">
             <h1 className="text-2xl md:text-4xl lg:text-4xl font-bold leading-tight text-gray-900 max-w-xl">
-              {header ? header : "IQOS Heets Dubai | #1 Trusted Heets IQOS UAE Online Store"}
+              {header || "IQOS Heets Dubai | #1 Trusted Heets IQOS UAE Online Store"}
             </h1>
             {shortDesc && <p className="text-lg text-gray-700 max-w-lg mx-auto lg:mx-0">{shortDesc}</p>}
             {isHome && (
@@ -33,6 +33,7 @@ const HeroSection = ({header, isHome,featureImg,shortDesc}) => {
                 // fill={true}
                 width={500}
                 height={200}
+                loading="lazy"
                 overrideSrc={featureImg?.trimEnd()}
                 className="w-full max-w-[500px] h-auto object-contain transform lg:scale-110"
               />
