@@ -45,14 +45,7 @@ const Page = async ({params}) => {
   return (
     <>
       <CategoryProduct categoryData={categoryData} />
-      {categoryData?.schema_data && (
-        <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(categoryData?.schema_data),
-        }}
-        />
-      )}
+     
     </>
   )
 }

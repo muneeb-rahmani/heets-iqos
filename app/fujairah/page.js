@@ -45,14 +45,7 @@ const Page = async (props) => {
     <>
       <Fujairah productData={data}  />
 
-      {data?.schema_data && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(data?.schema_data),
-          }}
-        />
-      )}
+      
     </>
   );
 };

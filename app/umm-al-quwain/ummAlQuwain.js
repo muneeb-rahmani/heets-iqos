@@ -112,6 +112,15 @@ const UmmAlQuwain = ({ productData }) => {
         className="mt-8 myCategoryPage"
         dangerouslySetInnerHTML={{ __html: productData?.category_details?.cat_description }}
       />
+
+      {data?.schema_data && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(data?.schema_data),
+          }}
+        />
+      )}
     </div>
   );
 };

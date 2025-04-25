@@ -13,15 +13,7 @@ const Page = async () => {
   return (
     <>
       <HomePage  homeData={homeData} />
-      {homeData?.schema_data && (
-
-        <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(homeData?.schema_data),
-        }}
-        />
-      )}
+      
     </>
   );
 };
