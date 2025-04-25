@@ -11,17 +11,20 @@ import { getHomeData, getPagesFromCustom } from "./utils/products";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: 'swap', //avoid font render-blocking
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: 'swap', //avoid font render-blocking
 });
 
 const poppins = Poppins({
   variable: "--font-poppins",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"], // ✅ Include only what you need
+  weight: ["300", "400", "500", "600", "700"],
+  display: 'swap', //avoid font render-blocking
 });
 
 export async function generateMetadata(props) {
