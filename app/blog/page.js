@@ -7,33 +7,24 @@ import config from '@/lib/config';
 //muneeb
 
 
-// export async function generateMetadata(props) {
+export async function generateMetadata(props) {
   
-//   const data = await getBlogs();
-//   console.log(data, "data");
-//   const title = data
-//     ? data?.title
-//     : "Best Dermatologists in India - Find Top Rated Dermatologists Near You";
+  const title = "Blog | Heets IQOS UAE"
 
-//   const description = data
-//     ? data?.excerpt
-//     : "Explore detailed reviews, contact information, and opening hours. Learn about their expert skin and hair care treatments tailored to your needs. Discover personalized dermatology solutions today!";
+  const description = ""
 
-//   const url = data ? `${config.mainifest.url}${data?.slug}` : "";
+  const url = `${config.mainifest.url}blog/`
 
 
-//   return {
-//     title,
-//     description,
-//     url,
-//     alternates: {
-//       canonical: url,
-//     },
-//     openGraph: {
-//       images: data?.featured_image,
-//     },
-//   };
-// }
+  return {
+    title,
+    description,
+    url,
+    alternates: {
+      canonical: url,
+    },
+  };
+}
 
 const Page = async () => {
     const serverData = await getBlogs();
