@@ -47,14 +47,6 @@ console.log(categoryData, "category data in page")
   return (
     <>
       <Categories subCategory={subCategory} categoryData={categoryData} />
-      {categoryData?.schema_data && (
-        <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(categoryData?.schema_data),
-        }}
-        />
-      )}
     </>
   )
 }
