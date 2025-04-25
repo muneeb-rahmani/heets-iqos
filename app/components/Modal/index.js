@@ -95,7 +95,7 @@ export default function CartModal() {
 
             {/* Buttons */}
             <div className="flex flex-nowrap justify-center sm:justify-between items-center p-2 gap-2">
-              <Link href="/view-cart" onClick={closeModal}>
+              <Link prefetch={false} href="/view-cart" onClick={closeModal}>
                 <Button className="bg-[#8B1F18] text-white px-2 hover:bg-[#8B1F18]/90 text-xs sm:text-sm h-8 sm:h-10">
                   View Cart
                 </Button>
@@ -106,7 +106,7 @@ export default function CartModal() {
               >
                 Continue Shopping
               </Button>
-              <Link href="/checkout" onClick={closeModal}>
+              <Link prefetch={false} href="/checkout" onClick={closeModal}>
                 <Button className="bg-[#8B1F18] text-white px-2 hover:bg-[#8B1F18]/90 text-xs sm:text-sm h-8 sm:h-10">
                   Checkout
                 </Button>

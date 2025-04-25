@@ -142,7 +142,7 @@ const Navbar = () => {
         {/* Desktop view start */}
         <div className="hidden md:flex flex-wrap sm:hidden py-1 justify-between items-center">
           <div className="flex items-center w-1/4">
-            <Link href="/" className="logo_img" aria-label="Heets IQOS UAE logo">
+            <Link prefetch={false} href="/" className="logo_img" aria-label="Heets IQOS UAE logo">
               <Image
                 src="/imgs/heets-iqos-uae-logo.png"
                 overrideSrc="/imgs/heets-iqos-uae-logo.png"
@@ -186,6 +186,7 @@ const Navbar = () => {
                   filteredProducts.map((product, index) => (
                     <Link
                       key={index}
+                      prefetch={false}
                       href={`/products/${product.slug}`}
                       className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
                       onClick={() => {
@@ -204,7 +205,7 @@ const Navbar = () => {
           </div>
           <div className="flex justify-end items-center w-[16%]">
             <p>
-              <Link href="/view-cart">
+              <Link prefetch={false} href="/view-cart">
                 <button
                   // onClick={() => setIsCartOpen(true)}
                   className="bg-transparent sm:bg-black inline-block py-2 px-5 text-white font-semibold rounded-lg transition duration-300 hover:bg-transparent sm:hover:bg-black hover:text-white"
@@ -225,7 +226,7 @@ const Navbar = () => {
         <nav className="bg-white block md:hidden border-b border-gray-200 px-5 py-5 md:px-5 md:py-0">
           <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
             {/* Logo */}
-            <Link href="/" className="logo_img" aria-label="Heets IQOS UAE logo">
+            <Link prefetch={false} href="/" className="logo_img" aria-label="Heets IQOS UAE logo">
               <Image
                 src="/imgs/heets-iqos-uae-logo.png"
                 alt="Heets IQOS UAE logo"
@@ -237,7 +238,7 @@ const Navbar = () => {
 
             {/* Cart & Menu */}
             <div className="flex items-center gap-4">
-              <Link href='/view-cart' className="relative">
+              <Link prefetch={false} href='/view-cart' className="relative">
                 <ShoppingCart className="h-6 w-6 text-black" />
                 <span className="absolute -top-2 -right-2 bg-black text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
                   {cartItems && cartItems.length}
@@ -288,6 +289,7 @@ const Navbar = () => {
                   {filteredProducts.length > 0 ? (
                     filteredProducts.map((product, index) => (
                       <Link
+                      prefetch={false}
                         key={index}
                         href={`/products/${product.slug}`}
                         className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
@@ -310,7 +312,7 @@ const Navbar = () => {
 
       {toggleMenu && (
         <div className="searchBar absolute w-full bg-white z-10 rounded-b-[6px] shadow-lg border">
-          <Link href="/">Home Page</Link>
+          <Link prefetch={false} href="/">Home Page</Link>
           <Accordion className="w-full px-4 mt-4">
             {categories.map((item) => (
               <AccordionItem
@@ -321,6 +323,7 @@ const Navbar = () => {
                 {item.actual_url != "shop" && item.actual_url != "products" && (
                   <AccordionTrigger className="text-left p-0 w-full">
                     <Link
+                      prefetch={false}
                       href={item?.actual_url || "#"}
                       className="flex items-center px-2 py-4 transition-colors w-full arrowTrigger"
                     >
@@ -334,6 +337,7 @@ const Navbar = () => {
                       <li key={child.id}>
                         <span className="mob-arrow">→</span>
                         <Link
+                          prefetch={false}
                           href={child?.actual_url || "#"}
                           aria-label={child?.title}
                         >
@@ -361,6 +365,7 @@ const Navbar = () => {
               >
                 {item.actual_url != "shop" && item.actual_url != "products" && (
                   <Link
+                    prefetch={false}
                     href={item.actual_url}
                     className="flex items-center px-2 py-4 transition-colors"
                   >
@@ -374,6 +379,7 @@ const Navbar = () => {
                       <div className="flex-1">
                         {item.sub_menu.map((child) => (
                           <Link
+                            prefetch={false}
                             key={child.title}
                             href={child?.actual_url || "#"}
                             className="block px-4 py-2 hover:bg-gray-100"
@@ -389,6 +395,7 @@ const Navbar = () => {
             ))}
             <li className="relative hover:ease-in-out duration-300 ">
               <Link
+                prefetch={false}
                 href="/blog"
                 className="flex items-center px-2 py-4 transition-colors"
               >
@@ -397,6 +404,7 @@ const Navbar = () => {
             </li>
             <li className="relative hover:ease-in-out duration-300 ">
               <Link
+              prefetch={false}
                 href="/"
                 className="flex items-center px-2 py-4 transition-colors"
               >
@@ -410,15 +418,16 @@ const Navbar = () => {
       {/* Mobile view start*/}
       <nav className="fixed block md:hidden bottom-0 left-0 right-0 z-[9999999] bg-white border-t border-gray-200 py-2">
         <div className="flex justify-around items-center">
-          <Link href="/view-cart" className="flex flex-col items-center">
+          <Link prefetch={false} href="/view-cart" className="flex flex-col items-center">
             <ShoppingCart className="h-6 w-6 text-primary" />
             <span className="text-xs mt-1 text-primary">Cart</span>
           </Link>
-          <Link href="tel:+1234567890" className="flex flex-col items-center">
+          <Link prefetch={false} href="tel:+1234567890" className="flex flex-col items-center">
             <Phone className="h-6 w-6 text-primary" />
             <span className="text-xs mt-1 text-primary">Call</span>
           </Link>
           <Link
+          prefetch={false}
             href="https://wa.me/1234567890"
             className="flex flex-col items-center"
           >

@@ -103,6 +103,8 @@ const SingleProduct = ({ serverData, breadCrumb }) => {
           >
             <li>
               <Link
+                
+              prefetch={false}
                 itemProp="itemListElement"
                 itemScope=""
                 itemType="https://schema.org/ListItem"
@@ -118,6 +120,7 @@ const SingleProduct = ({ serverData, breadCrumb }) => {
               <li key={index}>
                 {item.url !== null ? (
                   <Link
+                  prefetch={false}
                     itemProp="itemListElement"
                     itemScope=""
                     itemType="https://schema.org/ListItem"
@@ -506,6 +509,7 @@ export function Breadcrumb({
         <ul className="breadcrumb" itemType="https://schema.org/BreadcrumbList">
           <li>
             <Link
+              prefetch={false}
               itemProp="itemListElement"
               itemScope=""
               itemType="https://schema.org/ListItem"
@@ -519,6 +523,7 @@ export function Breadcrumb({
           </li>
           <li>
             <Link
+              prefetch={false}
               itemProp="itemListElement"
               itemScope=""
               itemType="https://schema.org/ListItem"
@@ -532,6 +537,7 @@ export function Breadcrumb({
           </li>
           <li>
             <Link
+              prefetch={false}
               itemProp="itemListElement"
               itemScope=""
               itemType="https://schema.org/ListItem"
