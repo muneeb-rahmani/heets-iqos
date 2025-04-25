@@ -45,7 +45,7 @@ export default function ThankYou({ orderId }) {
             <div className="bg-gray-50 p-4 rounded-lg">
               <p className="text-gray-700 text-center">
                 Please pay by cash or credit card upon delivery. Your order will
-                be confirmed. If not, please send your order screenshot to <Link href="tel:+971526937203">+971
+                be confirmed. If not, please send your order screenshot to <Link prefetch={false} href="tel:+971526937203">+971
                 52 693 7203</Link> or click the WhatsApp icon to chat with us. Payment
                 will be collected at the time of delivery. Thank you!
               </p>

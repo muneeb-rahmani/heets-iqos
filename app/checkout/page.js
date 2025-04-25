@@ -448,7 +448,7 @@ export default function CheckoutForm() {
                   />
                   <Label htmlFor="terms" className="text-sm">
                     I have read and agreed to the{" "}
-                    <Link href="#" className="text-[#8B1F18]">
+                    <Link prefetch={false} href="#" className="text-[#8B1F18]">
                       delivery information
                     </Link>
                   </Label>

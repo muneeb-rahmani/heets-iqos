@@ -84,7 +84,7 @@ const HomePage = ({ productData,homepageDescripton, homeData }) => {
                 <div>
                   {/* {item.length > 0 && ( */}
                     <div className="flex flex-col items-center justify-center mb-6">
-                      <Link href={`${item.parent_category.parent_slug}/${item?.category_slug}` || "#"}>
+                      <Link prefetch={false} href={`${item.parent_category.parent_slug}/${item?.category_slug}` || "#"}>
                         <h2 className={`text-2xl md:text-4xl font-bold text-center ${index !== 0 ? "mt-10" : ""}`}>
                           {item?.category_name}
                         </h2>

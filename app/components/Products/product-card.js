@@ -50,7 +50,7 @@ const ProductCard = ({
         </div>
 
         {/* Product Image */}
-        <Link href={productUrl} onClick={onNavigate}>
+        <Link prefetch={false} href={productUrl} onClick={onNavigate}>
           <div className="relative aspect-square mb-4">
             <Image
               src={image?.trimEnd() || "/placeholder.svg"}
@@ -63,7 +63,7 @@ const ProductCard = ({
         </Link>
 
         {/* Product Info */}
-        <Link href={productUrl} onClick={onNavigate}>
+        <Link prefetch={false} href={productUrl} onClick={onNavigate}>
           {isH2 ? (
             <h2 className="text-base md:text-lg text-center font-semibold mb-2">{title}</h2>
           ) : (

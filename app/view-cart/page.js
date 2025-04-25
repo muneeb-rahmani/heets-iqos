@@ -207,7 +207,7 @@ export default function ShoppingCart() {
           </div>
 
           <div className="mt-8 flex flex-col sm:flex-row justify-center items-center md:justify-between gap-4">
-            <Link href="/">
+            <Link prefetch={false} href="/">
               <Button
                 variant="outline"
                 className="bg-[#8B1F18] text-white hover:text-white hover:bg-[#8B1F18]/90 px-6 py-2 rounded-lg"
@@ -215,7 +215,7 @@ export default function ShoppingCart() {
                 Continue Shopping
               </Button>
             </Link>
-            <Link href="/checkout">
+            <Link prefetch={false} href="/checkout">
             <Button className="bg-[#8B1F18] text-white hover:text-white hover:bg-[#8B1F18]/90 px-6 py-2 rounded-lg">
               Proceed to Checkout
             </Button>
@@ -225,7 +225,7 @@ export default function ShoppingCart() {
       ) : (
         <div className="flex w-full flex-col gap-6 justify-center items-center h-auto">
           <p className="font-medium text-2xl">Your Cart is empty</p>
-          <Link href="/">
+          <Link prefetch={false} href="/">
             <Button
               variant="outline"
               className="bg-[#8B1F18] text-white hover:text-white hover:bg-[#8B1F18]/90 px-6 py-2 rounded-lg"

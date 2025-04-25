@@ -16,7 +16,7 @@ const BlogPage = ({serverData}) => {
           return (
           <div key={index} className="border rounded-lg overflow-hidden shadow-lg">
             <div className="p-4">
-              <Link href={formattedUrl} className="blogTitle">
+              <Link prefetch={false} href={formattedUrl} className="blogTitle">
                 <Image
                   src={blog.image?.trimEnd()}
                   overrideSrc={blog.image?.trimEnd()}
@@ -26,7 +26,7 @@ const BlogPage = ({serverData}) => {
                 />
               </Link>
               <h2 className="text-xl font-semibold mt-4">
-                <Link href={formattedUrl} className="blogTitle">
+                <Link prefetch={false} href={formattedUrl} className="blogTitle">
                   {blog.title}
                 </Link>
               </h2>
@@ -34,7 +34,7 @@ const BlogPage = ({serverData}) => {
                 {new Date(blog.date).toLocaleDateString()}
               </p> */}
               {/* <p className="text-gray-800 mt-2" dangerouslySetInnerHTML={{ __html: blog.excerpt.rendered }}></p> */}
-              <Link href={formattedUrl} className="text-red-500 font-semibold mt-4 inline-block">
+              <Link prefetch={false} href={formattedUrl} className="text-red-500 font-semibold mt-4 inline-block">
                 Read More →
               </Link>
             </div>
