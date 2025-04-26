@@ -7,13 +7,14 @@ import { Minus, Plus } from "lucide-react";
 import { StarRating } from "../../components/Products/star-rating";
 import ProductCard from "../../components/Products/product-card";
 import { useRouter } from "next/navigation";
-import { getSlug } from "../../utils/common";
+import { formatDate, getSlug } from "../../utils/common";
 import { useCart } from "../../context/cartProvider";
-import moment from "moment";
+// import moment from "moment";
 import config from "@/lib/config";
 
 const SingleProduct = ({ serverData, breadCrumb }) => {
   const [quantity, setQuantity] = useState(1);
+  // console.log(serverData, 'ceck review date')
   const [activeTab, setActiveTab] = useState("description");
   const [selectedImage, setSelectedImage] = useState(0);
   const [imgHeight, setImgHeight] = useState(0);
@@ -425,7 +426,7 @@ const SingleProduct = ({ serverData, breadCrumb }) => {
                     <div className="flex items-center justify-between relative">
                       <p className="font-semibold text-lg">{review.author}</p>
                       <span className="text-xs text-white absolute top-[-23px] px-2 py-1 bg-black rounded-b-lg right-3">
-                        {moment(review.date).format("DD-MM-YYYY HH:mm:ss")}
+                        {formatDate(review.date)}
                       </span>
                     </div>
                     <p
