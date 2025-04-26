@@ -1,4 +1,5 @@
 "use client";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import { useCart } from "@/app/context/cartProvider";
@@ -9,13 +10,24 @@ import {
   getSliderData,
 } from "@/app/utils/products";
 import { Home, ShoppingCart, Phone,  Menu } from "lucide-react";
-import InfiniteSlider from "../TopSlider";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+const InfiniteSlider = dynamic(() => import("../TopSlider"), {
+  ssr: false,
+  loading: () => null, // or a minimal loader if you want
+});
+
+const Accordion = dynamic(() => import("@/components/ui/accordion").then(mod => mod.Accordion), {
+  ssr: false,
+});
+const AccordionItem = dynamic(() => import("@/components/ui/accordion").then(mod => mod.AccordionItem), {
+  ssr: false,
+});
+const AccordionTrigger = dynamic(() => import("@/components/ui/accordion").then(mod => mod.AccordionTrigger), {
+  ssr: false,
+});
+const AccordionContent = dynamic(() => import("@/components/ui/accordion").then(mod => mod.AccordionContent), {
+  ssr: false,
+});
+
 
 const Navbar = () => {
   const [activeDropdown, setActiveDropdown] = useState(null);
@@ -77,8 +89,11 @@ const Navbar = () => {
       }
     }
 
+    // Fetch only when user starts typing
+  if (searchTerm.length > 0 && products.length === 0) {
     fetchProducts();
-  }, []);
+  }
+  }, [searchTerm]);
 
   useEffect(() => {
     if (searchTerm.length > 0) {

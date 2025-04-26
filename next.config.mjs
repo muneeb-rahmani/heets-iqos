@@ -1,6 +1,10 @@
+import pkg from '@next/bundle-analyzer';
+const { withBundleAnalyzer } = pkg;
+
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+const baseConfig = {
   trailingSlash: true,
+  reactStrictMode: true,
   experimental: {
     nextScriptWorkers: true,
   },
@@ -8,45 +12,46 @@ const nextConfig = {
     HOST: process.env.HOST,
   },
   images: {
-      remotePatterns: [
-        {
-          protocol: 'https',
-          hostname: process.env.HOST,
-          port: '',
-          pathname: '/**',
-          search: '',
-        },
-        {
-          protocol: 'https',
-          hostname:"heetsiqosuae.ae",
-          port: '',
-          pathname: '/**',
-          search: '',
-        },
-        {
-          protocol: 'https',
-          hostname:"121heets.shop",
-          port: '',
-          pathname: '/**',
-          search: '',
-        },
-        {
-          protocol: 'https',
-          hostname:"pandavapor.ae",
-          port: '',
-          pathname: '/**',
-          search: '',
-        },
-        {
-          protocol: 'https',
-          hostname:"yourwebsite.com",
-          port: '',
-          pathname: '/**',
-          search: '',
-        },
-      ],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: process.env.HOST,
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'heetsiqosuae.ae',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: '121heets.shop',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'pandavapor.ae',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'yourwebsite.com',
+        port: '',
+        pathname: '/**',
+      },
+    ],
   },
-
 };
 
-export default nextConfig;
+// ✅ Apply analyzer only if ANALYZE=true **AND** in production mode
+const isAnalyze = process.env.ANALYZE === 'true' && process.env.NODE_ENV === 'production';
+
+const finalConfig = isAnalyze
+  ? withBundleAnalyzer({ enabled: true })(baseConfig)
+  : baseConfig;
+
+export default finalConfig;

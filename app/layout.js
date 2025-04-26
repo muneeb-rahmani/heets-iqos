@@ -1,12 +1,12 @@
+import DynamicLayoutClientWrapper from "./components/DynamicLayoutClientWrapper";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
 import { CartProvider } from "./context/cartProvider";
-import CartModal from "./components/Modal";
 import config from "@/lib/config";
-import { getHomeData, getPagesFromCustom } from "./utils/products";
+import { getHomeData } from "./utils/products";
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -59,9 +59,9 @@ export default function RootLayout({ children }) {
       >
         <CartProvider>
         <Navbar />
-        {children}
-        <CartModal />
-        <Footer />
+        <DynamicLayoutClientWrapper>
+          {children}
+        </DynamicLayoutClientWrapper>
         </CartProvider>
       </body>
     </html>
