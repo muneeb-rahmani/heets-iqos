@@ -1,5 +1,4 @@
 import DynamicLayoutClientWrapper from "./components/DynamicLayoutClientWrapper";
-import { Geist, Geist_Mono } from "next/font/google";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
@@ -7,18 +6,6 @@ import { CartProvider } from "./context/cartProvider";
 import config from "@/lib/config";
 import { getHomeData } from "./utils/products";
 
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-  display: 'swap', //avoid font render-blocking
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-  display: 'swap', //avoid font render-blocking
-});
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -55,7 +42,7 @@ export default function RootLayout({ children }) {
         <meta name="google-site-verification" content="XXcMcA1_SOrvrhkOQu79zFM0yZXCdbCHeyyUmx8ZTdo" />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable} antialiased`}
+        className={`${poppins.variable} antialiased`}
       >
         <CartProvider>
         <Navbar />

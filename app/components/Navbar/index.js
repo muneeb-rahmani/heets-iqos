@@ -112,30 +112,7 @@ const Navbar = () => {
 
   useEffect(() => {
     async function loadCategories() {
-      // const data = await fetchCategories();  
-      // console.log(data, "data from fetchCategories");
       const sliderData = await getSliderData();
-
-      // const filteredLinks = [
-      //   "ABU DHABI",
-      //   "AJMAN",
-      //   "AL AIN",
-      //   "FUJAIRAH",
-      //   "RAS AL KHAIMAH",
-      //   "SHARJAH",
-      //   "UMM AL QUWAIN",
-      // ];
-
-      // const filteredData = data.filter((item) => {
-      //   if (!item.slug) return true; // If slug is undefined, include it
-
-      //   // Convert slug to uppercase and replace hyphens with spaces
-      //   const formattedSlug = item.slug.replace(/-/g, " ").toUpperCase();
-
-      //   return !filteredLinks.includes(formattedSlug);
-      // });
-
-      // setCategories(filteredData);
       setReviewLength(sliderData[0]?.total_reviews);
       setTotalSales(sliderData[0]?.total_orders);
       getMenuData()
@@ -165,6 +142,7 @@ const Navbar = () => {
                 height={62}
                 width={250}
                 className="w-[250px] h-[62px]"
+                loading="lazy"
               />
             </Link>
           </div>

@@ -49,3 +49,14 @@ export function parseRankMathData(data){
     console.error("No matching <script> tag found.");
   }
 }
+
+export function formatDate(isoString) {
+  const date = new Date(isoString);
+
+  const day = new Intl.DateTimeFormat('en-IN', { day: '2-digit' }).format(date);
+  const month = new Intl.DateTimeFormat('en-IN', { month: '2-digit' }).format(date);
+  const year = new Intl.DateTimeFormat('en-IN', { year: 'numeric' }).format(date);
+  const time = new Intl.DateTimeFormat('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }).format(date);
+
+  return `${day}-${month}-${year} ${time}`;
+}
