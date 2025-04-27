@@ -5,11 +5,10 @@ import React, { useEffect, useRef, useState } from "react";
 import { useCart } from "@/app/context/cartProvider";
 import Link from "next/link";
 import {
-  fetchCategories,
   getMenu,
   getSliderData,
 } from "@/app/utils/products";
-import { Home, ShoppingCart, Phone,  Menu, X } from "lucide-react";
+import {  ShoppingCart, Phone,  Menu, X } from "lucide-react";
 const InfiniteSlider = dynamic(() => import("../TopSlider"), {
   ssr: false,
   loading: () => null, // or a minimal loader if you want
