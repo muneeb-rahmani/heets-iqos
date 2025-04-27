@@ -6,9 +6,9 @@ const baseConfig = {
   trailingSlash: true,
   reactStrictMode: true,
   productionBrowserSourceMaps: true,
-  experimental: {
-    nextScriptWorkers: true,
-  },
+  // experimental: {
+  //   nextScriptWorkers: true,
+  // },
   env: {
     HOST: process.env.HOST,
   },

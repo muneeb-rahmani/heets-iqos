@@ -16,7 +16,7 @@ const Sharjah = ({ productData }) => {
   };
   // console.log(productData, "productData from homepage");
   const addToCart = (id, name, price, image) => {
-    console.log("Add to Cart clicked");
+    // console.log("Add to Cart clicked");
     const cartObj = {
       id,
       quantity: quantity[id] || 1,
