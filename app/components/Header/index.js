@@ -14,7 +14,7 @@ const HeroSection = ({header, isHome,featureImg,shortDesc}) => {
             <h1 className="text-2xl md:text-4xl lg:text-4xl font-bold leading-tight text-gray-900 max-w-xl">
               {header || "IQOS Heets Dubai | #1 Trusted Heets IQOS UAE Online Store"}
             </h1>
-            {shortDesc && <p className="text-lg text-gray-700 max-w-lg mx-auto lg:mx-0">{shortDesc}</p>}
+            {shortDesc && <p className="text-base text-gray-700 leading-relaxed mx-auto max-w-2xl">{shortDesc}</p>}
             {isHome && (
               <Button 
               className="bg-black text-white hover:bg-gray-800 rounded-full px-8 py-6 text-lg font-medium"
@@ -35,7 +35,7 @@ const HeroSection = ({header, isHome,featureImg,shortDesc}) => {
                 height={200}
                 loading="lazy"
                 overrideSrc={featureImg?.trimEnd()}
-                className="w-full max-w-[500px] h-auto object-contain transform lg:scale-110"
+                className="w-3/4 lg:w-full max-w-[500px] h-auto object-contain transform lg:scale-110"
               />
             )}
           </div>

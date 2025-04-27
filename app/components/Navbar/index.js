@@ -9,7 +9,7 @@ import {
   getMenu,
   getSliderData,
 } from "@/app/utils/products";
-import { Home, ShoppingCart, Phone,  Menu } from "lucide-react";
+import { Home, ShoppingCart, Phone,  Menu, X } from "lucide-react";
 const InfiniteSlider = dynamic(() => import("../TopSlider"), {
   ssr: false,
   loading: () => null, // or a minimal loader if you want
@@ -39,9 +39,20 @@ const Navbar = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
-  const [toggleMenu, settoggleMenu] = useState(false);
+  const [toggleMenu, setToggleMenu] = useState(false);
   const [products, setProducts] = useState([]);
   const dropdownRef = useRef(null);
+
+  const [openDropdown, setOpenDropdown] = useState(null);
+
+  const toggleDropdown = (id) => {
+    if (openDropdown === id) {
+      setOpenDropdown(null);
+    } else {
+      setOpenDropdown(id);
+    }
+  };
+
 
   let localCart = [];
 
@@ -237,16 +248,14 @@ const Navbar = () => {
                   {cartItems && cartItems.length}
                 </span>
               </Link>
-              <button
-                className="p-1"
-                onClick={() => settoggleMenu(!toggleMenu)}
-              >
-                <Menu className="h-6 w-6 text-black" />
+              <button className="p-1" onClick={() => setToggleMenu(!toggleMenu)}>
+                {toggleMenu ? <X className="h-6 w-6 text-black" /> : <Menu className="h-6 w-6 text-black" />}
               </button>
             </div>
           </div>
+
           {/* Search Bar */}
-          <div className="flex-1 max-w-xl">
+          <div className="flex-1 max-w-xl mt-4">
             <div className="relative mx-auto" ref={dropdownRef}>
               <form
                 className="flex justify-between w-full border-2 border-black rounded-md overflow-hidden items-center"
@@ -261,14 +270,11 @@ const Navbar = () => {
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
-                <button
-                  type="button"
-                  className="product_search_desktop w-[30px]"
-                >
+                <button type="button" className="product_search_desktop w-[30px]">
                   <span className="flex items-center">
                     <Image
                       src="/imgs/product_search_icon.webp"
-                      alt="Cart"
+                      alt="Search"
                       width={20}
                       height={20}
                     />
@@ -282,7 +288,7 @@ const Navbar = () => {
                   {filteredProducts.length > 0 ? (
                     filteredProducts.map((product, index) => (
                       <Link
-                      prefetch={false}
+                        prefetch={false}
                         key={index}
                         href={`/products/${product.slug}`}
                         className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
@@ -295,56 +301,76 @@ const Navbar = () => {
                   )}
                 </div>
               )}
-
-              <div className="absolute w-full bg-white z-10 rounded-b-[6px] desktop-product-searched"></div>
             </div>
           </div>
+
+          {/* Dynamic Mobile Menu */}
+          {/* {toggleMenu && ( */}
+            <div className={`transition-all  duration-500 ease-in-out overflow-hidden relative w-full ${toggleMenu ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'}`}>
+
+              <div className="flex items-center justify-center bg-gray-100 p-3 z-10 fixed w-full left-0 rounded-md space-x-3">
+                {/* Google Logo */}
+                <img 
+                  src="/imgs/google-customer-reviews.png" 
+                  alt="Google Logo" 
+                  className="w-10 h-10 object-contain"
+                />
+
+                {/* Text Section */}
+                <div>
+                  <div className="flex items-center space-x-2">
+                    <span className="text-lg font-semibold text-gray-800">Google Reviews</span>
+                    {/* Stars */}
+                    <div className="flex space-x-1 text-[#efb227]">
+                      ⭐⭐⭐⭐⭐
+                    </div>
+                  </div>
+                  <div className="text-sm text-gray-600 underline">
+                    <span className="font-bold text-blue-600">4.9</span> Star Based On <span className="font-bold text-gray-800">499 Reviews</span>
+                  </div>
+                </div>
+              </div>
+              <ul className="space-y-4 pt-4 fixed top-[250px] w-full bg-white px-3 pb-3 left-0 z-10">
+                {categories.map((menu) => (
+                  <li key={menu.id}>
+                    {menu.sub_menu.length > 0 ? (
+                      <div>
+                        <div
+                          className="flex justify-between items-center cursor-pointer font-semibold"
+                          
+                        >
+                          <Link href={menu.actual_url} onClick={() => window.open(menu.actual_url, '_self')} >{menu.title}</Link>
+                          <Image alt="plus-icon" src='/imgs/plus.webp' onClick={() => toggleDropdown(menu.id)} width={18} height={18} className={`${openDropdown === menu.id ? "rotate-45" : ""}`} />
+                          {/* <span> </span> */}
+                        </div>
+                        <div className={`overflow-hidden transition-all duration-500 ease-in-out ${openDropdown === menu.id ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
+                        {/* {openDropdown === menu.id && ( */}
+                          <ul className="ml-2 mt-2 space-y-2 text-gray-600 transition-all duration-300 ease-in-out overflow-hidden">
+                            {menu.sub_menu.map((sub) => (
+                              <li key={sub.id}>
+                                <Link prefetch={false} href={sub.url} className="block">
+                                  → {sub.title}
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                         {/* )} */}
+                        </div>
+                      </div>
+                    ) : (
+                      <Link prefetch={false} href={menu.url} className="block font-semibold">
+                        {menu.title}
+                      </Link>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          {/* )} */}
         </nav>
         {/* Mobile view end */}
       </div>
 
-      {toggleMenu && (
-        <div className="searchBar absolute w-full bg-white z-10 rounded-b-[6px] shadow-lg border">
-          <Link prefetch={false} href="/">Home Page</Link>
-          <Accordion className="w-full px-4 mt-4">
-            {categories.map((item) => (
-              <AccordionItem
-                key={item.id}
-                value={item?.title || "-"}
-                className="w-full"
-              >
-                {item.actual_url != "shop" && item.actual_url != "products" && (
-                  <AccordionTrigger className="text-left p-0 w-full">
-                    <Link
-                      prefetch={false}
-                      href={item?.actual_url || "#"}
-                      className="flex items-center px-2 py-4 transition-colors w-full arrowTrigger"
-                    >
-                        {item?.title || "-"}
-                    </Link>
-                  </AccordionTrigger>
-                )}
-                <AccordionContent>
-                  <ul>
-                    {item?.sub_menu?.map((child) => (
-                      <li key={child.id}>
-                        <span className="mob-arrow">→</span>
-                        <Link
-                          prefetch={false}
-                          href={child?.actual_url || "#"}
-                          aria-label={child?.title}
-                        >
-                          {child?.title}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </div>
-      )}
 
       <nav className="bg-black text-white hidden md:block">
         <div className="relative flex items-center justify-center">
@@ -408,7 +434,7 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* Mobile view start*/}
+      {/* Mobile view bottom navbar start*/}
       <nav className="fixed block md:hidden bottom-0 left-0 right-0 z-[9999999] bg-white border-t border-gray-200 py-2">
         <div className="flex justify-around items-center">
           <Link prefetch={false} href="/view-cart" className="flex flex-col items-center">
