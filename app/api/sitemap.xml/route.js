@@ -1,3 +1,5 @@
+import { getMenu } from "@/app/utils/products";
+
 // /app/sitemap.xml/route.js
 export async function GET() {
   const baseUrl = process.env.NEXT_PUBLIC_LIVE_URL; // Change to your domain
