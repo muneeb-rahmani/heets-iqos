@@ -5,6 +5,7 @@ const { withBundleAnalyzer } = pkg;
 const baseConfig = {
   trailingSlash: true,
   reactStrictMode: true,
+  productionBrowserSourceMaps: true,
   experimental: {
     nextScriptWorkers: true,
   },
@@ -52,6 +53,7 @@ const isAnalyze = process.env.ANALYZE === 'true' && process.env.NODE_ENV === 'pr
 
 const finalConfig = isAnalyze
   ? withBundleAnalyzer({ enabled: true })(baseConfig)
+  // ? pkg({ enabled: true })(baseConfig)
   : baseConfig;
 
 export default finalConfig;
