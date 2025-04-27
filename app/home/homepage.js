@@ -42,31 +42,6 @@ const HomePage = ({ productData,homepageDescripton, homeData }) => {
     setQuantity(1);
   };
 
-  const excludedCategories = [
-    "Heets classic Kazakhstan",
-    "Terea from Japan",
-    "Terea form Kazakhstan",
-    "Terea form Indonesia",
-    "Terea from UAE",
-    "Terea from Armenia",
-    "Iqos iluma one",
-    "Iqos iluma prime",
-    "Iqos iluma standard",
-    "Shop"
-  ];
-
-  const includedCategories = [
-    "Heets Classic Kazakhstan",
-    "Terea Japan",
-    "Terea Kazakhstan",
-    "Terea Indonesia",
-    "Terea UAE",
-    "Terea Armenia",
-    "IQOS ILUMA One Device",
-    "IQOS ILUMA Standard Device",
-    "IQOS ILUMA Prime Device",
-  ]
-
 
   return (
     <div>
@@ -76,9 +51,7 @@ const HomePage = ({ productData,homepageDescripton, homeData }) => {
         shortDesc={homeData?.acf_fields.shortdiscription}
       />
       {homeData?.category_data
-        // .filter(item => includedCategories.includes(item.category)) // Exclude unwanted categories
         ?.map((item, index) => (
-          // item.length > 0 && (
             <section key={index} className="odd:bg-white py-4 even:bg-[#f1f1f1]">
               <div className="container mx-auto px-4">
                 <div>
@@ -91,10 +64,10 @@ const HomePage = ({ productData,homepageDescripton, homeData }) => {
                       </Link>
                       <span className="w-[100px] border-b-red-800 h-2 border-b-4"></span>
                     </div>
-                  {/* )} */}
+                 
                   <div className="grid grid-cols-2 gap-3 md:gap-6 sm:grid-cols-2 lg:grid-cols-4">
                     {item.products.map((product) => (
-                      // product.stock_status === "instock" && (
+                     
                       <ProductCard
                         key={product?.product_id}
                         title={product.product_name}
@@ -117,7 +90,7 @@ const HomePage = ({ productData,homepageDescripton, homeData }) => {
                         incrementQuantity={() => updateQuantity(product.product_id, 1)}
                         decrementQuantity={() => updateQuantity(product.product_id, -1)}
                       />
-                    // )
+                    
                     ))}
                   </div>
                 </div>
