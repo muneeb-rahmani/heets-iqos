@@ -60,3 +60,11 @@ export function formatDate(isoString) {
 
   return `${day}-${month}-${year} ${time}`;
 }
+
+export function runWhenIdle(callback) {
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(callback);
+  } else {
+    setTimeout(callback, 200);
+  }
+}
