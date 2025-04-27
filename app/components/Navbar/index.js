@@ -134,7 +134,7 @@ const Navbar = () => {
 
   async function getMenuData() {
     const menu = await getMenu()
-    // console.log(menu, "menu data from getMenuData")
+    console.log(menu, "menu data from getMenuData")
     setCategories(menu)
     return menu
   }
@@ -152,8 +152,7 @@ const Navbar = () => {
                 alt="Heets IQOS UAE logo"
                 height={62}
                 width={250}
-                className="w-[250px] h-[62px]"
-                loading="lazy"
+                priority={true}
               />
             </Link>
           </div>
@@ -236,7 +235,7 @@ const Navbar = () => {
                 alt="Heets IQOS UAE logo"
                 height={62}
                 width={250}
-                className="w-[250px] h-[62px]"
+                priority={true}
               />
             </Link>
 
