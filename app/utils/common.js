@@ -1,5 +1,3 @@
-import { unserialize } from "php-serialize";
-
 export function ratingCalc(reviews) {
   const totalRating = reviews?.reduce((sum, review) => sum + review.rating, 0);
   const averageRating = totalRating / reviews.length;
