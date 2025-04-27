@@ -9,6 +9,7 @@ import {
   getSliderData,
 } from "@/app/utils/products";
 import {  ShoppingCart, Phone,  Menu, X } from "lucide-react";
+import { runWhenIdle } from "@/app/utils/common";
 const InfiniteSlider = dynamic(() => import("../TopSlider"), {
   ssr: false,
   loading: () => null, // or a minimal loader if you want

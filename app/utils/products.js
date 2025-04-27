@@ -1,5 +1,7 @@
 // Converted Axios-based API functions to native fetch() with revalidation support
 
+import axios from "axios";
+
 const isServer = () => typeof window === "undefined";
 
 const base_url = isServer()
@@ -468,58 +470,57 @@ export async function getSliderData() {
 //   }
 // }
 
-// export async function createOrder(data) {
-//   logRequestOrigin("createOrder");
-//   try {
-//     // Fix: Change & to ? in URL parameters
-//     const url = `${base_url}/wp-json/wc/v3/orders?consumer_key=${consumerKey}&consumer_secret=${consumerSecret}`;
+export async function createOrder(data) {
+  try {
+    // Fix: Change & to ? in URL parameters
+    const url = `${base_url}/wp-json/wc/v3/orders?consumer_key=${consumerKey}&consumer_secret=${consumerSecret}`;
     
-//     const config = {
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//     };
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
     
-//     const req = await axios.post(url, data, config);
-//     console.log("Order Response:", req.data);
-//     sendDetails(req.data.id);
+    const req = await axios.post(url, data, config);
+    console.log("Order Response:", req.data);
+    sendDetails(req.data.id);
 
-//     return req.data;
-//   } catch (error) {
-//     console.error("Create Order Error:", {
-//       status: error.response?.status,
-//       message: error.response?.data?.message || error.message,
-//       url: error.config?.url,
-//     });
-//     throw error; // Re-throw to handle in component
-//   }
-// }
+    return req.data;
+  } catch (error) {
+    console.error("Create Order Error:", {
+      status: error.response?.status,
+      message: error.response?.data?.message || error.message,
+      url: error.config?.url,
+    });
+    throw error; // Re-throw to handle in component
+  }
+}
 
-// export async function sendDetails(id) {
+export async function sendDetails(id) {
   
-//   try {
-//     // Fix: Change & to ? in URL parameters
-//     const sendOrderDetails = `${base_url}/wp-json/wc/v3/orders/${id}/actions/send_order_details?consumer_key=${consumerKey}&consumer_secret=${consumerSecret}`;
+  try {
+    // Fix: Change & to ? in URL parameters
+    const sendOrderDetails = `${base_url}/wp-json/wc/v3/orders/${id}/actions/send_order_details?consumer_key=${consumerKey}&consumer_secret=${consumerSecret}`;
     
-//     const config = {
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//     };
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
   
-//     const req = await axios.post(sendOrderDetails, config);
-//     console.log("Order details:", req.data);
+    const req = await axios.post(sendOrderDetails, config);
+    console.log("Order details:", req.data);
 
-//     return req.data;
-//   } catch (error) {
-//     console.error("Error while sending details:", {
-//       status: error.response?.status,
-//       message: error.response?.data?.message || error.message,
-//       url: error.config?.url,
-//     });
-//     throw error; // Re-throw to handle in component
-//   }
-// }
+    return req.data;
+  } catch (error) {
+    console.error("Error while sending details:", {
+      status: error.response?.status,
+      message: error.response?.data?.message || error.message,
+      url: error.config?.url,
+    });
+    throw error; // Re-throw to handle in component
+  }
+}
 
 
 export async function fetchCategories() {
