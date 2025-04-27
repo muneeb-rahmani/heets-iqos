@@ -71,19 +71,28 @@ const Navbar = () => {
 
   // New useEffect for initial cart load
   useEffect(() => {
-    const cartData = localStorage.getItem("cart");
-    if (cartData) {
-      const parsedCart = JSON.parse(cartData);
-      setCartItems(parsedCart || []);
-    }
-
-    function handleClickOutside(event) {
+    // Defer cart load slightly
+    runWhenIdle(() => {
+      const cartData = localStorage.getItem("cart");
+      if (cartData) {
+        const parsedCart = JSON.parse(cartData);
+        setCartItems(parsedCart || []);
+      }
+    });
+  
+    // Attach click listener only after a slight delay too
+    const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setShowDropdown(false);
       }
-    }
-    document.addEventListener("click", handleClickOutside);
+    };
+  
+    setTimeout(() => {
+      document.addEventListener("click", handleClickOutside);
+    }, 300); // same 300ms delay
+  
     return () => {
+      clearTimeout(timer);
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
