@@ -6,14 +6,6 @@ export function ratingCalc(reviews) {
   return averageRating;
 }
 
-export const parseSerializedData = (serializedString) => {
-  try {
-    return unserialize(serializedString);
-  } catch (error) {
-    console.error("Parsing error:", error);
-    return null;
-  }
-};
 
 export async function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));

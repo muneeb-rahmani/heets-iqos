@@ -1,7 +1,4 @@
 // /app/sitemap.xml/route.js
-
-import { getAllPages } from "@/lib/fetchPages"; // optional if you want dynamic pages (e.g. from API)
-
 export async function GET() {
   const baseUrl = process.env.NEXT_PUBLIC_LIVE_URL; // Change to your domain
   const menu = await getMenu()
