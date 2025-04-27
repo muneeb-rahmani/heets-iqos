@@ -41,7 +41,7 @@ export default function ShoppingCart() {
   useEffect(() => {
     // just for debugging
     subFinal();
-    console.log(cartItems, "cartItems updated");
+    // console.log(cartItems, "cartItems updated");
   }, [cartItems]);
 
   return (

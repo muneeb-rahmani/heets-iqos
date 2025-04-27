@@ -43,7 +43,7 @@ const Page = async ({params}) => {
   const categoryData = await getCategoryData(categoryId)
 
   const subCategory = await getSubcategoriesUrl(categoryId)
-console.log(categoryData, "category data in page")
+// console.log(categoryData, "category data in page")
   return (
     <>
       <Categories subCategory={subCategory} categoryData={categoryData} />

@@ -4,7 +4,7 @@ import { getPages } from '../utils/products'
 
 const Page = async () => {
   const data = await getPages(4993)
-    console.log(data, 'check data from privacy')
+    // console.log(data, 'check data from privacy')
   return (
     <div className="container mx-auto px-4 py-6">
         <h1 className="text-3xl font-bold text-center mb-6">{data?.title?.rendered}</h1>

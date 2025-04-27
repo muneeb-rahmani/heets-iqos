@@ -186,7 +186,7 @@ export default function CheckoutForm() {
           },
         ],
       };
-      console.log(data, 'check data of order')
+      // console.log(data, 'check data of order')
       
       const response = await createOrder(data);
       if (response) {

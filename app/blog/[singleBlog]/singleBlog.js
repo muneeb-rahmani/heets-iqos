@@ -2,7 +2,7 @@
 import Image from "next/image";
 
 const SingleBlog = ({serverData}) => {
-console.log(serverData,'single blog ka data')
+// console.log(serverData,'single blog ka data')
 
   return (
     <div className="container mx-auto px-4 py-6">

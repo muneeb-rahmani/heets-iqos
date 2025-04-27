@@ -9,7 +9,7 @@ const ProductList = ({ data }) => {
     const { setIsCartOpen } = useCart();
     const [quantity, setQuantity] = useState({});
     const updateQuantity = (id, change) => {
-      console.log(id, change, 'what is happening')
+      // console.log(id, change, 'what is happening')
       setQuantity((prev) => ({
         ...prev,
         [id]: Math.max((prev[id] || 1) + change, 1),
@@ -17,7 +17,7 @@ const ProductList = ({ data }) => {
     };
     // console.log(productData, "productData from homepage");
     const addToCart = (id, name, price, image) => {
-      console.log("Add to Cart clicked");
+      // console.log("Add to Cart clicked");
       const cartObj = {
         id,
         quantity: quantity[id] || 1,
