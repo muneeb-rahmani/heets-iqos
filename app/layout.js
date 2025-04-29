@@ -45,7 +45,7 @@ export default function RootLayout({ children }) {
         className={`${poppins.variable} antialiased`}
       >
         <CartProvider>
-        <Navbar />
+        {/* <Navbar /> */}
         <DynamicLayoutClientWrapper>
           {children}
         </DynamicLayoutClientWrapper>

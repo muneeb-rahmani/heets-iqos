@@ -1,14 +1,19 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import HeroSection from "../components/Header";
-import ProductCard from "../components/Products/product-card";
+// import ProductCard from "../components/Products/product-card";
 import { useCart } from "../context/cartProvider";
 import Link from "next/link";
+import dynamic from "next/dynamic";
+import { useInView } from "react-intersection-observer";
 
-const HomePage = ({ productData,homepageDescripton, homeData }) => {
+const HomePage = ({ homeData }) => {
+  const ProductCard = dynamic(() => import("../components/Products/product-card"), { ssr: false, loading: () => <div>Loading...</div> });
   // console.log(productData, 'check product data')
   const { setIsCartOpen } = useCart();
-  const [quantity, setQuantity] = useState({});
+  const [quantity, setQuantity] = useState({}); 
+  const [visibleSections, setVisibleSections] = useState(2); // Only render first 2 sections
+  const { ref, inView } = useInView({ threshold: 0 });
   const updateQuantity = (id, change) => {
     // console.log(id, change, 'what is happening')
     setQuantity((prev) => ({
@@ -42,6 +47,11 @@ const HomePage = ({ productData,homepageDescripton, homeData }) => {
     setQuantity(1);
   };
 
+  useEffect(() => {
+    if (inView) {
+      setVisibleSections((prev) => prev + 2); // Load 2 more sections as user scrolls
+    }
+  }, [inView]);
 
   return (
     <div>
@@ -50,7 +60,7 @@ const HomePage = ({ productData,homepageDescripton, homeData }) => {
         featureImg={homeData?.acf_fields.hero_section_png_image} 
         shortDesc={homeData?.acf_fields.shortdiscription}
       />
-      {homeData?.category_data
+      {homeData?.category_data.slice(0, visibleSections)
         ?.map((item, index) => (
             <section key={index} className="odd:bg-white py-4 even:bg-[#f1f1f1]">
               <div className="container mx-auto px-4">
@@ -66,7 +76,7 @@ const HomePage = ({ productData,homepageDescripton, homeData }) => {
                     </div>
                  
                   <div className="grid grid-cols-2 gap-3 md:gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                    {item.products.map((product) => (
+                    {item.products.length > 0 && item.products.map((product) => (
                      
                       <ProductCard
                         key={product?.product_id}
@@ -74,7 +84,6 @@ const HomePage = ({ productData,homepageDescripton, homeData }) => {
                         image={product.product_image || ""}
                         productUrl={`/products/${product.product_slug}`}
                         price={product.sale_price}
-                        // rating={product.average_rating}
                         reviews={product.total_reviews}
                         details={product.stock_status === "instock" ? "In Stock" : "Out of Stock"}
                         isDisabled={product.stock_status === "instock" ? false : true}
@@ -99,15 +108,18 @@ const HomePage = ({ productData,homepageDescripton, homeData }) => {
           // )
         ))}
 
-      <div className="container mx-auto" dangerouslySetInnerHTML={{__html: homeData?.content}} />
+      <div ref={ref} className="h-10"></div>
+
+      <div className="container mx-auto" dangerouslySetInnerHTML={{__html: homeData?.content}} suppressHydrationWarning />
 
       {homeData?.schema_data && (
 
         <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(homeData?.schema_data),
-        }}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(homeData?.schema_data),
+          }}
+          strategy="lazyOnload"
         />
       )}
     </div>
