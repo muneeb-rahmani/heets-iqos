@@ -36,7 +36,7 @@ const HeroSection = ({header, isHome,featureImg,shortDesc}) => {
                 // loading="lazy"
                 priority
                 overrideSrc={featureImg?.trimEnd()}
-                className="w-3/4 lg:w-full max-w-[500px] h-auto object-contain"
+                className="lg:w-full h-auto object-contain"
               />
             )}
           </div>

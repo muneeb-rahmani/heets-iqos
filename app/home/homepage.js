@@ -10,10 +10,10 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 const HomePage = ({ homeData }) => {
   const ProductCard = dynamic(() => import("../components/Products/product-card"), { ssr: false, loading: () => <Skeleton className="h-[500px] w-full rounded-lg" /> });
-  const isLighthouse = typeof navigator !== 'undefined' && /Lighthouse/.test(navigator.userAgent);
   const { setIsCartOpen } = useCart();
   const [quantity, setQuantity] = useState({}); 
-  const [visibleSections, setVisibleSections] = useState(isLighthouse ? 2 : Infinity); // Only render first 2 sections
+  const [visibleSections, setVisibleSections] = useState(2);
+  const [observerTriggered, setObserverTriggered] = useState(false);
   const { ref, inView } = useInView({ threshold: 0 });
   const updateQuantity = (id, change) => {
     // console.log(id, change, 'what is happening')
@@ -49,16 +49,12 @@ const HomePage = ({ homeData }) => {
   };
 
   useEffect(() => {
-    if (inView && isLighthouse) {
-      setVisibleSections((prev) => prev + 2); // Load 2 more sections as user scrolls
+    if (inView && !observerTriggered) {
+      setVisibleSections((prev) => prev + 2); 
+      setObserverTriggered(true); 
     }
-  }, [inView]);
+  }, [inView,observerTriggered]);
 
-  useEffect(() => {
-    if (isLighthouse) {
-      console.log("Running in Lighthouse mode 🟢");
-    }
-  }, []);
   
 
   return (
@@ -82,7 +78,7 @@ const HomePage = ({ homeData }) => {
                     </div>
                  
                   <div className="grid grid-cols-2 gap-3 md:gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                    {item.products.length > 0 && item.products.map((product) => (
+                    {item.products?.slice(0, visibleSections)?.map((product) => (
                     
                       <ProductCard
                         key={product?.product_id}
@@ -114,7 +110,7 @@ const HomePage = ({ homeData }) => {
           // )
         ))}
 
-      {isLighthouse && <div ref={ref} className="h-10"></div>}
+      {!observerTriggered && <div ref={ref} className="h-10"></div>}
 
       <div className="container mx-auto" dangerouslySetInnerHTML={{__html: homeData?.content}} suppressHydrationWarning />
 
