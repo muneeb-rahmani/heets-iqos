@@ -6,6 +6,7 @@ import { useCart } from "../context/cartProvider";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useInView } from "react-intersection-observer";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const HomePage = ({ homeData }) => {
   const ProductCard = dynamic(() => import("../components/Products/product-card"), { ssr: false, loading: () => <div>Loading...</div> });
@@ -84,7 +85,9 @@ const HomePage = ({ homeData }) => {
                  
                   <div className="grid grid-cols-2 gap-3 md:gap-6 sm:grid-cols-2 lg:grid-cols-4">
                     {item.products.length > 0 && item.products.map((product) => (
-                     
+                     <React.Suspense key={product?.product_id} fallback={
+                      <Skeleton className="h-[500px] w-full rounded-lg" />
+                    }>
                       <ProductCard
                         key={product?.product_id}
                         title={product.product_name}
@@ -106,7 +109,7 @@ const HomePage = ({ homeData }) => {
                         incrementQuantity={() => updateQuantity(product.product_id, 1)}
                         decrementQuantity={() => updateQuantity(product.product_id, -1)}
                       />
-                    
+                    </React.Suspense>
                     ))}
                   </div>
                 </div>
