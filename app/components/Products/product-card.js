@@ -50,20 +50,22 @@ const ProductCard = ({
         </div>
 
         {/* Product Image */}
-        <Link prefetch={false} href={productUrl} onClick={onNavigate}>
-          <div className="relative aspect-square mb-4">
+        <Link prefetch={false} href={productUrl}>
+          <div className="relative w-full h-[300px] mb-4">
             <Image
               src={image?.trimEnd() || "/placeholder.svg"}
               alt={title}
-              fill={true}
+              width={300}
+              height={300}
+              loading="lazy"
               overrideSrc={image || "/placeholder.svg"}
-              className="w-full h-full object-contain"
+              className="object-contain"
             />
           </div>
         </Link>
 
         {/* Product Info */}
-        <Link prefetch={false} href={productUrl} onClick={onNavigate}>
+        <Link prefetch={false} href={productUrl}>
           {isH2 ? (
             <h2 className="text-base md:text-lg text-center font-semibold mb-2">{title}</h2>
           ) : (
