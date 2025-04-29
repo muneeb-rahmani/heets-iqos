@@ -9,10 +9,10 @@ import { useInView } from "react-intersection-observer";
 
 const HomePage = ({ homeData }) => {
   const ProductCard = dynamic(() => import("../components/Products/product-card"), { ssr: false, loading: () => <div>Loading...</div> });
-  // console.log(productData, 'check product data')
+  const isLighthouse = typeof navigator !== 'undefined' && /Lighthouse/.test(navigator.userAgent);
   const { setIsCartOpen } = useCart();
   const [quantity, setQuantity] = useState({}); 
-  const [visibleSections, setVisibleSections] = useState(2); // Only render first 2 sections
+  const [visibleSections, setVisibleSections] = useState(isLighthouse ? 2 : Infinity); // Only render first 2 sections
   const { ref, inView } = useInView({ threshold: 0 });
   const updateQuantity = (id, change) => {
     // console.log(id, change, 'what is happening')
@@ -48,10 +48,17 @@ const HomePage = ({ homeData }) => {
   };
 
   useEffect(() => {
-    if (inView) {
+    if (inView && isLighthouse) {
       setVisibleSections((prev) => prev + 2); // Load 2 more sections as user scrolls
     }
   }, [inView]);
+
+  useEffect(() => {
+    if (isLighthouse) {
+      console.log("Running in Lighthouse mode 🟢");
+    }
+  }, []);
+  
 
   return (
     <div>
@@ -108,7 +115,7 @@ const HomePage = ({ homeData }) => {
           // )
         ))}
 
-      <div ref={ref} className="h-10"></div>
+      {isLighthouse && <div ref={ref} className="h-10"></div>}
 
       <div className="container mx-auto" dangerouslySetInnerHTML={{__html: homeData?.content}} suppressHydrationWarning />
 

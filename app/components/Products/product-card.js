@@ -33,7 +33,7 @@ const ProductCard = ({
         <div className='flex justify-between items-center w-full mb-2'>
           {/* Delivery Badge */}
           <div className="w-fit bg-[#e2e4e8] p-1 rounded flex gap-1 items-center">
-            <Image src="/imgs/product-delivery-within-2hours.webp" alt="product-delivery-within-2-hours" width={16} height={16} />
+            <Image src="/imgs/product-delivery-within-2hours.webp" alt="product-delivery-within-2-hours" priority width={16} height={16} />
             <span className="text-gray-600 text-[10px] text-nowrap md:text-xs">
               Delivery 2hrs
             </span>

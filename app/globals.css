@@ -3,6 +3,12 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  scroll-behavior: smooth;
+  overflow-anchor: auto;
+}
+
+
 :root {
   --font-base: var(--font-poppins);
 }
