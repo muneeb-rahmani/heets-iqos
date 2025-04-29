@@ -9,7 +9,7 @@ import { useInView } from "react-intersection-observer";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const HomePage = ({ homeData }) => {
-  const ProductCard = dynamic(() => import("../components/Products/product-card"), { ssr: false, loading: () => <div>Loading...</div> });
+  const ProductCard = dynamic(() => import("../components/Products/product-card"), { ssr: false, loading: () => <Skeleton className="h-[500px] w-full rounded-lg" /> });
   const isLighthouse = typeof navigator !== 'undefined' && /Lighthouse/.test(navigator.userAgent);
   const { setIsCartOpen } = useCart();
   const [quantity, setQuantity] = useState({}); 
@@ -68,12 +68,10 @@ const HomePage = ({ homeData }) => {
         featureImg={homeData?.acf_fields.hero_section_png_image} 
         shortDesc={homeData?.acf_fields.shortdiscription}
       />
-      {homeData?.category_data.slice(0, visibleSections)
-        ?.map((item, index) => (
+      {homeData?.category_data?.map((item, index) => (
             <section key={index} className="odd:bg-white py-4 even:bg-[#f1f1f1]">
               <div className="container mx-auto px-4">
                 <div>
-                  {/* {item.length > 0 && ( */}
                     <div className="flex flex-col items-center justify-center mb-6">
                       <Link prefetch={false} href={`${item.parent_category.parent_slug}/${item?.category_slug}` || "#"}>
                         <h2 className={`text-2xl md:text-4xl font-bold text-center ${index !== 0 ? "mt-10" : ""}`}>
@@ -85,9 +83,7 @@ const HomePage = ({ homeData }) => {
                  
                   <div className="grid grid-cols-2 gap-3 md:gap-6 sm:grid-cols-2 lg:grid-cols-4">
                     {item.products.length > 0 && item.products.map((product) => (
-                     <React.Suspense key={product?.product_id} fallback={
-                      <Skeleton className="h-[500px] w-full rounded-lg" />
-                    }>
+                    
                       <ProductCard
                         key={product?.product_id}
                         title={product.product_name}
@@ -109,7 +105,7 @@ const HomePage = ({ homeData }) => {
                         incrementQuantity={() => updateQuantity(product.product_id, 1)}
                         decrementQuantity={() => updateQuantity(product.product_id, -1)}
                       />
-                    </React.Suspense>
+                    
                     ))}
                   </div>
                 </div>
