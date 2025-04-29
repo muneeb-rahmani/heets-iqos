@@ -285,6 +285,7 @@ const Navbar = () => {
                       alt="Search"
                       width={20}
                       height={20}
+                      priority
                     />
                   </span>
                 </button>
@@ -348,7 +349,7 @@ const Navbar = () => {
                           
                         >
                           <Link href={menu.actual_url} onClick={() => window.open(menu.actual_url, '_self')} >{menu.title}</Link>
-                          <Image alt="plus-icon" src='/imgs/plus.webp' onClick={() => toggleDropdown(menu.id)} width={18} height={18} className={`${openDropdown === menu.id ? "rotate-45" : ""}`} />
+                          <Image alt="plus-icon" priority src='/imgs/plus.webp' onClick={() => toggleDropdown(menu.id)} width={18} height={18} className={`${openDropdown === menu.id ? "rotate-45" : ""}`} />
                           {/* <span> </span> */}
                         </div>
                         <div className={`overflow-hidden transition-all duration-500 ease-in-out ${openDropdown === menu.id ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
