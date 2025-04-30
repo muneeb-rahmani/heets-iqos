@@ -15,20 +15,6 @@ const InfiniteSlider = dynamic(() => import("../TopSlider"), {
   loading: () => null, // or a minimal loader if you want
 });
 
-const Accordion = dynamic(() => import("@/components/ui/accordion").then(mod => mod.Accordion), {
-  ssr: false,
-});
-const AccordionItem = dynamic(() => import("@/components/ui/accordion").then(mod => mod.AccordionItem), {
-  ssr: false,
-});
-const AccordionTrigger = dynamic(() => import("@/components/ui/accordion").then(mod => mod.AccordionTrigger), {
-  ssr: false,
-});
-const AccordionContent = dynamic(() => import("@/components/ui/accordion").then(mod => mod.AccordionContent), {
-  ssr: false,
-});
-
-
 const Navbar = () => {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [categories, setCategories] = useState([]);
@@ -150,7 +136,7 @@ const Navbar = () => {
   return (
     <>
       <InfiniteSlider reviewLength={reviewLength} totalSales={totalSales} />
-      <div className=" relative">
+      <div className="relative">
         {/* Desktop view start */}
         {!isMobile && (
           <div className="hidden md:flex flex-wrap sm:hidden py-1 justify-between items-center">
@@ -239,148 +225,150 @@ const Navbar = () => {
         
         {/* Mobile view start */}
         {isMobile && (
-          <nav className="bg-white block md:hidden border-b border-gray-200 px-5 py-5 md:px-5 md:py-0">
-            <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
-              {/* Logo */}
-              <Link prefetch={false} href="/" className="logo_img" aria-label="Heets IQOS UAE logo">
-                <Image
-                  src="/imgs/heets-iqos-uae-logo.png"
-                  alt="Heets IQOS UAE logo"
-                  height={62}
-                  width={250}
-                  priority={true}
-                />
-              </Link>
-
-              {/* Cart & Menu */}
-              <div className="flex items-center gap-4">
-                <Link prefetch={false} href='/view-cart' className="relative">
-                  <ShoppingCart className="h-6 w-6 text-black" />
-                  <span className="absolute -top-2 -right-2 bg-black text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                    {cartItems && cartItems.length}
-                  </span>
+          <div className="relative w-full h-[190px] top-10 z-100">
+            <nav className="bg-white block md:hidden border-b fixed w-full left-0 z-10 border-gray-200 px-5 py-5 md:px-5 md:py-0">
+              <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
+                {/* Logo */}
+                <Link prefetch={false} href="/" className="logo_img" aria-label="Heets IQOS UAE logo">
+                  <Image
+                    src="/imgs/heets-iqos-uae-logo.png"
+                    alt="Heets IQOS UAE logo"
+                    height={62}
+                    width={250}
+                    priority={true}
+                  />
                 </Link>
-                <button className="p-1" onClick={() => setToggleMenu(!toggleMenu)}>
-                  {toggleMenu ? <X className="h-6 w-6 text-black" /> : <Menu className="h-6 w-6 text-black" />}
-                </button>
-              </div>
-            </div>
 
-            {/* Search Bar */}
-            <div className="flex-1 max-w-xl mt-4">
-              <div className="relative mx-auto" ref={dropdownRef}>
-                <form
-                  className="flex justify-between w-full border-2 border-black rounded-md overflow-hidden items-center"
-                  autoComplete="off"
-                >
-                  <input
-                    type="text"
-                    placeholder="Search your favorite product..."
-                    autoComplete="off"
-                    name="search"
-                    className="w-full p-2"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                  />
-                  <button type="button" className="product_search_desktop w-[30px]">
-                    <span className="flex items-center">
-                      <Image
-                        src="/imgs/product_search_icon.webp"
-                        alt="Search"
-                        width={20}
-                        height={20}
-                        priority
-                      />
+                {/* Cart & Menu */}
+                <div className="flex items-center gap-4">
+                  <Link prefetch={false} href='/view-cart' className="relative">
+                    <ShoppingCart className="h-6 w-6 text-black" />
+                    <span className="absolute -top-2 -right-2 bg-black text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                      {cartItems && cartItems.length}
                     </span>
+                  </Link>
+                  <button className="p-1" onClick={() => setToggleMenu(!toggleMenu)}>
+                    {toggleMenu ? <X className="h-6 w-6 text-black" /> : <Menu className="h-6 w-6 text-black" />}
                   </button>
-                </form>
-
-                {/* Search Results Dropdown */}
-                {showDropdown && (
-                  <div className="searchBar absolute w-full bg-white z-10 rounded-b-[6px] shadow-lg border mt-1 max-h-[250px] overflow-y-auto">
-                    {filteredProducts.length > 0 ? (
-                      filteredProducts.map((product, index) => (
-                        <Link
-                          prefetch={false}
-                          key={index}
-                          href={`/products/${product.slug}`}
-                          className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                        >
-                          {product.name}
-                        </Link>
-                      ))
-                    ) : (
-                      <p className="px-4 py-2 text-gray-500">No products found</p>
-                    )}
-                  </div>
-                )}
+                </div>
               </div>
-            </div>
 
-            {/* Dynamic Mobile Menu */}
-            {/* {toggleMenu && ( */}
-              <div className={`transition-all  duration-500 ease-in-out overflow-hidden relative w-full ${toggleMenu ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'}`}>
+              {/* Search Bar */}
+              <div className="flex-1 max-w-xl mt-4">
+                <div className="relative mx-auto" ref={dropdownRef}>
+                  <form
+                    className="flex justify-between w-full border-2 border-black rounded-md overflow-hidden items-center"
+                    autoComplete="off"
+                  >
+                    <input
+                      type="text"
+                      placeholder="Search your favorite product..."
+                      autoComplete="off"
+                      name="search"
+                      className="w-full p-2"
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                    <button type="button" className="product_search_desktop w-[30px]">
+                      <span className="flex items-center">
+                        <Image
+                          src="/imgs/product_search_icon.webp"
+                          alt="Search"
+                          width={20}
+                          height={20}
+                          priority
+                        />
+                      </span>
+                    </button>
+                  </form>
 
-                <div className="flex items-center justify-center bg-gray-100 p-3 z-10 fixed w-full left-0 rounded-md space-x-3">
-                  {/* Google Logo */}
-                  <img 
-                    src="/imgs/google-customer-reviews.png" 
-                    alt="Google Logo" 
-                    className="w-10 h-10 object-contain"
-                  />
+                  {/* Search Results Dropdown */}
+                  {showDropdown && (
+                    <div className="searchBar absolute w-full bg-white z-10 rounded-b-[6px] shadow-lg border mt-1 max-h-[250px] overflow-y-auto">
+                      {filteredProducts.length > 0 ? (
+                        filteredProducts.map((product, index) => (
+                          <Link
+                            prefetch={false}
+                            key={index}
+                            href={`/products/${product.slug}`}
+                            className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                          >
+                            {product.name}
+                          </Link>
+                        ))
+                      ) : (
+                        <p className="px-4 py-2 text-gray-500">No products found</p>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
 
-                  {/* Text Section */}
-                  <div>
-                    <div className="flex items-center space-x-2">
-                      <span className="text-lg font-semibold text-gray-800">Google Reviews</span>
-                      {/* Stars */}
-                      <div className="flex space-x-1 text-[#efb227]">
-                        ⭐⭐⭐⭐⭐
+              {/* Dynamic Mobile Menu */}
+              {/* {toggleMenu && ( */}
+                <div className={`transition-all  duration-500 ease-in-out overflow-hidden relative w-full ${toggleMenu ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'}`}>
+
+                  <div className="flex items-center justify-center bg-gray-100 p-3 z-10 fixed w-full left-0 rounded-md space-x-3">
+                    {/* Google Logo */}
+                    <img 
+                      src="/imgs/google-customer-reviews.png" 
+                      alt="Google Logo" 
+                      className="w-10 h-10 object-contain"
+                    />
+
+                    {/* Text Section */}
+                    <div>
+                      <div className="flex items-center space-x-2">
+                        <span className="text-lg font-semibold text-gray-800">Google Reviews</span>
+                        {/* Stars */}
+                        <div className="flex space-x-1 text-[#efb227]">
+                          ⭐⭐⭐⭐⭐
+                        </div>
+                      </div>
+                      <div className="text-sm text-gray-600 underline">
+                        <span className="font-bold text-blue-600">4.9</span> Star Based On <span className="font-bold text-gray-800">499 Reviews</span>
                       </div>
                     </div>
-                    <div className="text-sm text-gray-600 underline">
-                      <span className="font-bold text-blue-600">4.9</span> Star Based On <span className="font-bold text-gray-800">499 Reviews</span>
-                    </div>
                   </div>
+                  <ul className="space-y-4 pt-4 fixed top-[250px] w-full bg-white px-3 pb-3 left-0 z-10">
+                    {categories.map((menu) => (
+                      <li key={menu.id}>
+                        {menu.sub_menu.length > 0 ? (
+                          <div>
+                            <div
+                              className="flex justify-between items-center cursor-pointer font-semibold"
+                              
+                            >
+                              <Link href={menu.actual_url} onClick={() => window.open(menu.actual_url, '_self')} >{menu.title}</Link>
+                              <Image alt="plus-icon" priority src='/imgs/plus.webp' onClick={() => toggleDropdown(menu.id)} width={18} height={18} className={`${openDropdown === menu.id ? "rotate-45" : ""}`} />
+                              {/* <span> </span> */}
+                            </div>
+                            <div className={`overflow-hidden transition-all duration-500 ease-in-out ${openDropdown === menu.id ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
+                            {/* {openDropdown === menu.id && ( */}
+                              <ul className="ml-2 mt-2 space-y-2 text-gray-600 transition-all duration-300 ease-in-out overflow-hidden">
+                                {menu.sub_menu.map((sub) => (
+                                  <li key={sub.id}>
+                                    <Link prefetch={false} href={sub.url} className="block">
+                                      → {sub.title}
+                                    </Link>
+                                  </li>
+                                ))}
+                              </ul>
+                            {/* )} */}
+                            </div>
+                          </div>
+                        ) : (
+                          <Link prefetch={false} href={menu.url} className="block font-semibold">
+                            {menu.title}
+                          </Link>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-                <ul className="space-y-4 pt-4 fixed top-[250px] w-full bg-white px-3 pb-3 left-0 z-10">
-                  {categories.map((menu) => (
-                    <li key={menu.id}>
-                      {menu.sub_menu.length > 0 ? (
-                        <div>
-                          <div
-                            className="flex justify-between items-center cursor-pointer font-semibold"
-                            
-                          >
-                            <Link href={menu.actual_url} onClick={() => window.open(menu.actual_url, '_self')} >{menu.title}</Link>
-                            <Image alt="plus-icon" priority src='/imgs/plus.webp' onClick={() => toggleDropdown(menu.id)} width={18} height={18} className={`${openDropdown === menu.id ? "rotate-45" : ""}`} />
-                            {/* <span> </span> */}
-                          </div>
-                          <div className={`overflow-hidden transition-all duration-500 ease-in-out ${openDropdown === menu.id ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
-                          {/* {openDropdown === menu.id && ( */}
-                            <ul className="ml-2 mt-2 space-y-2 text-gray-600 transition-all duration-300 ease-in-out overflow-hidden">
-                              {menu.sub_menu.map((sub) => (
-                                <li key={sub.id}>
-                                  <Link prefetch={false} href={sub.url} className="block">
-                                    → {sub.title}
-                                  </Link>
-                                </li>
-                              ))}
-                            </ul>
-                          {/* )} */}
-                          </div>
-                        </div>
-                      ) : (
-                        <Link prefetch={false} href={menu.url} className="block font-semibold">
-                          {menu.title}
-                        </Link>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            {/* )} */}
-          </nav>
+              {/* )} */}
+            </nav>
+          </div>
         )}
         {/* Mobile view end */}
       </div>
@@ -480,33 +468,35 @@ const Navbar = () => {
       {/* Mobile view end*/}
 
       {/* Whatsapp icon */}
-      <a
-        href="https://api.whatsapp.com/send?phone=971526937203&amp;text=Hello There, What are the offers provided by your website? Can I know more about your products. - https://heetsiqosuae.ae/"
-        className="whatsapp-float"
-        target="_blank"
-        aria-label="whatsapp button"
-      >
-        <div className="footer-sticky">
-          <div className="footer-sticky-left">
-            <p>
-              Want us to order for you? We are happy to take your order on
-              WhatsApp. <span>Connect Now</span>
-            </p>
-          </div>
-          <div className="footer-sticky-right">
-            <div className="rounded-icon">
+      {!isMobile && (
+        <a
+          href="https://api.whatsapp.com/send?phone=971526937203&amp;text=Hello There, What are the offers provided by your website? Can I know more about your products. - https://heetsiqosuae.ae/"
+          className="whatsapp-float"
+          target="_blank"
+          aria-label="whatsapp button"
+        >
+          <div className="footer-sticky">
+            <div className="footer-sticky-left">
               <p>
-                <Image
-                  src="https://heetsiqosuae.ae/assets/front/images/footerbar_desktop_whatsapp_icon.webp"
-                  alt="whatsapp"
-                  width={50}
-                  height={50}
-                />
+                Want us to order for you? We are happy to take your order on
+                WhatsApp. <span>Connect Now</span>
               </p>
             </div>
+            <div className="footer-sticky-right">
+              <div className="rounded-icon">
+                <p>
+                  <Image
+                    src="https://heetsiqosuae.ae/assets/front/images/footerbar_desktop_whatsapp_icon.webp"
+                    alt="whatsapp"
+                    width={50}
+                    height={50}
+                  />
+                </p>
+              </div>
+            </div>
           </div>
-        </div>
-      </a>
+        </a>
+      )}
     </>
   );
 };
