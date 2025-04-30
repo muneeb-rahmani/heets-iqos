@@ -15,6 +15,7 @@ const HomePage = ({ homeData }) => {
   const [visibleSections, setVisibleSections] = useState(1);
   const [observerTriggered, setObserverTriggered] = useState(false);
   const { ref, inView } = useInView({ threshold: 0 });
+  const [showContent, setShowContent] = useState(false);
   const updateQuantity = (id, change) => {
     // console.log(id, change, 'what is happening')
     setQuantity((prev) => ({
@@ -55,7 +56,10 @@ const HomePage = ({ homeData }) => {
     }
   }, [inView, observerTriggered]);
 
-
+  useEffect(() => {
+    const timeout = setTimeout(() => setShowContent(true), 3000); // Delay by 3s
+    return () => clearTimeout(timeout);
+  }, []);
   
 
   return (
@@ -115,7 +119,9 @@ const HomePage = ({ homeData }) => {
       {!observerTriggered && <div ref={ref} className="h-10"></div>}
 
 
-      <div className="container mx-auto" dangerouslySetInnerHTML={{__html: homeData?.content}} suppressHydrationWarning />
+      {showContent && (
+        <div className="container mx-auto" dangerouslySetInnerHTML={{__html: homeData?.content}} suppressHydrationWarning />
+      )}
 
       {homeData?.schema_data && (
 

@@ -12,7 +12,7 @@ import {  ShoppingCart, Phone,  Menu, X } from "lucide-react";
 import { runWhenIdle, useIsMobile } from "@/app/utils/common";
 const InfiniteSlider = dynamic(() => import("../TopSlider"), {
   ssr: false,
-  loading: () => <div className="bg-black fixed w-full h-[45px] top-0 left-0 z-[1000] text-white overflow-hidden py-2" />, // or a minimal loader if you want
+  loading: () => <div className="bg-black fixed w-full h-[45px] top-0 left-0 z-[1000]" />, // or a minimal loader if you want
 });
 
 const Navbar = () => {
@@ -139,7 +139,7 @@ const Navbar = () => {
       <div className="relative">
         {/* Desktop view start */}
         {!isMobile && (
-          <div className="hidden md:flex flex-wrap sm:hidden py-1 justify-between items-center">
+          <div className="hidden md:flex flex-wrap py-1 justify-between items-center">
             <div className="flex items-center w-1/4">
               <Link prefetch={false} href="/" className="logo_img" aria-label="Heets IQOS UAE logo">
                 <Image
@@ -471,7 +471,7 @@ const Navbar = () => {
       {!isMobile && (
         <a
           href="https://api.whatsapp.com/send?phone=971526937203&amp;text=Hello There, What are the offers provided by your website? Can I know more about your products. - https://heetsiqosuae.ae/"
-          className="whatsapp-float"
+          className="whatsapp-float hidden md:block"
           target="_blank"
           aria-label="whatsapp button"
         >
