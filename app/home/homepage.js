@@ -56,9 +56,16 @@ const HomePage = ({ homeData }) => {
     }
   }, [inView, observerTriggered]);
 
+// homepage.js
   useEffect(() => {
-    const timeout = setTimeout(() => setShowContent(true), 3000); // Delay by 3s
-    return () => clearTimeout(timeout);
+    const timeout = setTimeout(() => setShowContent(true), 3000);
+    // Load content when main thread is idle
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(() => setShowContent(true));
+    } else {
+      setTimeout(() => setShowContent(true), 0);
+    }
+      return () => clearTimeout(timeout);
   }, []);
   
 
@@ -130,7 +137,7 @@ const HomePage = ({ homeData }) => {
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(homeData?.schema_data),
           }}
-          strategy="lazyOnload"
+          strategy="afterInteractive"
         />
       )}
     </div>
