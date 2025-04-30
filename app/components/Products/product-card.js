@@ -51,7 +51,7 @@ const ProductCard = ({
 
         {/* Product Image */}
         <Link prefetch={false} href={productUrl}>
-          <div className="relative w-full h-[300px] mb-4">
+          <div className="relative w-full h-full md:h-[300px] mb-4">
             <Image
               src={image?.trimEnd() || "/placeholder.svg"}
               alt={title}
