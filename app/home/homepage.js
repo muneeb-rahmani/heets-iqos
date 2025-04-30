@@ -12,7 +12,7 @@ const HomePage = ({ homeData }) => {
   const ProductCard = dynamic(() => import("../components/Products/product-card"), { ssr: false, loading: () => <Skeleton className="h-[500px] w-full rounded-lg" /> });
   const { setIsCartOpen } = useCart();
   const [quantity, setQuantity] = useState({}); 
-  const [visibleSections, setVisibleSections] = useState(2);
+  const [visibleSections, setVisibleSections] = useState(1);
   const [observerTriggered, setObserverTriggered] = useState(false);
   const { ref, inView } = useInView({ threshold: 0 });
   const updateQuantity = (id, change) => {
@@ -50,10 +50,11 @@ const HomePage = ({ homeData }) => {
 
   useEffect(() => {
     if (inView && !observerTriggered) {
-      setVisibleSections((prev) => prev + 2); 
-      setObserverTriggered(true); 
+      setVisibleSections((prev) => prev + 2); // Or 1 based on your preference
+      setObserverTriggered(true); // Prevent future triggers
     }
-  }, [inView,observerTriggered]);
+  }, [inView, observerTriggered]);
+
 
   
 
@@ -64,7 +65,8 @@ const HomePage = ({ homeData }) => {
         featureImg={homeData?.acf_fields.hero_section_png_image} 
         shortDesc={homeData?.acf_fields.shortdiscription}
       />
-      {homeData?.category_data?.map((item, index) => (
+      {homeData?.category_data?.slice(0, visibleSections)?.map((item, index) => (
+        
             <section key={index} className="odd:bg-white py-4 even:bg-[#f1f1f1]">
               <div className="container mx-auto px-4">
                 <div>
@@ -78,7 +80,7 @@ const HomePage = ({ homeData }) => {
                     </div>
                  
                   <div className="grid grid-cols-2 gap-3 md:gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                    {item.products?.slice(0, visibleSections)?.map((product) => (
+                    {item.products?.map((product) => (
                     
                       <ProductCard
                         key={product?.product_id}
@@ -107,10 +109,11 @@ const HomePage = ({ homeData }) => {
                 </div>
               </div>
             </section>
-          // )
+          
         ))}
 
       {!observerTriggered && <div ref={ref} className="h-10"></div>}
+
 
       <div className="container mx-auto" dangerouslySetInnerHTML={{__html: homeData?.content}} suppressHydrationWarning />
 

@@ -12,7 +12,7 @@ import {  ShoppingCart, Phone,  Menu, X } from "lucide-react";
 import { runWhenIdle, useIsMobile } from "@/app/utils/common";
 const InfiniteSlider = dynamic(() => import("../TopSlider"), {
   ssr: false,
-  loading: () => null, // or a minimal loader if you want
+  loading: () => <div className="bg-black fixed w-full h-[45px] top-0 left-0 z-[1000] text-white overflow-hidden py-2" />, // or a minimal loader if you want
 });
 
 const Navbar = () => {
