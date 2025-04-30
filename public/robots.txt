@@ -1,5 +1,10 @@
 User-agent: *
-Allow: /
-
+Disallow: /application/
+Disallow: /view-cart/
+Disallow: /checkout/
+Host: https://121heets.shop/
 Sitemap: https://121heets.shop/sitemap.xml
-
+User-agent: ChatGPT-User
+Disallow: /
+Disallow: */feed/
+Disallow: */feed/rss/
