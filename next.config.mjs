@@ -9,6 +9,14 @@ const baseConfig = {
   // experimental: {
   //   nextScriptWorkers: true,
   // },
+  async rewrites() {
+    return [
+      {
+        source: "/sitemap.xml",
+        destination: "/api/sitemap.xml",
+      },
+    ];
+  },
   env: {
     HOST: process.env.HOST,
   },
