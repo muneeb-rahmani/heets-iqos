@@ -39,7 +39,7 @@ export async function generateMetadata(props) {
 const Page = async (props) => {
   const data = await getCategoryData('al-ain');
 
-console.log(data, "check data from generateMetadata");
+// console.log(data, "check data from generateMetadata");
   return (
     <>
       <AlAin productData={data}  />

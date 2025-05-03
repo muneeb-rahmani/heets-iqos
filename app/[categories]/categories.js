@@ -1,15 +1,43 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import HeroSection from "../components/Header";
-import ProductCard from "../components/Products/product-card";
 import { useCart } from "../context/cartProvider";
 import Link from "next/link";
 import { getSlug } from "../utils/common";
+import dynamic from "next/dynamic";
+import { useInView } from "react-intersection-observer";
+import { Skeleton } from "@/components/ui/skeleton";
 
-const Categories = ({ productData, categoryData,subCategory }) => {
+const ProductCard = dynamic(() => import("../components/Products/product-card"), { ssr: false, loading: () => <Skeleton className="h-[500px] w-full rounded-lg" /> });
+const Categories = ({ categoryData,subCategory }) => {
   // console.log(productData, "productData");
   const { setIsCartOpen } = useCart();
   const [quantity, setQuantity] = useState({});
+  const [visibleSections, setVisibleSections] = useState(4);
+  const [observerTriggered, setObserverTriggered] = useState(false);
+  const { ref, inView } = useInView({ threshold: 0 });
+  const [showContent, setShowContent] = useState(false);
+
+    useEffect(() => {
+      if (inView && !observerTriggered) {
+        setVisibleSections((prev) => prev + 4); // Or 1 based on your preference
+        setObserverTriggered(true); // Prevent future triggers
+      }
+    }, [inView, observerTriggered]);
+  
+    useEffect(() => {
+      const timeout = setTimeout(() => setShowContent(true), 3000);
+      // Load content when main thread is idle
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(() => setShowContent(true));
+      } else {
+        setTimeout(() => setShowContent(true), 0);
+      }
+      // console.log(categoryData.products, "categoryData?.products")
+        return () => clearTimeout(timeout);
+    }, []);
+    
+
   const updateQuantity = (id, change) => {
     setQuantity((prev) => ({
       ...prev,
@@ -61,9 +89,10 @@ const Categories = ({ productData, categoryData,subCategory }) => {
           ))}
         </div>
         <div className="grid grid-cols-2 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {categoryData?.products?.map((item, index) => (
-            
-              item.stock_status === "instock" && (
+        {categoryData?.products
+              ?.filter(item => item.stock_status === "instock")
+              ?.slice(0, visibleSections)
+              ?.map((item, index) => (
                 <ProductCard
                   key={index}
                   title={item?.product_name}
@@ -86,14 +115,20 @@ const Categories = ({ productData, categoryData,subCategory }) => {
                   decrementQuantity={() => updateQuantity(item.product_id, -1)}
                   isH2={true}
                 />
-              )
-          ))}
+              ))}
         </div>
-        <div className="mt-8 myCategoryPage" dangerouslySetInnerHTML={{ __html: categoryData?.category_details?.cat_description }} />
+
+        {!observerTriggered && <div ref={ref} className="h-10"></div>}
+
+        {showContent && (
+          <div className="mt-8 myCategoryPage" dangerouslySetInnerHTML={{ __html: categoryData?.category_details?.cat_description }} />
+        )}
+
       </section>
       {categoryData?.schema_data && (
         <script
         type="application/ld+json"
+        strategy="afterInteractive"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(categoryData?.schema_data),
         }}
