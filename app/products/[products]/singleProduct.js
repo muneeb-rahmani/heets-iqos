@@ -5,26 +5,48 @@ import { useState } from "react";
 import Image from "next/image";
 import { Minus, Plus } from "lucide-react";
 import { StarRating } from "../../components/Products/star-rating";
-import ProductCard from "../../components/Products/product-card";
+// import ProductCard from "../../components/Products/product-card";
 import { useRouter } from "next/navigation";
 import { formatDate, getSlug } from "../../utils/common";
 import { useCart } from "../../context/cartProvider";
-// import moment from "moment";
 import config from "@/lib/config";
+import dynamic from "next/dynamic";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useInView } from "react-intersection-observer";
+
+const ProductCard = dynamic(() => import("../../components/Products/product-card"), { ssr: false, loading: () => null });
 
 const SingleProduct = ({ serverData, breadCrumb }) => {
   const [quantity, setQuantity] = useState(1);
-  // console.log(serverData, 'ceck review date')
-  const [activeTab, setActiveTab] = useState("description");
   const [selectedImage, setSelectedImage] = useState(0);
   const [imgHeight, setImgHeight] = useState(0);
   const { isCartOpen, setIsCartOpen } = useCart();
-  const handleTabClick = (tabId) => {
-    setActiveTab(tabId);
-  };
-  // console.log(serverData, 'check product page')
   const sliderHeight = useRef(null);
   const router = useRouter();
+
+  const [visibleSections, setVisibleSections] = useState(4);
+  const [observerTriggered, setObserverTriggered] = useState(false);
+  const { ref, inView } = useInView({ threshold: 0 });
+  const [showContent, setShowContent] = useState(false);
+
+  useEffect(() => {
+    if (inView && !observerTriggered) {
+      setVisibleSections((prev) => prev + 4); // Or 1 based on your preference
+      setObserverTriggered(true); // Prevent future triggers
+    }
+  }, [inView, observerTriggered]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => setShowContent(true), 3000);
+    // Load content when main thread is idle
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(() => setShowContent(true));
+    } else {
+      setTimeout(() => setShowContent(true), 0);
+    }
+    // console.log(categoryData.products, "categoryData?.products")
+      return () => clearTimeout(timeout);
+  }, []);
 
   const updateQuantity = (id, change) => {
     setQuantity((prev) => ({
@@ -89,13 +111,6 @@ const SingleProduct = ({ serverData, breadCrumb }) => {
 
   return (
     <>
-      {/* <Breadcrumb
-        category={breadCrumb?.parent_category.name || ""}
-        categoryUrl={`/${parentSlug}` || "#"}
-        subCategory={breadCrumb?.subcategories?.[0]?.name || ""}
-        subCategoryUrl={`/${parentSlug}/${subSlug}` || "#"}
-        product={serverData?.name || ""}
-      /> */}
       <nav className=" space-x-2 text-sm py-4 px-4 bg-gray-50">
         <div className="containerBreadcrumb">
           <ul
@@ -160,7 +175,7 @@ const SingleProduct = ({ serverData, breadCrumb }) => {
               className="hidden md:flex flex-row md:flex-col gap-2 pr-3 overflow-x-auto md:overflow-y-auto"
               style={{ maxHeight: imgHeight }}
             >
-              {serverData?.images &&
+              {serverData?.images ? (
                 serverData?.images?.map((image, index) => (
                   <button
                     key={index}
@@ -180,7 +195,9 @@ const SingleProduct = ({ serverData, breadCrumb }) => {
                       className="w-full h-full object-scale-down md:object-contain"
                     />
                   </button>
-                ))}
+                ))) : (
+                  <Skeleton className="w-20 h-20 rounded-lg" />
+                )}
             </div>
 
             {/* Mobile: Horizontal Thumbnails (Below main image) */}
@@ -208,12 +225,14 @@ const SingleProduct = ({ serverData, breadCrumb }) => {
                       className="object-contain w-full h-full"
                     />
                   </button>
-                ))}
+                )) || <Skeleton className="w-20 h-20 rounded-lg" />}
               </div>
             </div>
 
             {/* Main Image */}
             <div className="flex-1 p-4">
+              {serverData?.images &&
+                      serverData?.images[selectedImage]?.trimEnd() ? (
               <div
                 ref={sliderHeight}
                 className="relative aspect-square rounded-lg shadow-[0_3px_10px_rgb(0,0,0,0.2)]"
@@ -234,6 +253,9 @@ const SingleProduct = ({ serverData, breadCrumb }) => {
                   className="object-contain"
                 />
               </div>
+            ) : (
+                <Skeleton className="relative aspect-square rounded-lg" />
+              )}
             </div>
           </div>
 
@@ -301,12 +323,14 @@ const SingleProduct = ({ serverData, breadCrumb }) => {
                 )}
               </div>
             </div>
-
+            {showContent && (
             <div
               dangerouslySetInnerHTML={{
                 __html: serverData?.short_description,
               }}
+              suppressHydrationWarning
             />
+            )}
 
             <div className="flex items-center gap-4">
               <div className="flex items-center  rounded">
@@ -388,12 +412,15 @@ const SingleProduct = ({ serverData, breadCrumb }) => {
         <div className="tab-content p-6">
           <div className=" text-gray-900 p-4 md:p-8">
             <div className="mx-auto">
+            {showContent && (
               <div
                 className="descContainer"
                 dangerouslySetInnerHTML={{
                   __html: serverData?.description,
                 }}
+                suppressHydrationWarning
               />
+            )}
             </div>
           </div>
 
@@ -429,10 +456,12 @@ const SingleProduct = ({ serverData, breadCrumb }) => {
                         {formatDate(review.date)}
                       </span>
                     </div>
+                    {showContent && (
                     <p
                       className="mt-2 text-gray-600"
-                      dangerouslySetInnerHTML={{ __html: review?.content }}
+                      dangerouslySetInnerHTML={{ __html: review?.content }} suppressHydrationWarning
                     ></p>
+                    )}
                   </div>
                 </div>
               ))}
@@ -447,7 +476,7 @@ const SingleProduct = ({ serverData, breadCrumb }) => {
             <div className="w-20 h-1 bg-red-800 mx-auto mt-2" />
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
-            {serverData?.related_products.map((product) => (
+            {serverData?.related_products?.slice(0, visibleSections)?.map((product) => (
               <ProductCard
                 key={product.id}
                 title={product.name}
@@ -479,12 +508,16 @@ const SingleProduct = ({ serverData, breadCrumb }) => {
                 decrementQuantity={() => updateQuantity(product.id, -1)}
               />
             ))}
+
+            {!observerTriggered && <div ref={ref} className="h-10"></div>}
+
           </div>
         </div>
       </section>
       {serverData?.schema_data && (
         <script
           type="application/ld+json"
+           strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(serverData?.schema_data) || {},
           }}

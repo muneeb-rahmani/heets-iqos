@@ -1,13 +1,39 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import HeroSection from "@/app/components/Header";
-import ProductCard from "@/app/components/Products/product-card";
 import { useCart } from "@/app/context/cartProvider";
+import dynamic from "next/dynamic";
+import { useInView } from "react-intersection-observer";
+import { Skeleton } from "@/components/ui/skeleton";
+const ProductCard = dynamic(() => import("@/app/components/Products/product-card"), { ssr: false, loading: () => <Skeleton className="h-[500px] w-full rounded-lg" /> });
 
-const CategoryProduct = ({ productData, categoryData }) => {
+const CategoryProduct = ({ categoryData }) => {
   // console.log(productData, "CategoryProduct");
   const { setIsCartOpen } = useCart();
   const [quantity, setQuantity] = useState({});
+  const [visibleSections, setVisibleSections] = useState(4);
+  const [observerTriggered, setObserverTriggered] = useState(false);
+  const { ref, inView } = useInView({ threshold: 0 });
+  const [showContent, setShowContent] = useState(false);
+
+  useEffect(() => {
+    if (inView && !observerTriggered) {
+      setVisibleSections((prev) => prev + 4); // Or 1 based on your preference
+      setObserverTriggered(true); // Prevent future triggers
+    }
+  }, [inView, observerTriggered]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => setShowContent(true), 3000);
+    // Load content when main thread is idle
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(() => setShowContent(true));
+    } else {
+      setTimeout(() => setShowContent(true), 0);
+    }
+    // console.log(categoryData.products, "categoryData?.products")
+      return () => clearTimeout(timeout);
+  }, []);
   const updateQuantity = (id, change) => {
     setQuantity((prev) => ({
       ...prev,
@@ -49,7 +75,7 @@ const CategoryProduct = ({ productData, categoryData }) => {
         />
         <section className="container mx-auto px-4">
         <div className="grid grid-cols-2 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {categoryData?.products?.map((item, index) => (
+          {categoryData?.products?.slice(0, visibleSections)?.map((item, index) => (
             <ProductCard
               key={index}
               title={item?.product_name}
@@ -74,11 +100,17 @@ const CategoryProduct = ({ productData, categoryData }) => {
             />
           ))}
         </div>
-        <div className="mt-8" dangerouslySetInnerHTML={{ __html: categoryData?.category_details?.cat_description  }} />
+
+        {!observerTriggered && <div ref={ref} className="h-10"></div>}
+
+        {showContent && (
+          <div className="mt-8" dangerouslySetInnerHTML={{ __html: categoryData?.category_details?.cat_description  }} suppressHydrationWarning />
+        )}
       </section>
       {categoryData?.schema_data && (
         <script
         type="application/ld+json"
+         strategy="afterInteractive"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(categoryData?.schema_data),
         }}

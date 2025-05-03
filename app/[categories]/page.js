@@ -1,7 +1,6 @@
 
 import React from 'react'
 import { getCategoryData, getSubcategoriesUrl } from '../utils/products';
-import axios from 'axios';
 import Categories from './categories';
 import config from '@/lib/config';
 
