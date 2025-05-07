@@ -8,8 +8,8 @@ import dynamic from "next/dynamic";
 import { useInView } from "react-intersection-observer";
 import { Skeleton } from "@/components/ui/skeleton";
 
+const ProductCard = dynamic(() => import("../components/Products/product-card"), { ssr: false, loading: () => <Skeleton className="h-[500px] w-full rounded-lg" /> });
 const HomePage = ({ homeData }) => {
-  const ProductCard = dynamic(() => import("../components/Products/product-card"), { ssr: false, loading: () => <Skeleton className="h-[500px] w-full rounded-lg" /> });
   const { setIsCartOpen } = useCart();
   const [quantity, setQuantity] = useState({}); 
   const [visibleSections, setVisibleSections] = useState(1);

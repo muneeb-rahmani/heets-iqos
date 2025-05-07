@@ -305,32 +305,9 @@ const Navbar = () => {
               </div>
 
               {/* Dynamic Mobile Menu */}
-              {/* {toggleMenu && ( */}
+              {toggleMenu && (
                 <div className={`transition-all  duration-500 ease-in-out overflow-hidden relative w-full ${toggleMenu ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'}`}>
-
-                  <div className="flex items-center justify-center bg-gray-100 p-3 z-10 fixed w-full left-0 rounded-md space-x-3">
-                    {/* Google Logo */}
-                    <img 
-                      src="/imgs/google-customer-reviews.png" 
-                      alt="Google Logo" 
-                      className="w-10 h-10 object-contain"
-                    />
-
-                    {/* Text Section */}
-                    <div>
-                      <div className="flex items-center space-x-2">
-                        <span className="text-lg font-semibold text-gray-800">Google Reviews</span>
-                        {/* Stars */}
-                        <div className="flex space-x-1 text-[#efb227]">
-                          ⭐⭐⭐⭐⭐
-                        </div>
-                      </div>
-                      <div className="text-sm text-gray-600 underline">
-                        <span className="font-bold text-blue-600">4.9</span> Star Based On <span className="font-bold text-gray-800">499 Reviews</span>
-                      </div>
-                    </div>
-                  </div>
-                  <ul className="space-y-4 pt-4 fixed top-[250px] w-full bg-white px-3 pb-3 left-0 z-10">
+                  <ul className="space-y-4 pt-4 fixed top-[190px] w-full bg-white px-3 pb-3 left-0 z-10">
                     {categories.map((menu) => (
                       <li key={menu.id}>
                         {menu.sub_menu.length > 0 ? (
@@ -348,7 +325,7 @@ const Navbar = () => {
                               <ul className="ml-2 mt-2 space-y-2 text-gray-600 transition-all duration-300 ease-in-out overflow-hidden">
                                 {menu.sub_menu.map((sub) => (
                                   <li key={sub.id}>
-                                    <Link prefetch={false} href={sub.url} className="block">
+                                    <Link prefetch={false} href={sub.actual_url} className="block" onClick={() => window.open(sub.actual_url, '_self')}>
                                       → {sub.title}
                                     </Link>
                                   </li>
@@ -366,7 +343,7 @@ const Navbar = () => {
                     ))}
                   </ul>
                 </div>
-              {/* )} */}
+              )}
             </nav>
           </div>
         )}
